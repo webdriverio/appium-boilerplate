@@ -16,7 +16,7 @@ Choose one of the following options:
 3. Merge project dev dependencies with your projects dev dependencies in your `package.json`
 
 ## FAQ
-See [FAQ](.docs/FAQ.md)
+See [FAQ](./docs/FAQ.md)
 
 ## Tips and Tricks
 
