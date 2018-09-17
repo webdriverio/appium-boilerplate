@@ -1,0 +1,48 @@
+{
+  "name": "appium-boilerplate",
+  "version": "0.0.1",
+  "description": "A small showcase on how to test performance using WebdriverIO",
+  "main": "wdio.conf.js",
+  "scripts": {
+    "android.app": "node_modules/.bin/wdio ./config/wdio.android.app.conf.js",
+    "ios.app": "node_modules/.bin/wdio ./config/wdio.ios.app.conf.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webdriverio/appium-boilerplate.git"
+  },
+  "keywords": [
+    "WebdriverIO",
+    "WebDriver",
+    "appium",
+    "native app",
+    "hybrid",
+    "android",
+    "ios"
+  ],
+  "author": "Wim Selles <wim@wswebcreation.nl>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/webdriverio/appium-boilerplate/issues"
+  },
+  "homepage": "https://github.com/webdriverio/appium-boilerplate#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^9.0.0",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "eslint": "^5.5.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "wdio-appium-service": "^0.2.3",
+    "wdio-jasmine-framework": "^0.3.6",
+    "wdio-spec-reporter": "^0.1.5",
+    "wdio-sync": "^5.0.0-beta.2",
+    "webdriverio": "^4.13.2"
+  }
+}
