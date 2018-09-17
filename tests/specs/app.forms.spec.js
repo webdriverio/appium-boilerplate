@@ -8,7 +8,7 @@ describe('Validate the form elements', () => {
         TabBar.waitForTabBarShown(true);
     });
 
-    xit('should be able type in the input and validate the text', () => {
+    it('should be able type in the input and validate the text', () => {
         const text = 'Hello, this is a demo app';
 
         TabBar.openForms();
@@ -20,7 +20,7 @@ describe('Validate the form elements', () => {
         }
     });
 
-    xit('should be able turn on and off the switch', () => {
+    it('should be able turn on and off the switch', () => {
         TabBar.openForms();
         FormScreen.waitForIsShown(true);
         expect(FormScreen.isSwitchActive()).toEqual(false);
@@ -48,7 +48,7 @@ describe('Validate the form elements', () => {
         expect(FormScreen.getDropDownText()).toContain(valueThree);
     });
 
-    xit('should be able to open the alert and close it with all 3 buttons', () => {
+    it('should be able to open the alert and close it with all 3 buttons', () => {
         TabBar.openForms();
         FormScreen.waitForIsShown(true);
         Gestures.checkIfVisibleWithScrollDown(FormScreen.activeButton, 2);
@@ -67,7 +67,7 @@ describe('Validate the form elements', () => {
         FormScreen.alert.waitForIsShown(false);
     });
 
-    xit('should be able to determine that the inactive button is inactive', () => {
+    it('should be able to determine that the inactive button is inactive', () => {
         TabBar.openForms();
         FormScreen.waitForIsShown(true);
         Gestures.checkIfVisibleWithScrollDown(FormScreen.inActiveButton, 2);
