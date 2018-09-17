@@ -11,19 +11,10 @@ config.capabilities = [
         platformName: 'Android',
         platformVersion: '7.1.1',
         orientation: 'PORTRAIT',
-        app: path.join(process.cwd(), './apps/Android-NativeDemoApp-0.1.0.apk'),
+        app: path.join(process.cwd(), './apps/Android-NativeDemoApp-0.2.0.apk'),
         noReset: true,
         newCommandTimeout: 240,
     },
 ];
-
-config.appium = {
-    args: {
-        address: '127.0.0.1',
-        commandTimeout: '11000',
-    },
-};
-
-config.port = 4723;
 
 exports.config = config;

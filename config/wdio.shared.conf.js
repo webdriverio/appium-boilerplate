@@ -101,6 +101,15 @@ exports.config = {
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
     services: ['appium'],
+    // Default setup for Appium
+    appium: {
+        args: {
+            address: '127.0.0.1',
+            commandTimeout: '11000',
+        },
+    },
+    // Default port for Appium
+    port: 4723,
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
     // see also: http://webdriver.io/guide/testrunner/frameworks.html
