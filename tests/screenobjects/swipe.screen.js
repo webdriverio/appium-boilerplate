@@ -1,4 +1,5 @@
 import AppScreen from './app.screen';
+import Carousel from './components/carousel';
 
 const SELECTORS = {
     SWIPE_SCREEN:'~Swipe-screen'
@@ -7,6 +8,10 @@ const SELECTORS = {
 class SwipeScreen extends AppScreen{
     constructor(){
         super(SELECTORS.SWIPE_SCREEN);
+    }
+
+    get carousel(){
+        return Carousel;
     }
 }
 

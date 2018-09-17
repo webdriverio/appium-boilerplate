@@ -1,6 +1,14 @@
-import { CONTEXT_REF, DOCUMENT_READY_STATE } from '../constants';
+export const CONTEXT_REF = {
+    NATIVE: 'native',
+    WEBVIEW: 'webview',
+};
+const DOCUMENT_READY_STATE = {
+    COMPLETE: 'complete',
+    INTERACTIVE: 'interactive',
+    LOADING: 'loading',
+};
 
-export default class WebView{
+class WebView{
     /**
      * Wait for the webview context to be loaded
      *
@@ -9,7 +17,7 @@ export default class WebView{
      * `["NATIVE_APP","WEBVIEW_28158.2"]`
      * The number behind `WEBVIEW` can be any string
      */
-    static waitForWebViewContextLoaded(){
+    waitForWebViewContextLoaded(){
         browser.waitUntil(
             () => {
                 const currentContexts = browser.contexts().value;
@@ -28,7 +36,7 @@ export default class WebView{
      *
      * @param {string} context should be native of webview
      */
-    static switchToContext(context) {
+    switchToContext(context) {
         const currentContexts = browser.contexts().value;
         const index = currentContexts.findIndex(currentContext => currentContext.toLowerCase().includes(context));
 
@@ -38,7 +46,7 @@ export default class WebView{
     /**
      * Wait for the document to be full loaded
      */
-    static waitForDocumentFullyLoaded() {
+    waitForDocumentFullyLoaded() {
         browser.waitUntil(
             () => browser.execute(() => document.readyState).value === DOCUMENT_READY_STATE.COMPLETE,
             15000,
@@ -46,4 +54,16 @@ export default class WebView{
             100
         );
     }
+
+    /**
+     * Wait for the website in the webview to be loaded
+     */
+    waitForWebsiteLoaded() {
+        this.waitForWebViewContextLoaded();
+        this.switchToContext(CONTEXT_REF.WEBVIEW);
+        this.waitForDocumentFullyLoaded();
+        this.switchToContext(CONTEXT_REF.NATIVE);
+    }
 }
+
+export default WebView;
