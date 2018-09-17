@@ -1,0 +1,16 @@
+# OSX
+#
+.DS_Store
+
+# IntelliJ
+#
+.idea
+
+# node.js
+#
+node_modules/
+npm-debug.log
+
+# custom
+apps/
+*.log
