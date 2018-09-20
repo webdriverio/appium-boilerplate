@@ -1,11 +1,13 @@
 {
   "name": "appium-boilerplate",
-  "version": "0.0.1",
-  "description": "A small showcase on how to test performance using WebdriverIO",
+  "version": "0.0.2",
+  "description": "Boilerplate project to run WebdriverIO tests with Appium to test native applications on iOS and Android",
   "main": "wdio.conf.js",
   "scripts": {
     "android.app": "node_modules/.bin/wdio ./config/wdio.android.app.conf.js",
-    "ios.app": "node_modules/.bin/wdio ./config/wdio.ios.app.conf.js"
+    "android.browser": "node_modules/.bin/wdio ./config/wdio.android.browser.conf.js",
+    "ios.app": "node_modules/.bin/wdio ./config/wdio.ios.app.conf.js",
+    "ios.browser": "node_modules/.bin/wdio ./config/wdio.ios.browser.conf.js"
   },
   "repository": {
     "type": "git",
