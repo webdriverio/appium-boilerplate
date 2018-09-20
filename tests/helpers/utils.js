@@ -39,3 +39,14 @@ export function getTextOfElement(element, isXpath = false) {
 
     return Array.isArray(visualText) ? visualText.join(' ') : '';
 }
+
+/**
+ * Get the time difference in seconds
+ *
+ * @param {number} start    the time in milliseconds
+ * @param {number} end      the time in milliseconds
+ */
+    export function timeDifference(start, end){
+    const elapsed = (end - start)/1000;
+    console.log('elapsed = ', elapsed, ' seconds')
+}

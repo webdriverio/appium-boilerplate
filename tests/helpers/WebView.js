@@ -20,7 +20,7 @@ class WebView{
     waitForWebViewContextLoaded(){
         browser.waitUntil(
             () => {
-                const currentContexts = browser.contexts().value;
+                const currentContexts = this.getCurrentContexts();
 
                 return currentContexts.length > 1
                     && currentContexts.find(context => context.toLowerCase().includes(CONTEXT_REF.WEBVIEW));
@@ -37,10 +37,17 @@ class WebView{
      * @param {string} context should be native of webview
      */
     switchToContext(context) {
-        const currentContexts = browser.contexts().value;
-        const index = currentContexts.findIndex(currentContext => currentContext.toLowerCase().includes(context));
+        browser.context(this.getCurrentContexts()[context === CONTEXT_REF.WEBVIEW ? 1 : 0]);
+    }
 
-        browser.context(currentContexts[index]);
+
+    /**
+     * Returns an object with the list of all available contexts
+     *
+     * @return {object} An object containing the list of all available contexts
+     */
+    getCurrentContexts() {
+        return browser.contexts().value;
     }
 
     /**

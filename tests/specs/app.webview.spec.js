@@ -3,7 +3,7 @@ import WebViewScreen from '../screenobjects/webview.screen';
 import SwipeScreen from '../screenobjects/swipe.screen';
 import { CONTEXT_REF } from "../helpers/WebView";
 
-describe('Webview screen', () => {
+describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
     beforeEach(() =>{
         TabBar.waitForTabBarShown(true);
         TabBar.openWebView();
@@ -50,6 +50,7 @@ describe('Webview screen', () => {
         TabBar.openSwipe();
         SwipeScreen.waitForIsShown();
         expect(SwipeScreen.carousel.verifyNthCardContainsText('first', 'Fully Open Source'));
+
         SwipeScreen.carousel.swipeLeft();
         expect(SwipeScreen.carousel.verifyNthCardContainsText('active', 'Creat community'));
 

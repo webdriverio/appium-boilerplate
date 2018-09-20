@@ -9,18 +9,14 @@ const SELECTORS = {
 
 let CAROUSEL_RECTANGLES;
 
-class Carousel {
+class Carousel extends Gestures {
     /**
-     * Wait for the carousel to be visible
+     * Wait for the carousel to be (un)visible
      *
      * @param {boolean} isShown
      */
     waitForIsVisible(isShown = true) {
-        browser.waitForVisible(
-            SELECTORS.CAROUSEL,
-            DEFAULT_TIMEOUT,
-            !isShown,
-        );
+        browser.waitForVisible(SELECTORS.CAROUSEL, DEFAULT_TIMEOUT, !isShown);
     }
 
     /**
@@ -42,15 +38,18 @@ class Carousel {
      */
     verifyNthCardContainsText(nthCard, partialText) {
         this.waitForIsVisible();
+
         const cards = $$(SELECTORS.CARD);
         browser.waitUntil(
             () => cards.length > 0,
             DEFAULT_TIMEOUT,
             `Expected to have more than 0 cards withing ${DEFAULT_TIMEOUT} milliseconds`,
         );
+
         const cardNumber = (nthCard === 'first' || cards.length === 1) ? 0 : 1;
         const cardText = getTextOfElement(cards[cardNumber]).replace(/(?:\r\n|\r|\n)/g, ' ').toLowerCase();
         const expectedText = partialText.toLowerCase();
+
         if (browser.isIOS) {
             return expect(cardText).toContain(expectedText);
         }

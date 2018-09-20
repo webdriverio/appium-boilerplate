@@ -5,7 +5,7 @@ import FormsScreen from '../screenobjects/forms.screen';
 import SwipeScreen from '../screenobjects/swipe.screen';
 import HomeScreen from '../screenobjects/home.screen';
 
-describe('Validate that all pages can be accessed', () => {
+describe('WebdriverIO and Appium', () => {
     beforeEach(() =>{
         TabBar.waitForTabBarShown(true);
     });

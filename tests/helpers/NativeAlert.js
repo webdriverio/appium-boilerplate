@@ -12,7 +12,7 @@ class NativeAlert {
     /**
      * Wait for the alert to exist
      */
-    waitForIsShown(isShown = true) {
+    static waitForIsShown(isShown = true) {
         browser.waitForExist(
             browser.isAndroid ? SELECTORS.ANDROID.ALERT_TITLE : SELECTORS.IOS.ALERT,
             11000,
@@ -32,7 +32,7 @@ class NativeAlert {
      *
      * @param {string} selector
      */
-    pressButton(selector) {
+    static pressButton(selector) {
         const buttonSelector = browser.isAndroid
             ? SELECTORS.ANDROID.ALERT_BUTTON.replace(/{BUTTON_TEXT}/, selector.toUpperCase())
             : `~${selector}`;
@@ -44,9 +44,9 @@ class NativeAlert {
      *
      * @return {string}
      */
-    text() {
+    static text() {
         return browser.alertText();
     }
 }
 
-export default new NativeAlert();
+export default NativeAlert;
