@@ -10,14 +10,11 @@ exports.config = {
         // When using XPATH
         defaultTimeoutInterval: 30000,
     },
-    specs: [
-        './tests/specs/**/*.spec.js'
-    ],
     sync: true,
     logLevel: 'silent',
     deprecationWarnings: true,
     bail: 0,
-    baseUrl: 'http://localhost',
+    baseUrl: 'http://the-internet.herokuapp.com',
     waitforTimeout: 10000,
     connectionRetryTimeout: 90000,
     connectionRetryCount: 3,
