@@ -42,6 +42,20 @@ See [Installing Appium on a local machine](./docs/APPIUM.md)
 This boilerplate uses a specific config for iOS and Android, see [configs](./config/) and are based on `wdio.shared.conf.js`.
 This shared config holds all the defaults so the iOS and Android configs only need to hold the capabilities that are needed for running on iOS and or Android.
 
+## Locator strategy
+The locator strategy for this boilerplate is to use `accessibilityID`'s, see also the [WebdriverIO docs](http://webdriver.io/guide/usage/selectors.html#Accessibility-ID) or this newsletter on [AppiumPro](https://appiumpro.com/editions/20).
+`accessibilityID`'s make it easy to script once and run on iOS and Android because most of the apps already have some `accessibilityID`'s.
+
+If `accessibilityID`'s can't be used and for example only XPATH is only available then the following setup could be used to make cross-platform selectors
+
+```js
+const SELECTORS = {
+    WEB_VIEW_SCREEN: browser.isAndroid
+        ? '*//android.webkit.WebView'
+        : '*//XCUIElementTypeWebView',
+};
+```
+
 ## FAQ
 See [FAQ](./docs/FAQ.md)
 
