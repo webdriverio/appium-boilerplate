@@ -24,9 +24,12 @@ Choose one of the following options:
 ## Based on
 This boilerplate is currently based on:
 - **WebdriverIO:** `4.13.#`
-- **Appium:** `1.8.0`
+- **Appium:** `1.9.0`
 
 Updates to the latest versions will come, see [TODO](./README.md##todo)
+
+## Installing Appium on a local machine
+See [Installing Appium on a local machine](./docs/APPIUM.md)
 
 ## Config
 This boilerplate uses a specific config for iOS and Android, see [configs](./config/) and are based on `wdio.shared.conf.js`.
@@ -57,4 +60,3 @@ See [Tips and Tricks](./docs/TIPS_TRICKS.md)
 - [ ] Write docs
 - Update dependencies:
   - [ ] Update to work with WebdriverIO `5.#.#`
-  - [ ] Update to work with latest stable version of Appium

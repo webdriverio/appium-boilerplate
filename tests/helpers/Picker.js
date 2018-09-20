@@ -1,7 +1,7 @@
 const SELECTORS = {
     ANDROID_LISTVIEW: '//android.widget.ListView',
     IOS_PICKERWHEEL: '*//XCUIElementTypePickerWheel',
-    DONE: `~Done`,
+    DONE: `~header-Dropdown`,
 };
 
 class Picker {
