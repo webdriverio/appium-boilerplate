@@ -4,7 +4,7 @@ Boilerplate project to run Appium tests together with WebdriverIO for:
 
 - iOS/Android Native Apps
 - iOS/Android Hybrid Apps
-- Android Chrome and iOS Safari browser ([check here](./README.md##automating-chrome-or-safari))
+- Android Chrome and iOS Safari browser ([check here](./README.md#automating-chrome-or-safari))
 
 > This boilerplate uses the WebdriverIO native demo app which can be found [here](https://github.com/webdriverio/native-demo-app).
 > The releases can be found and downloaded [here](https://github.com/webdriverio/native-demo-app/releases).
@@ -57,7 +57,7 @@ const SELECTORS = {
 
 ## Automating Chrome or Safari
 Mobile web automation is almost the same as writing tests for desktop browsers. The only difference can be found in the configuration that needs to be used.
-Click [here](./config/wdio.ios.browser.conf.js) to find the config for iOS Safari and [here]([iOS Safari](./config/wdio.android.browser.conf.js)) for Android Chrome.
+Click [here](./config/wdio.ios.browser.conf.js) to find the config for iOS Safari and [here](./config/wdio.android.browser.conf.js)) for Android Chrome.
 For Android be sure that the lastest version of Chrome is installed, see also [here](./docs/FAQ.md#i-get-the-error-no-chromedriver-found-that-can-automate-chrome-).
 
 For this boilerplate the testcases from the [jasmine-boilerplte](https://github.com/webdriverio/jasmine-boilerplate), created by [Christian Bromann](https://github.com/christian-bromann), are used.
