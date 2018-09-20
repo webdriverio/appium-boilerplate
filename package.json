@@ -42,7 +42,6 @@
     "wdio-appium-service": "^0.2.3",
     "wdio-jasmine-framework": "^0.3.6",
     "wdio-spec-reporter": "^0.1.5",
-    "wdio-sync": "^5.0.0-beta.2",
     "webdriverio": "^4.13.2"
   }
 }

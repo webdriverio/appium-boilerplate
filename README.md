@@ -24,6 +24,10 @@ Choose one of the following options:
 
 3. Merge project dev dependencies with your projects dev dependencies in your `package.json`
 
+4. merge the scripts to your `package.json` scripts
+
+5. Run the tests for iOS with `npm run ios.app` and for Android with `npm run android.app`
+
 ## Based on
 This boilerplate is currently based on:
 - **WebdriverIO:** `4.13.#`
