@@ -12,6 +12,9 @@ Boilerplate project to run Appium tests together with WebdriverIO for:
 > Note:
 > This boilerplate only handles local execution on 1 em/simulator at a time, not parallel execution. For more info about that Google on setting up a grid with Appium.
 
+
+![webdriverio-demo-app-ios.ios](./docs/assets/appium-tests.gif)
+
 ## Quick start
 Choose one of the following options:
 
