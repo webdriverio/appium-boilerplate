@@ -28,7 +28,9 @@
     "url": "https://github.com/webdriverio/appium-boilerplate/issues"
   },
   "homepage": "https://github.com/webdriverio/appium-boilerplate#readme",
-  "dependencies": {},
+  "dependencies": {
+    "appium": "^1.9.1"
+  },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-eslint": "^9.0.0",
