@@ -1,18 +1,18 @@
-import Page from './page'
+import Page from './page';
 
 class DynamicPage extends Page {
     /**
      * define elements
      */
-    get btnStart () { return $('button=Start') }
-    get loadedPage () { return $('#finish') }
+    get btnStart () { return $('button=Start'); }
+    get loadedPage () { return $('#finish'); }
 
     /**
      * define or overwrite page methods
      */
     open () {
-        super.open('dynamic_loading/2')
+        super.open('dynamic_loading/2');
     }
 }
 
-export default new DynamicPage()
+export default new DynamicPage();

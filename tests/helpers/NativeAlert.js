@@ -3,7 +3,7 @@ const SELECTORS = {
         ALERT_TITLE: '*//android.widget.TextView[@resource-id="android:id/alertTitle"]',
         ALERT_BUTTON: '*//android.widget.Button[@text="{BUTTON_TEXT}"]',
     },
-    IOS:{
+    IOS: {
         ALERT: '*//XCUIElementTypeAlert',
     }
 };
@@ -12,12 +12,12 @@ class NativeAlert {
     /**
      * Wait for the alert to exist
      */
-    static waitForIsShown(isShown = true) {
+    static waitForIsShown (isShown = true) {
         browser.waitForExist(
             browser.isAndroid ? SELECTORS.ANDROID.ALERT_TITLE : SELECTORS.IOS.ALERT,
             11000,
             !isShown,
-        )
+        );
     }
 
     /**
@@ -32,7 +32,7 @@ class NativeAlert {
      *
      * @param {string} selector
      */
-    static pressButton(selector) {
+    static pressButton (selector) {
         const buttonSelector = browser.isAndroid
             ? SELECTORS.ANDROID.ALERT_BUTTON.replace(/{BUTTON_TEXT}/, selector.toUpperCase())
             : `~${selector}`;
@@ -44,7 +44,7 @@ class NativeAlert {
      *
      * @return {string}
      */
-    static text() {
+    static text () {
         return browser.alertText();
     }
 }

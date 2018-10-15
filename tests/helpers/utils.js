@@ -21,7 +21,7 @@ const SELECTORS = {
  *
  * @return {string}
  */
-export function getTextOfElement(element, isXpath = false) {
+export function getTextOfElement (element, isXpath = false) {
     let visualText;
     try {
         if (browser.isAndroid) {
@@ -46,7 +46,7 @@ export function getTextOfElement(element, isXpath = false) {
  * @param {number} start    the time in milliseconds
  * @param {number} end      the time in milliseconds
  */
-    export function timeDifference(start, end){
-    const elapsed = (end - start)/1000;
-    console.log('elapsed = ', elapsed, ' seconds')
+export function timeDifference (start, end) {
+    const elapsed = (end - start) / 1000;
+    console.log('elapsed = ', elapsed, ' seconds');
 }

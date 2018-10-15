@@ -1,10 +1,9 @@
-const path = require('path');
 const config = require('./wdio.shared.conf').config;
 
 // ============
 // Specs
 // ============
-config.specs= [
+config.specs = [
     './tests/specs/**/browser*.spec.js'
 ];
 

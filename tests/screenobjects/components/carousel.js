@@ -1,6 +1,6 @@
-import Gestures from "../../helpers/Gestures";
-import { DEFAULT_TIMEOUT } from "../../constants";
-import { getTextOfElement } from "../../helpers/utils";
+import Gestures from '../../helpers/Gestures';
+import { DEFAULT_TIMEOUT } from '../../constants';
+import { getTextOfElement } from '../../helpers/utils';
 
 const SELECTORS = {
     CAROUSEL: '~Carousel',
@@ -15,7 +15,7 @@ class Carousel extends Gestures {
      *
      * @param {boolean} isShown
      */
-    waitForIsVisible(isShown = true) {
+    waitForIsVisible (isShown = true) {
         browser.waitForVisible(SELECTORS.CAROUSEL, DEFAULT_TIMEOUT, !isShown);
     }
 
@@ -36,7 +36,7 @@ class Carousel extends Gestures {
      *                 like for example 'active'
      * @param {string} partialText
      */
-    verifyNthCardContainsText(nthCard, partialText) {
+    verifyNthCardContainsText (nthCard, partialText) {
         this.waitForIsVisible();
 
         const cards = $$(SELECTORS.CARD);
@@ -51,7 +51,7 @@ class Carousel extends Gestures {
         const expectedText = partialText.toLowerCase();
 
         if (browser.isIOS) {
-            return expect(cardText).toContain(expectedText);
+            return global.expect(cardText).toContain(expectedText);
         }
 
         /**
@@ -60,42 +60,41 @@ class Carousel extends Gestures {
          */
         return expectedText.split(' ')
             .forEach(word =>
-                expect(cardText).toContain(word));
+                global.expect(cardText).toContain(word));
     }
 
     /**
      * Swipe the carousel to the LEFT (from right to left)
      */
-    swipeLeft() {
+    swipeLeft () {
         const carouselRectangles = this.getCarouselRectangles();
         const y = Math.round((carouselRectangles.y + carouselRectangles.height) / 2);
         Gestures.swipe(
-            {x: Math.round(carouselRectangles.width - (carouselRectangles.width * 0.05)), y,},
-            {x: Math.round(carouselRectangles.x + (carouselRectangles.width * 0.05)), y,},
+            { x: Math.round(carouselRectangles.width - (carouselRectangles.width * 0.05)), y },
+            { x: Math.round(carouselRectangles.x + (carouselRectangles.width * 0.05)), y },
         );
     }
 
     /**
      * Swipe the carousel to the RIGHT (from left to right)
      */
-    swipeRight() {
+    swipeRight () {
         const carouselRectangles = this.getCarouselRectangles();
         const y = Math.round((carouselRectangles.y + carouselRectangles.height) / 2);
         Gestures.swipe(
-            {x: Math.round(carouselRectangles.x + (carouselRectangles.width * 0.05)), y,},
-            {x: Math.round(carouselRectangles.width - (carouselRectangles.width * 0.05)), y,},
+            { x: Math.round(carouselRectangles.x + (carouselRectangles.width * 0.05)), y },
+            { x: Math.round(carouselRectangles.width - (carouselRectangles.width * 0.05)), y },
         );
     }
 
     /**
      * Get the carousel position and size
      *
-     * @return {{
+     * @return
      *  x: number,
      *  y: number,
      *  width: number,
      *  height: number,
-     * }}
      *
      * @example
      *
@@ -108,9 +107,8 @@ class Carousel extends Gestures {
      *    };
      * </pre>
      */
-    getCarouselRectangles() {
+    getCarouselRectangles () {
         CAROUSEL_RECTANGLES = CAROUSEL_RECTANGLES || browser.elementIdRect($(SELECTORS.CAROUSEL).value.ELEMENT).value;
-
         return CAROUSEL_RECTANGLES;
     }
 }

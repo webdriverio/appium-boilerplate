@@ -1,27 +1,27 @@
 import { DEFAULT_TIMEOUT } from '../../constants';
 
 export default class TabBar {
-    static openHome() {
+    static openHome () {
         $('~Home').click();
     }
 
-    static openWebView() {
+    static openWebView () {
         $('~WebView').click();
     }
 
-    static openLogin() {
+    static openLogin () {
         $('~Login').click();
     }
 
-    static openForms() {
+    static openForms () {
         $('~Forms').click();
     }
 
-    static openSwipe() {
+    static openSwipe () {
         $('~Swipe').click();
     }
 
-    static waitForTabBarShown(){
+    static waitForTabBarShown () {
         browser.waitForVisible('~Home', DEFAULT_TIMEOUT);
     }
 }

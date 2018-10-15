@@ -1,10 +1,10 @@
 import TabBar from '../screenobjects/components/tab.bar';
 import WebViewScreen from '../screenobjects/webview.screen';
 import SwipeScreen from '../screenobjects/swipe.screen';
-import { CONTEXT_REF } from "../helpers/WebView";
+import { CONTEXT_REF } from '../helpers/WebView';
 
 describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
-    beforeEach(() =>{
+    beforeEach(() => {
         TabBar.waitForTabBarShown(true);
         TabBar.openWebView();
         WebViewScreen.waitForWebsiteLoaded();
@@ -37,7 +37,7 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
         WebViewScreen.switchToContext(CONTEXT_REF.NATIVE);
     });
 
-    it('should be able to switch between webview, native and webview', ()=> {
+    it('should be able to switch between webview, native and webview', () => {
         // To be able to use the site in the webview webdriver.io first needs
         // change the context from native to webview
         WebViewScreen.switchToContext(CONTEXT_REF.WEBVIEW);

@@ -2,7 +2,9 @@
   "extends": "standard",
   "parser": "babel-eslint",
   "rules": {
-    "indent": [2, 4]
+    "indent": [2, 4],
+    "semi": ["error", "always"],
+    "comma-dangle": ["error", "only-multiline"]
   },
   "globals": {
     "$": true,
