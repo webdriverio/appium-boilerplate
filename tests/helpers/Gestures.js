@@ -30,7 +30,7 @@ class Gestures {
      * @param {number} maxScrolls
      * @param {number} amount
      */
-    static checkIfVisibleWithScrollDown(element, maxScrolls, amount = 0) {
+    static checkIfVisibleWithScrollDown (element, maxScrolls, amount = 0) {
         if ((!element.isExisting() || !element.isVisible()) && amount <= maxScrolls) {
             this.swipeUp(0.85);
             this.checkIfVisibleWithScrollDown(element, maxScrolls, amount + 1);
@@ -44,7 +44,7 @@ class Gestures {
      *
      * @param {number} percentage from 0 - 1
      */
-    static swipeDown(percentage = 1) {
+    static swipeDown (percentage = 1) {
         this.swipeOnPercentage(
             this._calculateXY(SWIPE_DIRECTION.down.start, percentage),
             this._calculateXY(SWIPE_DIRECTION.down.end, percentage),
@@ -56,7 +56,7 @@ class Gestures {
      *
      * @param {number} percentage from 0 - 1
      */
-    static swipeUp(percentage = 1) {
+    static swipeUp (percentage = 1) {
         this.swipeOnPercentage(
             this._calculateXY(SWIPE_DIRECTION.up.start, percentage),
             this._calculateXY(SWIPE_DIRECTION.up.end, percentage),
@@ -68,7 +68,7 @@ class Gestures {
      *
      * @param {number} percentage from 0 - 1
      */
-    static swipeLeft(percentage = 1) {
+    static swipeLeft (percentage = 1) {
         this.swipeOnPercentage(
             this._calculateXY(SWIPE_DIRECTION.left.start, percentage),
             this._calculateXY(SWIPE_DIRECTION.left.end, percentage),
@@ -80,7 +80,7 @@ class Gestures {
      *
      * @param {number} percentage from 0 - 1
      */
-    static swipeRight(percentage = 1) {
+    static swipeRight (percentage = 1) {
         this.swipeOnPercentage(
             this._calculateXY(SWIPE_DIRECTION.right.start, percentage),
             this._calculateXY(SWIPE_DIRECTION.right.end, percentage),
@@ -101,7 +101,7 @@ class Gestures {
      *   const to = { x: 25, y:50 }
      * </pre>
      */
-    static swipeOnPercentage(from, to) {
+    static swipeOnPercentage (from, to) {
         SCREEN_SIZE = SCREEN_SIZE || browser.windowHandleSize().value;
         const pressOptions = this._getDeviceScreenCoordinates(SCREEN_SIZE, from);
         const moveToScreenCoordinates = this._getDeviceScreenCoordinates(SCREEN_SIZE, to);
@@ -124,7 +124,7 @@ class Gestures {
      *   const to = { x: 25, y:50 }
      * </pre>
      */
-    static swipe(from, to) {
+    static swipe (from, to) {
         browser.touchPerform([{
             action: 'press',
             options: from,
@@ -150,7 +150,7 @@ class Gestures {
      *
      * @private
      */
-    static _getDeviceScreenCoordinates(screenSize, coordinates) {
+    static _getDeviceScreenCoordinates (screenSize, coordinates) {
         return {
             x: Math.round(screenSize.width * (coordinates.x / 100)),
             y: Math.round(screenSize.height * (coordinates.y / 100)),
@@ -167,7 +167,7 @@ class Gestures {
      *
      * @private
      */
-    static _calculateXY({ x, y }, percentage) {
+    static _calculateXY ({ x, y }, percentage) {
         return {
             x: x * percentage,
             y: y * percentage,

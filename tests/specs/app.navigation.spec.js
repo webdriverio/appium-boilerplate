@@ -6,7 +6,7 @@ import SwipeScreen from '../screenobjects/swipe.screen';
 import HomeScreen from '../screenobjects/home.screen';
 
 describe('WebdriverIO and Appium', () => {
-    beforeEach(() =>{
+    beforeEach(() => {
         TabBar.waitForTabBarShown(true);
     });
 

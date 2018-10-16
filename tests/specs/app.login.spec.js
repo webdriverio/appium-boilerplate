@@ -2,7 +2,7 @@ import TabBar from '../screenobjects/components/tab.bar';
 import LoginScreen from '../screenobjects/login.screen';
 
 describe('WebdriverIO and Appium, when interacting with a login form,', () => {
-    beforeEach(() =>{
+    beforeEach(() => {
         TabBar.waitForTabBarShown(true);
         TabBar.openLogin();
         LoginScreen.waitForIsShown(true);

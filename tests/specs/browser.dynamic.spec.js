@@ -10,5 +10,5 @@ describe('dynamic loading', () => {
         DynamicPage.loadedPage.waitForExist();
 
         expect(DynamicPage.loadedPage.isExisting()).toEqual(true);
-    })
+    });
 });

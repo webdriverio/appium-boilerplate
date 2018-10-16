@@ -1,10 +1,10 @@
 import TabBar from '../screenobjects/components/tab.bar';
 import WebViewScreen from '../screenobjects/webview.screen';
-import { timeDifference } from "../helpers/utils";
+import { timeDifference } from '../helpers/utils';
 
 describe('WebdriverIO and Appium', () => {
     let start;
-    beforeEach(() =>{
+    beforeEach(() => {
         browser.reset();
         TabBar.waitForTabBarShown(true);
         TabBar.openWebView();
@@ -25,7 +25,7 @@ describe('WebdriverIO and Appium', () => {
         timeDifference(start, end);
     });
 
-    it('should be able to go to the webview faster', ()=> {
+    it('should be able to go to the webview faster', () => {
         WebViewScreen.waitForWebViewContextLoaded();
         const end = Date.now();
         timeDifference(start, end);

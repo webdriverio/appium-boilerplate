@@ -2,7 +2,7 @@ import AppScreen from './app.screen';
 import NativeAlert from '../helpers/NativeAlert';
 
 const SELECTORS = {
-    LOGIN_SCREEN:'~Login-screen',
+    LOGIN_SCREEN: '~Login-screen',
     LOGIN_CONTAINER_BUTTON: '~button-login-container',
     SIGN_UP_CONTAINER_BUTTON: '~button-sign-up-container',
     LOGIN_BUTTON: '~button-LOGIN',
@@ -12,43 +12,42 @@ const SELECTORS = {
     REPEAT_PASSWORD: '~input-repeat-password'
 };
 
-class LoginScreen extends AppScreen{
-    constructor(){
+class LoginScreen extends AppScreen {
+    constructor () {
         super(SELECTORS.LOGIN_SCREEN);
     }
 
-    get loginContainerButon (){
+    get loginContainerButon () {
         return $(SELECTORS.LOGIN_CONTAINER_BUTTON);
     }
 
-    get signUpContainerButon (){
+    get signUpContainerButon () {
         return $(SELECTORS.SIGN_UP_CONTAINER_BUTTON);
     }
 
-    get loginButton (){
+    get loginButton () {
         return $(SELECTORS.LOGIN_BUTTON);
     }
 
-    get signUpButton (){
+    get signUpButton () {
         return $(SELECTORS.SIGN_UP_BUTTON);
     }
 
-    get email (){
+    get email () {
         return $(SELECTORS.INPUT);
     }
 
-    get password (){
+    get password () {
         return $(SELECTORS.PASSWORD);
     }
 
-    get repeatPassword (){
+    get repeatPassword () {
         return $(SELECTORS.REPEAT_PASSWORD);
     }
 
-    get alert(){
+    get alert () {
         return NativeAlert;
     }
 }
 
 export default new LoginScreen();
-

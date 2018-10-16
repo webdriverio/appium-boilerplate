@@ -2,15 +2,15 @@ import AppScreen from './app.screen';
 import Carousel from './components/carousel';
 
 const SELECTORS = {
-    SWIPE_SCREEN:'~Swipe-screen'
+    SWIPE_SCREEN: '~Swipe-screen'
 };
 
-class SwipeScreen extends AppScreen{
-    constructor(){
+class SwipeScreen extends AppScreen {
+    constructor () {
         super(SELECTORS.SWIPE_SCREEN);
     }
 
-    get carousel(){
+    get carousel () {
         return Carousel;
     }
 }

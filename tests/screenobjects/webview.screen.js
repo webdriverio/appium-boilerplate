@@ -12,7 +12,7 @@ class WebViewScreen extends WebView {
      *
      * @param {boolean} isShown
      */
-    waitForWebViewIsShownByXpath(isShown = true) {
+    waitForWebViewIsShownByXpath (isShown = true) {
         browser.waitForVisible(SELECTORS.WEB_VIEW_SCREEN, 20000, !isShown);
     }
 }

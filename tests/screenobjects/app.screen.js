@@ -1,7 +1,7 @@
 import { DEFAULT_TIMEOUT } from '../constants';
 
 export default class AppScreen {
-    constructor(selector) {
+    constructor (selector) {
         this.selector = selector;
     }
 
@@ -11,7 +11,7 @@ export default class AppScreen {
      * @param {boolean} isShown
      * @return {boolean}
      */
-    waitForIsShown(isShown = true) {
+    waitForIsShown (isShown = true) {
         return browser.waitForVisible(this.selector, DEFAULT_TIMEOUT, !isShown);
     }
 }

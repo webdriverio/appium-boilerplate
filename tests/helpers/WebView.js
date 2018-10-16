@@ -8,7 +8,7 @@ const DOCUMENT_READY_STATE = {
     LOADING: 'loading',
 };
 
-class WebView{
+class WebView {
     /**
      * Wait for the webview context to be loaded
      *
@@ -17,13 +17,13 @@ class WebView{
      * `["NATIVE_APP","WEBVIEW_28158.2"]`
      * The number behind `WEBVIEW` can be any string
      */
-    waitForWebViewContextLoaded(){
+    waitForWebViewContextLoaded () {
         browser.waitUntil(
             () => {
                 const currentContexts = this.getCurrentContexts();
 
-                return currentContexts.length > 1
-                    && currentContexts.find(context => context.toLowerCase().includes(CONTEXT_REF.WEBVIEW));
+                return currentContexts.length > 1 &&
+                    currentContexts.find(context => context.toLowerCase().includes(CONTEXT_REF.WEBVIEW));
             },
             10000,
             'Webview context not loaded',
@@ -36,24 +36,23 @@ class WebView{
      *
      * @param {string} context should be native of webview
      */
-    switchToContext(context) {
+    switchToContext (context) {
         browser.context(this.getCurrentContexts()[context === CONTEXT_REF.WEBVIEW ? 1 : 0]);
     }
-
 
     /**
      * Returns an object with the list of all available contexts
      *
      * @return {object} An object containing the list of all available contexts
      */
-    getCurrentContexts() {
+    getCurrentContexts () {
         return browser.contexts().value;
     }
 
     /**
      * Wait for the document to be full loaded
      */
-    waitForDocumentFullyLoaded() {
+    waitForDocumentFullyLoaded () {
         browser.waitUntil(
             () => browser.execute(() => document.readyState).value === DOCUMENT_READY_STATE.COMPLETE,
             15000,
@@ -65,7 +64,7 @@ class WebView{
     /**
      * Wait for the website in the webview to be loaded
      */
-    waitForWebsiteLoaded() {
+    waitForWebsiteLoaded () {
         this.waitForWebViewContextLoaded();
         this.switchToContext(CONTEXT_REF.WEBVIEW);
         this.waitForDocumentFullyLoaded();

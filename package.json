@@ -4,10 +4,10 @@
   "description": "Boilerplate project to run WebdriverIO tests with Appium to test native applications on iOS and Android",
   "main": "wdio.conf.js",
   "scripts": {
-    "android.app": "node_modules/.bin/wdio ./config/wdio.android.app.conf.js",
-    "android.browser": "node_modules/.bin/wdio ./config/wdio.android.browser.conf.js",
-    "ios.app": "node_modules/.bin/wdio ./config/wdio.ios.app.conf.js",
-    "ios.browser": "node_modules/.bin/wdio ./config/wdio.ios.browser.conf.js"
+    "android.app": "wdio ./config/wdio.android.app.conf.js",
+    "android.browser": "wdio ./config/wdio.android.browser.conf.js",
+    "ios.app": "wdio ./config/wdio.ios.app.conf.js",
+    "ios.browser": "wdio ./config/wdio.ios.browser.conf.js"
   },
   "repository": {
     "type": "git",
@@ -41,6 +41,7 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^7.0.1",
     "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
     "wdio-appium-service": "^0.2.3",
     "wdio-jasmine-framework": "^0.3.6",
     "wdio-spec-reporter": "^0.1.5",

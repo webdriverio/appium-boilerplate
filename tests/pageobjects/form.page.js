@@ -1,24 +1,24 @@
-import Page from './page'
+import Page from './page';
 
 class FormPage extends Page {
     /**
      * define elements
      */
-    get username () { return $('#username') }
-    get password () { return $('#password') }
-    get submitButton () { return $('#login button[type=submit]') }
-    get flash () { return $('#flash') }
+    get username () { return $('#username'); }
+    get password () { return $('#password'); }
+    get submitButton () { return $('#login button[type=submit]'); }
+    get flash () { return $('#flash'); }
 
     /**
      * define or overwrite page methods
      */
     open () {
-        super.open('login')
+        super.open('login');
     }
 
     submit () {
-        this.submitButton.click()
+        this.submitButton.click();
     }
 }
 
-export default new FormPage()
+export default new FormPage();

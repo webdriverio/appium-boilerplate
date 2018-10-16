@@ -2,7 +2,7 @@ import TabBar from '../screenobjects/components/tab.bar';
 import SwipeScreen from '../screenobjects/swipe.screen';
 
 describe('WebdriverIO and Appium', () => {
-    beforeEach(() =>{
+    beforeEach(() => {
         TabBar.waitForTabBarShown(true);
         TabBar.openSwipe();
         SwipeScreen.waitForIsShown(true);

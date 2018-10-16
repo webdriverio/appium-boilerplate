@@ -15,23 +15,23 @@ const SELECTORS = {
 };
 
 class FormsScreen extends AppScreen {
-    constructor() {
+    constructor () {
         super(SELECTORS.FORMS_SCREEN);
     }
 
-    get input() {
+    get input () {
         return $(SELECTORS.INPUT);
     }
 
-    get inputTextResult() {
+    get inputTextResult () {
         return $(SELECTORS.INPUT_TEXT);
     }
 
-    get switch() {
+    get switch () {
         return $(SELECTORS.SWITCH);
     }
 
-    get switchText() {
+    get switchText () {
         return $(SELECTORS.SWITCH_TEXT);
     }
 
@@ -41,13 +41,13 @@ class FormsScreen extends AppScreen {
      *
      * @return {boolean}
      */
-    isSwitchActive() {
+    isSwitchActive () {
         const active = browser.isAndroid ? 'ON' : '1';
 
         return this.switch.getText() === active;
     }
 
-    get dropDown() {
+    get dropDown () {
         return $(SELECTORS.DROP_DOWN);
     }
 
@@ -56,23 +56,23 @@ class FormsScreen extends AppScreen {
      *
      * @return {string}
      */
-    getDropDownText() {
+    getDropDownText () {
         return getTextOfElement($(SELECTORS.DROP_DOWN));
     }
 
-    get picker() {
+    get picker () {
         return Picker;
     }
 
-    get activeButton() {
+    get activeButton () {
         return $(SELECTORS.ACTIVE_BUTTON);
     }
 
-    get inActiveButton() {
+    get inActiveButton () {
         return $(SELECTORS.IN_ACTIVE_BUTTON);
     }
 
-    get alert() {
+    get alert () {
         return NativeAlert;
     }
 }
