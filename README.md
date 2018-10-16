@@ -15,6 +15,19 @@ Boilerplate project to run Appium tests together with WebdriverIO for:
 
 ![webdriverio-demo-app-ios.ios](./docs/assets/appium-tests.gif)
 
+## Based on
+This boilerplate is currently based on:
+- **WebdriverIO:** `4.13.#`
+- **Appium:** `1.9.0`
+
+Updates to the latest versions will come, see [TODO](./README.md##todo)
+
+## Installing Appium on a local machine
+See [Installing Appium on a local machine](./docs/APPIUM.md)
+
+## Setting up Android and iOS on a local machine
+To setup your loal machine to use an Android emulator and an iOS simulator see [Setting up Android and iOS on a local machine](./docs/ANDROID_IOS_SETUP.md)
+
 ## Quick start
 Choose one of the following options:
 
@@ -27,16 +40,6 @@ Choose one of the following options:
 4. merge the scripts to your `package.json` scripts
 
 5. Run the tests for iOS with `npm run ios.app` and for Android with `npm run android.app`
-
-## Based on
-This boilerplate is currently based on:
-- **WebdriverIO:** `4.13.#`
-- **Appium:** `1.9.0`
-
-Updates to the latest versions will come, see [TODO](./README.md##todo)
-
-## Installing Appium on a local machine
-See [Installing Appium on a local machine](./docs/APPIUM.md)
 
 ## Config
 This boilerplate uses a specific config for iOS and Android, see [configs](./config/) and are based on `wdio.shared.conf.js`.
