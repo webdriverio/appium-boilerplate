@@ -51,7 +51,7 @@ class Carousel extends Gestures {
         const expectedText = partialText.toLowerCase();
 
         if (browser.isIOS) {
-            return global.expect(cardText).toContain(expectedText);
+            return expect(cardText).toContain(expectedText);
         }
 
         /**
