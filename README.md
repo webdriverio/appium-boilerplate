@@ -8,6 +8,7 @@ Boilerplate project to run Appium tests together with WebdriverIO for:
 
 > This boilerplate uses the WebdriverIO native demo app which can be found [here](https://github.com/webdriverio/native-demo-app).
 > The releases can be found and downloaded [here](https://github.com/webdriverio/native-demo-app/releases).
+> Before running tests, please create a `./apps` directory, download the app and move the zip files into that directory
 
 > Note:
 > This boilerplate only handles local execution on 1 em/simulator at a time, not parallel execution. For more info about that Google on setting up a grid with Appium.
