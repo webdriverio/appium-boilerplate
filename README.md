@@ -41,6 +41,8 @@ Choose one of the following options:
 
 5. Run the tests for iOS with `npm run ios.app` and for Android with `npm run android.app`
 
+6. Run the tests for iOS on BrowserStack with `npm run browserstack.ios.app` and android on BrowserStack with `npm run browserstack.android.app` 
+
 ## Config
 This boilerplate uses a specific config for iOS and Android, see [configs](./config/) and are based on `wdio.shared.conf.js`.
 This shared config holds all the defaults so the iOS and Android configs only need to hold the capabilities and specs that are needed for running on iOS and or Android (app or browser).
@@ -77,6 +79,7 @@ See [Tips and Tricks](./docs/TIPS_TRICKS.md)
 - Setup configs for:
   - [x] iOS and Android app
   - [x] iOS and Android browsers
+  - [x] iOS and Android app on BrowserStack
 - Setup helpers for:
   - [x] WebView
   - [x] Gestures

@@ -11,10 +11,9 @@ exports.config = {
   exclude: [],
 
   capabilities: [{
-    automationName: 'UiAutomator2',
     name: 'local_appium_test',
     build: 'webdriverio-browserstack',
-    device: 'Google Pixel',
+    device: 'iPhone 8',
     app: process.env.BROWSERSTACK_APP_ID || 'bs://<hashed app-id>',
     'browserstack.local': true,
     'browserstack.debug': true
