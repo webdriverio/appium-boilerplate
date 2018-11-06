@@ -7,7 +7,8 @@
     "android.app": "wdio ./config/wdio.android.app.conf.js",
     "android.browser": "wdio ./config/wdio.android.browser.conf.js",
     "ios.app": "wdio ./config/wdio.ios.app.conf.js",
-    "ios.browser": "wdio ./config/wdio.ios.browser.conf.js"
+    "ios.browser": "wdio ./config/wdio.ios.browser.conf.js",
+    "browserstack.android.app": "wdio ./config/wdio.android.app.browserstack.conf.js"
   },
   "repository": {
     "type": "git",
@@ -28,7 +29,10 @@
     "url": "https://github.com/webdriverio/appium-boilerplate/issues"
   },
   "homepage": "https://github.com/webdriverio/appium-boilerplate#readme",
-  "dependencies": {},
+  "dependencies": {
+    "browserstack-local": "^1.3.5",
+    "wdio-mocha-framework": "^0.6.4"
+  },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-eslint": "^9.0.0",
