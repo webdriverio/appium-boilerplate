@@ -20,7 +20,7 @@ This boilerplate is currently based on:
 - **WebdriverIO:** `4.13.#`
 - **Appium:** `1.9.0`
 
-Updates to the latest versions will come, see [TODO](./README.md##todo)
+Updates to the latest versions will come, see [TODO](./README.md#todo)
 
 ## Installing Appium on a local machine
 See [Installing Appium on a local machine](./docs/APPIUM.md)
