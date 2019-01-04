@@ -1,5 +1,7 @@
 # appium-boilerplate
 
+> **NOTE:** This branch holds the setup for the appium-boilerplate for WebdriverIO V4
+
 Boilerplate project to run Appium tests together with WebdriverIO for:
 
 - iOS/Android Native Apps
@@ -71,23 +73,3 @@ See [FAQ](./docs/FAQ.md)
 
 ## Tips and Tricks
 See [Tips and Tricks](./docs/TIPS_TRICKS.md)
-
-
-# TODO
-- Setup configs for:
-  - [x] iOS and Android app
-  - [x] iOS and Android browsers
-- Setup helpers for:
-  - [x] WebView
-  - [x] Gestures
-  - [x] Native alerts
-  - [x] Pickers
-- Create tests for:
-  - [x] WebView
-  - [x] Login
-  - [x] Forms
-  - [x] Swipe
-  - [x] Browsers
-- [x] Write docs
-- Update dependencies:
-  - [ ] Update to work with WebdriverIO `5.#.#`
