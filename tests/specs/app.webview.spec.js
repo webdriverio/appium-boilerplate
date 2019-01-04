@@ -10,7 +10,7 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
         WebViewScreen.waitForWebsiteLoaded();
     });
 
-    it('should be able to open click action on the API page', () => {
+    it('should be able to open call action on the API page', () => {
         // To be able to use the site in the webview webdriver.io first needs
         // change the context from native to webview
         WebViewScreen.switchToContext(CONTEXT_REF.WEBVIEW);
@@ -19,12 +19,12 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
         // Open the API docs
         browser.click('=API');
         // And open the `click` action
-        browser.waitForVisible('.navbar-toggle');
-        browser.click('.navbar-toggle');
-        browser.waitForVisible('=click');
-        browser.click('=click');
-        browser.waitForVisible('h1#click');
-        expect(browser.getText('h1#click')).toEqual('CLICK');
+        browser.waitForVisible('.navToggle');
+        browser.click('.navToggle');
+        browser.waitForVisible('=call');
+        browser.click('=call');
+        browser.waitForVisible('h1.postHeaderTitle');
+        expect(browser.getText('h1.postHeaderTitle')).toEqual('CALL');
 
         /**
          * IMPORTANT!!
@@ -42,7 +42,7 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
         // change the context from native to webview
         WebViewScreen.switchToContext(CONTEXT_REF.WEBVIEW);
         browser.click('=API');
-        browser.waitForVisible('.navbar-toggle');
+        browser.waitForVisible('.navToggle');
 
         // Now open the swipe screen and do some action there
         // This can only be done if webdriver.io is told to go to the native context
@@ -54,16 +54,16 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
         SwipeScreen.carousel.swipeLeft();
         expect(SwipeScreen.carousel.verifyNthCardContainsText('active', 'Creat community'));
 
-        // Now go back to the webview and open the click actions
+        // Now go back to the webview and open the call actions
         TabBar.openWebView();
         // To be able to use the site in the webview webdriver.io first needs
         // change the context from native to webview
         WebViewScreen.switchToContext(CONTEXT_REF.WEBVIEW);
         // And open the `click` action
-        browser.click('.navbar-toggle');
-        browser.waitForVisible('=click');
-        browser.click('=click');
-        browser.waitForVisible('h1#click');
-        expect(browser.getText('h1#click')).toEqual('CLICK');
+        browser.click('.navToggle');
+        browser.waitForVisible('=call');
+        browser.click('=call');
+        browser.waitForVisible('h1.postHeaderTitle');
+        expect(browser.getText('h1.postHeaderTitle')).toEqual('CALL');
     });
 });
