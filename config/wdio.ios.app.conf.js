@@ -18,10 +18,10 @@ config.capabilities = [
         // The defaults you need to have in your config
         deviceName: 'iPhone 6',
         platformName: 'iOS',
-        platformVersion: '11.1',
+        platformVersion: '11.4',
         orientation: 'PORTRAIT',
         // The path to the app
-        app: path.join(process.cwd(), './apps/iOS-NativeDemoApp-0.2.0.zip'),
+        app: path.join(process.cwd(), './apps/iOS-NativeDemoApp-0.2.0.app.zip'),
         // Read the reset strategies very well, they differ per platform, see
         // http://appium.io/docs/en/writing-running-appium/other/reset-strategies/
         noReset: true,
