@@ -42,7 +42,7 @@ class FormsScreen extends AppScreen {
      * @return {boolean}
      */
     isSwitchActive () {
-        const active = browser.isAndroid ? 'ON' : '1';
+        const active = driver.isAndroid ? 'ON' : '1';
 
         return this.switch.getText() === active;
     }

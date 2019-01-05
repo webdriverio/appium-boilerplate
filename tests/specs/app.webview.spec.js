@@ -17,14 +17,14 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
         // Now the site can be accessed like you would automate a normal website
         // keep in mind the responsiveness
         // Open the API docs
-        browser.click('=API');
+        $('=API').click();
         // And open the `click` action
-        browser.waitForVisible('.navToggle');
-        browser.click('.navToggle');
-        browser.waitForVisible('=call');
-        browser.click('=call');
-        browser.waitForVisible('h1.postHeaderTitle');
-        expect(browser.getText('h1.postHeaderTitle')).toEqual('CALL');
+        $('.navToggle').waitForDisplayed(3000);
+        $('.navToggle').click();
+        $('=call').waitForDisplayed(3000);
+        $('=call').click();
+        $('h1.postHeaderTitle').waitForDisplayed(3000);
+        expect($('h1.postHeaderTitle').getText()).toEqual('CALL');
 
         /**
          * IMPORTANT!!
@@ -41,8 +41,8 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
         // To be able to use the site in the webview webdriver.io first needs
         // change the context from native to webview
         WebViewScreen.switchToContext(CONTEXT_REF.WEBVIEW);
-        browser.click('=API');
-        browser.waitForVisible('.navToggle');
+        $('=API').click();
+        $('.navToggle').waitForDisplayed(3000);
 
         // Now open the swipe screen and do some action there
         // This can only be done if webdriver.io is told to go to the native context
@@ -59,11 +59,11 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
         // To be able to use the site in the webview webdriver.io first needs
         // change the context from native to webview
         WebViewScreen.switchToContext(CONTEXT_REF.WEBVIEW);
-        // And open the `click` action
-        browser.click('.navToggle');
-        browser.waitForVisible('=call');
-        browser.click('=call');
-        browser.waitForVisible('h1.postHeaderTitle');
-        expect(browser.getText('h1.postHeaderTitle')).toEqual('CALL');
+        // And open the `call` action
+        $('.navToggle').click();
+        $('=call').waitForDisplayed(3000);
+        $('=call').click();
+        $('h1.postHeaderTitle').waitForDisplayed(3000);
+        expect($('h1.postHeaderTitle').getText()).toEqual('CALL');
     });
 });

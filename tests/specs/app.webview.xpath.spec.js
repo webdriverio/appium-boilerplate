@@ -20,7 +20,7 @@ describe('WebdriverIO and Appium', () => {
      * XPATH OR A DIFFERENT LOCATOR STRATEGY
      */
     it('should be able to go to the webview by xpath', () => {
-        WebViewScreen.waitForWebViewIsShownByXpath();
+        WebViewScreen.waitForWebViewIsDisplayedByXpath();
         const end = Date.now();
         timeDifference(start, end);
     });

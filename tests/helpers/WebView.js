@@ -18,7 +18,7 @@ class WebView {
      * The number behind `WEBVIEW` can be any string
      */
     waitForWebViewContextLoaded () {
-        browser.waitUntil(
+        driver.waitUntil(
             () => {
                 const currentContexts = this.getCurrentContexts();
 
@@ -37,7 +37,7 @@ class WebView {
      * @param {string} context should be native of webview
      */
     switchToContext (context) {
-        browser.context(this.getCurrentContexts()[context === CONTEXT_REF.WEBVIEW ? 1 : 0]);
+        driver.switchContext(this.getCurrentContexts()[context === CONTEXT_REF.WEBVIEW ? 1 : 0]);
     }
 
     /**
@@ -46,15 +46,15 @@ class WebView {
      * @return {object} An object containing the list of all available contexts
      */
     getCurrentContexts () {
-        return browser.contexts().value;
+        return driver.getContexts();
     }
 
     /**
      * Wait for the document to be full loaded
      */
     waitForDocumentFullyLoaded () {
-        browser.waitUntil(
-            () => browser.execute(() => document.readyState).value === DOCUMENT_READY_STATE.COMPLETE,
+        driver.waitUntil(
+            () => driver.execute(() => document.readyState) === DOCUMENT_READY_STATE.COMPLETE,
             15000,
             'Website not loaded',
             100
