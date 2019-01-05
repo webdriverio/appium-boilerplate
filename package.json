@@ -1,6 +1,6 @@
 {
   "name": "appium-boilerplate",
-  "version": "5.0.1",
+  "version": "5.0.0",
   "description": "Boilerplate project to run WebdriverIO tests with Appium to test native applications on iOS and Android",
   "scripts": {
     "android.app": "./node_modules/.bin/wdio ./config/wdio.android.app.conf.js",
