@@ -11,7 +11,7 @@ exports.config = {
         defaultTimeoutInterval: 30000,
     },
     sync: true,
-    logLevel: 'error',
+    logLevel: 'silent',
     deprecationWarnings: true,
     bail: 0,
     baseUrl: 'http://the-internet.herokuapp.com',
@@ -19,7 +19,6 @@ exports.config = {
     connectionRetryTimeout: 90000,
     connectionRetryCount: 3,
     reporters: [ 'spec' ],
-    executionMode: 'sync',
 
     // ====================
     // Appium Configuration

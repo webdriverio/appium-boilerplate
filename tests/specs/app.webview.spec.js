@@ -19,12 +19,17 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
         // Open the API docs
         $('=API').click();
         // And open the `click` action
-        $('.navToggle').waitForDisplayed(3000);
-        $('.navToggle').click();
-        $('=call').waitForDisplayed(3000);
-        $('=call').click();
-        $('h1.postHeaderTitle').waitForDisplayed(3000);
-        expect($('h1.postHeaderTitle').getText()).toEqual('CALL');
+        const toggle = $('.navToggle');
+        toggle.waitForDisplayed(3000);
+        toggle.click();
+
+        const call = $('=call');
+        call.waitForDisplayed(3000);
+        call.click();
+
+        const header = $('h1.postHeaderTitle');
+        header.waitForDisplayed(3000);
+        expect(header.getText()).toEqual('CALL');
 
         /**
          * IMPORTANT!!
@@ -42,7 +47,9 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
         // change the context from native to webview
         WebViewScreen.switchToContext(CONTEXT_REF.WEBVIEW);
         $('=API').click();
-        $('.navToggle').waitForDisplayed(3000);
+
+        const toggle = $('.navToggle');
+        toggle.waitForDisplayed(3000);
 
         // Now open the swipe screen and do some action there
         // This can only be done if webdriver.io is told to go to the native context
@@ -60,10 +67,13 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
         // change the context from native to webview
         WebViewScreen.switchToContext(CONTEXT_REF.WEBVIEW);
         // And open the `call` action
-        $('.navToggle').click();
-        $('=call').waitForDisplayed(3000);
-        $('=call').click();
-        $('h1.postHeaderTitle').waitForDisplayed(3000);
-        expect($('h1.postHeaderTitle').getText()).toEqual('CALL');
+        toggle.click();
+        const call = $('=call');
+        call.waitForDisplayed(3000);
+        call.click();
+
+        const header = $('h1.postHeaderTitle');
+        header.waitForDisplayed(3000);
+        expect(header.getText()).toEqual('CALL');
     });
 });
