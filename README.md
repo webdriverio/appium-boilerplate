@@ -68,6 +68,23 @@ For Android be sure that the lastest version of Chrome is installed, see also [h
 
 For this boilerplate the testcases from the [jasmine-boilerplte](https://github.com/webdriverio/jasmine-boilerplate), created by [Christian Bromann](https://github.com/christian-bromann), are used.
 
+## Cloud vendors
+
+### Sauce Labs Real Device Cloud
+This boilerplate now also provides a setup for testing with the Real Device Cloud (RDC) of Sauce Labs. Please check the [SauceLabs](./config/saucelabs)-folder to see the setup for iOS and Android.
+
+The iOS and Android config use a shared configuration that is specifically needed for the RDC cloud, check the config [here](./config/saucelabs/wdio.rdc.shared.js). Keep in mind that there are 2 RDC's, one in the US and one in the EU, just comment out the one you don't need.
+
+> This config holds an automatic update of the teststatus in the RDC cloud which is executed in the after-hook and uses [this](./config/saucelabs/helpers/SauceLabs.js) helper to update the status.
+
+There are 2 scripts that can be used, see the [`package.json`](./package.json), to execute the tests in the cloud:
+
+    // For iOS
+    $ npm run ios.sauce.rdc.app
+    
+    // For Android
+    $ npm run android.sauce.rdc.app
+
 ## FAQ
 See [FAQ](./docs/FAQ.md)
 
