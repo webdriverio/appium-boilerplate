@@ -1,12 +1,14 @@
 {
   "name": "appium-boilerplate",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Boilerplate project to run WebdriverIO tests with Appium to test native applications on iOS and Android",
   "main": "wdio.conf.js",
   "scripts": {
+    "android.sauce.rdc.app": "wdio ./config/saucelabs/wdio.android.rdc.app.conf.js",
     "android.app": "wdio ./config/wdio.android.app.conf.js",
     "android.browser": "wdio ./config/wdio.android.browser.conf.js",
     "ios.app": "wdio ./config/wdio.ios.app.conf.js",
+    "ios.sauce.rdc.app": "wdio ./config/saucelabs/wdio.ios.rdc.app.conf.js",
     "ios.browser": "wdio ./config/wdio.ios.browser.conf.js"
   },
   "repository": {
@@ -42,6 +44,7 @@
     "eslint-plugin-node": "^7.0.1",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
+    "node-fetch": "^2.3.0",
     "wdio-appium-service": "^0.2.3",
     "wdio-jasmine-framework": "^0.3.6",
     "wdio-spec-reporter": "^0.1.5",
