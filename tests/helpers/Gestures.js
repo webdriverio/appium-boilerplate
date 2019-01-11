@@ -30,10 +30,10 @@ class Gestures {
      * @param {number} maxScrolls
      * @param {number} amount
      */
-    static checkIfVisibleWithScrollDown (element, maxScrolls, amount = 0) {
-        if ((!element.isExisting() || !element.isVisible()) && amount <= maxScrolls) {
+    static checkIfDisplayedWithScrollDown (element, maxScrolls, amount = 0) {
+        if ((!element.isExisting() || !element.isDisplayed()) && amount <= maxScrolls) {
             this.swipeUp(0.85);
-            this.checkIfVisibleWithScrollDown(element, maxScrolls, amount + 1);
+            this.checkIfDisplayedWithScrollDown(element, maxScrolls, amount + 1);
         } else if (amount > maxScrolls) {
             throw new Error(`The element '${element}' could not be found or is not visible.`);
         }
@@ -102,7 +102,7 @@ class Gestures {
      * </pre>
      */
     static swipeOnPercentage (from, to) {
-        SCREEN_SIZE = SCREEN_SIZE || browser.windowHandleSize().value;
+        SCREEN_SIZE = SCREEN_SIZE || driver.getWindowRect();
         const pressOptions = this._getDeviceScreenCoordinates(SCREEN_SIZE, from);
         const moveToScreenCoordinates = this._getDeviceScreenCoordinates(SCREEN_SIZE, to);
         this.swipe(
@@ -125,7 +125,7 @@ class Gestures {
      * </pre>
      */
     static swipe (from, to) {
-        browser.touchPerform([{
+        driver.touchPerform([{
             action: 'press',
             options: from,
         }, {
@@ -137,7 +137,7 @@ class Gestures {
         }, {
             action: 'release',
         }]);
-        browser.pause(1000);
+        driver.pause(1000);
     }
 
     /**

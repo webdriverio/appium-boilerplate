@@ -5,7 +5,7 @@ const config = require('./wdio.shared.conf').config;
 // Specs
 // ============
 config.specs = [
-    './tests/specs/**/app*.spec.js'
+    './tests/specs/**/app*.spec.js',
 ];
 
 // ============

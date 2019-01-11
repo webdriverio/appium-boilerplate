@@ -20,12 +20,9 @@ describe('WebdriverIO and Appium, interacting with form elements,', () => {
          *  Because the app is not closed and opened between the tests
          *  (and thus is NOT starting with the keyboard hidden)
          *  the keyboard is closed here if it is still visible.
-         *
-         *  The` browser.isKeyboardShown()` is a custom function that can
-         *  be found in `./config/wdio.shared.conf.js`
          */
-        if (browser.isKeyboardShown()) {
-            browser.hideDeviceKeyboard();
+        if (driver.isKeyboardShown()) {
+            driver.hideKeyboard();
         }
     });
 
@@ -58,7 +55,7 @@ describe('WebdriverIO and Appium, interacting with form elements,', () => {
     });
 
     it('should be able to open the alert and close it with all 3 buttons', () => {
-        Gestures.checkIfVisibleWithScrollDown(FormScreen.activeButton, 2);
+        Gestures.checkIfDisplayedWithScrollDown(FormScreen.activeButton, 2);
         FormScreen.activeButton.click();
         FormScreen.alert.waitForIsShown(true);
         expect(LoginScreen.alert.text()).toEqual('This button is\nThis button is active');
@@ -76,14 +73,14 @@ describe('WebdriverIO and Appium, interacting with form elements,', () => {
     });
 
     it('should be able to determine that the inactive button is inactive', () => {
-        Gestures.checkIfVisibleWithScrollDown(FormScreen.inActiveButton, 2);
+        Gestures.checkIfDisplayedWithScrollDown(FormScreen.inActiveButton, 2);
         // In this case the button can't be asked if it is active or not with
         // `expect(FormScreen.inActiveButton.isEnabled()).toEqual(false);`
         // So use a click and check if shown, make sure the alert is not there
         FormScreen.alert.waitForIsShown(false);
         FormScreen.inActiveButton.click();
         // Just wait 1 second to be sure it didn't appear
-        browser.pause(1000);
+        driver.pause(1000);
         // Now validate it isn't there
         FormScreen.alert.waitForIsShown(false);
     });

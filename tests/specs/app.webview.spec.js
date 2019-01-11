@@ -17,14 +17,19 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
         // Now the site can be accessed like you would automate a normal website
         // keep in mind the responsiveness
         // Open the API docs
-        browser.click('=API');
+        $('=API').click();
         // And open the `click` action
-        browser.waitForVisible('.navToggle');
-        browser.click('.navToggle');
-        browser.waitForVisible('=call');
-        browser.click('=call');
-        browser.waitForVisible('h1.postHeaderTitle');
-        expect(browser.getText('h1.postHeaderTitle')).toEqual('CALL');
+        const toggle = $('.navToggle');
+        toggle.waitForDisplayed(3000);
+        toggle.click();
+
+        const call = $('=call');
+        call.waitForDisplayed(3000);
+        call.click();
+
+        const header = $('h1.postHeaderTitle');
+        header.waitForDisplayed(3000);
+        expect(header.getText()).toEqual('CALL');
 
         /**
          * IMPORTANT!!
@@ -41,8 +46,10 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
         // To be able to use the site in the webview webdriver.io first needs
         // change the context from native to webview
         WebViewScreen.switchToContext(CONTEXT_REF.WEBVIEW);
-        browser.click('=API');
-        browser.waitForVisible('.navToggle');
+        $('=API').click();
+
+        const toggle = $('.navToggle');
+        toggle.waitForDisplayed(3000);
 
         // Now open the swipe screen and do some action there
         // This can only be done if webdriver.io is told to go to the native context
@@ -59,11 +66,14 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
         // To be able to use the site in the webview webdriver.io first needs
         // change the context from native to webview
         WebViewScreen.switchToContext(CONTEXT_REF.WEBVIEW);
-        // And open the `click` action
-        browser.click('.navToggle');
-        browser.waitForVisible('=call');
-        browser.click('=call');
-        browser.waitForVisible('h1.postHeaderTitle');
-        expect(browser.getText('h1.postHeaderTitle')).toEqual('CALL');
+        // And open the `call` action
+        toggle.click();
+        const call = $('=call');
+        call.waitForDisplayed(3000);
+        call.click();
+
+        const header = $('h1.postHeaderTitle');
+        header.waitForDisplayed(3000);
+        expect(header.getText()).toEqual('CALL');
     });
 });

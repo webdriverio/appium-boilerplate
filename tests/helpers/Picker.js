@@ -11,11 +11,8 @@ class Picker {
      * @param {boolean} isShown
      */
     static waitForIsShown (isShown = true) {
-        browser.waitForExist(
-            browser.isIOS ? SELECTORS.IOS_PICKERWHEEL : SELECTORS.ANDROID_LISTVIEW,
-            11000,
-            !isShown,
-        );
+        const selector = driver.isIOS ? SELECTORS.IOS_PICKERWHEEL : SELECTORS.ANDROID_LISTVIEW;
+        $(selector).waitForExist(11000, !isShown);
     }
 
     /**
@@ -25,7 +22,7 @@ class Picker {
      */
     static selectValue (value) {
         this.waitForIsShown(true);
-        if (browser.isIOS) {
+        if (driver.isIOS) {
             this._setIosValue(value);
         } else {
             this._setAndroidValue(value);
@@ -41,7 +38,7 @@ class Picker {
      * @private
      */
     static _setAndroidValue (value) {
-        browser.click(`${SELECTORS.ANDROID_LISTVIEW}/*[@text='${value}']`);
+        $(`${SELECTORS.ANDROID_LISTVIEW}/*[@text='${value}']`).click();
     }
 
     /**
@@ -53,7 +50,7 @@ class Picker {
      */
     static _setIosValue (value) {
         $(SELECTORS.IOS_PICKERWHEEL).addValue(value);
-        browser.click(SELECTORS.DONE);
+        $(SELECTORS.DONE).click();
     }
 }
 

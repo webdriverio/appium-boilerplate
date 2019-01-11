@@ -13,11 +13,8 @@ class NativeAlert {
      * Wait for the alert to exist
      */
     static waitForIsShown (isShown = true) {
-        browser.waitForExist(
-            browser.isAndroid ? SELECTORS.ANDROID.ALERT_TITLE : SELECTORS.IOS.ALERT,
-            11000,
-            !isShown,
-        );
+        const selector = driver.isAndroid ? SELECTORS.ANDROID.ALERT_TITLE : SELECTORS.IOS.ALERT;
+        $(selector).waitForExist(11000, !isShown);
     }
 
     /**
@@ -33,10 +30,10 @@ class NativeAlert {
      * @param {string} selector
      */
     static pressButton (selector) {
-        const buttonSelector = browser.isAndroid
+        const buttonSelector = driver.isAndroid
             ? SELECTORS.ANDROID.ALERT_BUTTON.replace(/{BUTTON_TEXT}/, selector.toUpperCase())
             : `~${selector}`;
-        browser.click(buttonSelector);
+        $(buttonSelector).click();
     }
 
     /**
@@ -45,7 +42,7 @@ class NativeAlert {
      * @return {string}
      */
     static text () {
-        return browser.alertText();
+        return driver.getAlertText();
     }
 }
 

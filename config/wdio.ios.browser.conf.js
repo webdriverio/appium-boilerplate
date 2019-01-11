@@ -17,7 +17,7 @@ config.capabilities = [
         // The defaults you need to have in your config
         deviceName: 'iPhone 6',
         platformName: 'iOS',
-        platformVersion: '11.1',
+        platformVersion: '11.4',
         browserName: 'safari',
         newCommandTimeout: 240,
     },

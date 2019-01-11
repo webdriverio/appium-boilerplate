@@ -18,24 +18,11 @@ exports.config = {
     waitforTimeout: 10000,
     connectionRetryTimeout: 90000,
     connectionRetryCount: 3,
-    reporters: ['dot', 'spec'],
+    reporters: [ 'spec' ],
 
     // ====================
     // Appium Configuration
     // ====================
-    // Using the wdio-appium-service here, just make sure you've installed
-    // Appium on your local machine for example global instead of as
-    // a project dependency with `npm install -g appium`
-    services: ['appium'],
-    // Some default settings, see
-    // https://github.com/rhysd/wdio-appium-service
-    // for the rest of the settings
-    appium: {
-        args: {
-            address: '127.0.0.1',
-            commandTimeout: '11000',
-        },
-    },
     // Default port for Appium
     port: 4723,
     maxInstances: 1,
@@ -43,17 +30,7 @@ exports.config = {
     // ====================
     // Some hooks
     // ====================
-    beforeSession: function (config, capabilities, specs) {
-        require('babel-register');
-    },
-    before: function (capabilities, specs) {
-        /**
-         * Add a command to the device object to check if the keyboard is shown
-         */
-        browser.addCommand('isKeyboardShown', () =>
-            browser.requestHandler.create({
-                path: `/session/${browser.session().sessionId}/appium/device/is_keyboard_shown`,
-                method: 'GET',
-            }).then(result => result.value));
+    beforeSession: (config, capabilities, specs) => {
+        require('@babel/register');
     },
 };

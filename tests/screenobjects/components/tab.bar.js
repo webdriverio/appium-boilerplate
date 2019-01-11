@@ -1,5 +1,3 @@
-import { DEFAULT_TIMEOUT } from '../../constants';
-
 export default class TabBar {
     static openHome () {
         $('~Home').click();
@@ -22,6 +20,6 @@ export default class TabBar {
     }
 
     static waitForTabBarShown () {
-        browser.waitForVisible('~Home', DEFAULT_TIMEOUT);
+        $('~Home').waitForDisplayed(20000);
     }
 }

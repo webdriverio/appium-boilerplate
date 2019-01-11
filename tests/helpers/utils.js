@@ -24,7 +24,7 @@ const SELECTORS = {
 export function getTextOfElement (element, isXpath = false) {
     let visualText;
     try {
-        if (browser.isAndroid) {
+        if (driver.isAndroid) {
             visualText = element.getText(SELECTORS.ANDROID.TEXT);
         } else {
             visualText = element.getText(isXpath ? SELECTORS.IOS.XPATH_TEXT : SELECTORS.IOS.GENERIC_TEXT);

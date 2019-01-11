@@ -15,8 +15,8 @@ class Carousel extends Gestures {
      *
      * @param {boolean} isShown
      */
-    waitForIsVisible (isShown = true) {
-        browser.waitForVisible(SELECTORS.CAROUSEL, DEFAULT_TIMEOUT, !isShown);
+    waitForIsDisplayed (isShown = true) {
+        $(SELECTORS.CAROUSEL).waitForDisplayed(DEFAULT_TIMEOUT, !isShown);
     }
 
     /**
@@ -37,10 +37,10 @@ class Carousel extends Gestures {
      * @param {string} partialText
      */
     verifyNthCardContainsText (nthCard, partialText) {
-        this.waitForIsVisible();
+        this.waitForIsDisplayed();
 
         const cards = $$(SELECTORS.CARD);
-        browser.waitUntil(
+        driver.waitUntil(
             () => cards.length > 0,
             DEFAULT_TIMEOUT,
             `Expected to have more than 0 cards withing ${DEFAULT_TIMEOUT} milliseconds`,
@@ -50,7 +50,7 @@ class Carousel extends Gestures {
         const cardText = getTextOfElement(cards[cardNumber]).replace(/(?:\r\n|\r|\n)/g, ' ').toLowerCase();
         const expectedText = partialText.toLowerCase();
 
-        if (browser.isIOS) {
+        if (driver.isIOS) {
             return expect(cardText).toContain(expectedText);
         }
 
@@ -108,7 +108,7 @@ class Carousel extends Gestures {
      * </pre>
      */
     getCarouselRectangles () {
-        CAROUSEL_RECTANGLES = CAROUSEL_RECTANGLES || browser.elementIdRect($(SELECTORS.CAROUSEL).value.ELEMENT).value;
+        CAROUSEL_RECTANGLES = CAROUSEL_RECTANGLES || driver.getElementRect($(SELECTORS.CAROUSEL).elementId);
         return CAROUSEL_RECTANGLES;
     }
 }
