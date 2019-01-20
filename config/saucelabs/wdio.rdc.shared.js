@@ -16,6 +16,6 @@ config.services = [];
 // ==============================================
 // Update the testjob in the cloud after finished
 // ==============================================
-config.after = (result) => new SauceLabs().updateJobStatus(browser.session().sessionId, result === 0);
+config.after = (result) => new SauceLabs().updateJobStatus(browser.sessionId, result === 0);
 
 exports.config = config;
