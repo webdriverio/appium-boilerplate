@@ -74,9 +74,18 @@ For this boilerplate the testcases from the [jasmine-boilerplte](https://github.
 ### Sauce Labs Real Device Cloud
 This boilerplate now also provides a setup for testing with the Real Device Cloud (RDC) of Sauce Labs. Please check the [SauceLabs](./config/saucelabs)-folder to see the setup for iOS and Android.
 
-The iOS and Android config use a shared configuration that is specifically needed for the RDC cloud, check the config [here](./config/saucelabs/wdio.rdc.shared.js). Keep in mind that there are 2 RDC's, one in the US and one in the EU, just comment out the one you don't need.
+> With the latest version of WebdriverIO (`5.4.13` and higher) the iOS and Android config holds: 
+> - automatic US or EU RDC cloud selection by providing a `region` in the config, see the [iOS](./config/saucelabs/wdio.ios.rdc.app.conf.js) and the [Android](./config/saucelabs/wdio.ios.rdc.app.conf.js) configs 
+> - automatic update of the teststatus in the RDC cloud without using a customer script
 
-> This config holds an automatic update of the teststatus in the RDC cloud which is executed in the after-hook and uses [this](./config/saucelabs/helpers/SauceLabs.js) helper to update the status.
+Make sure you install the latest version of the `@wdio/sauce-service` with
+
+```shell
+$ npm install --save-dev @wdio/sauce-service
+```
+
+and add `services: ['sauce'],` to the config. If no `region` is provided it will automatically default to the US-RDC cloud.
+If you provide `region: 'us'` or `region: 'eu'` it will connect to the US or the EU RDC cloud
 
 There are 2 scripts that can be used, see the [`package.json`](./package.json), to execute the tests in the cloud:
 
