@@ -21,13 +21,6 @@ exports.config = {
     reporters: [ 'spec' ],
 
     // ====================
-    // Appium Configuration
-    // ====================
-    // Default port for Appium
-    port: 4723,
-    maxInstances: 1,
-
-    // ====================
     // Some hooks
     // ====================
     beforeSession: (config, capabilities, specs) => {

@@ -1,5 +1,5 @@
-const path = require('path');
-const config = require('./wdio.shared.conf').config;
+const { join } = require('path');
+const { config } = require('./wdio.shared.conf');
 
 // ============
 // Specs
@@ -21,12 +21,18 @@ config.capabilities = [
         platformVersion: '11.4',
         orientation: 'PORTRAIT',
         // The path to the app
-        app: path.join(process.cwd(), './apps/iOS-NativeDemoApp-0.2.0.app.zip'),
+        app: join(process.cwd(), './apps/iOS-NativeDemoApp-0.2.0.app.zip'),
         // Read the reset strategies very well, they differ per platform, see
         // http://appium.io/docs/en/writing-running-appium/other/reset-strategies/
         noReset: true,
         newCommandTimeout: 240,
     },
 ];
+
+// ====================
+// Appium Configuration
+// ====================
+// Default port for Appium
+config.port = 4723;
 
 exports.config = config;

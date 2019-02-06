@@ -1,4 +1,4 @@
-const config = require('./wdio.rdc.shared').config;
+const { config } = require('../wdio.shared.conf');
 
 // ============
 // Specs
@@ -26,7 +26,7 @@ config.capabilities = [
         // You can find more info in the TO Appium Basic Setup section
         platformName: 'Android',
         idleTimeout: 180,
-        maxInstances: 1,
+        maxInstances: 2,
         testobject_cache_device: true,
         noReset: true,
         orientation: 'PORTRAIT',
@@ -35,5 +35,17 @@ config.capabilities = [
         tabletOnly: false,
     },
 ];
+
+// =========================
+// Sauce RDC specific config
+// =========================
+// The new version of WebdriverIO will:
+// - automatically update the job status in the RDC cloud
+// - automatically default to the US RDC cloud
+config.services = [ 'sauce' ];
+// If you need to connect to the US RDC cloud comment the below line of code
+config.region = 'eu';
+// and uncomment the below line of code
+// config.region = 'us';
 
 exports.config = config;

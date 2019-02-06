@@ -1,10 +1,10 @@
-const config = require('./wdio.shared.conf').config;
+const { config } = require('./wdio.shared.conf');
 
 // ============
 // Specs
 // ============
 config.specs = [
-    './tests/specs/**/browser*.spec.js'
+    './tests/specs/**/browser*.spec.js',
 ];
 
 // ============
@@ -22,10 +22,16 @@ config.capabilities = [
         browserName: 'chrome',
         // Add this option to prevent the anoying "Welcome"-message
         chromeOptions: {
-            args: ['--no-first-run'],
+            args: [ '--no-first-run' ],
         },
         newCommandTimeout: 240,
     },
 ];
+
+// ====================
+// Appium Configuration
+// ====================
+// Default port for Appium
+config.port = 4723;
 
 exports.config = config;
