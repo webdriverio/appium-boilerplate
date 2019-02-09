@@ -29,7 +29,7 @@ Updates to the latest versions will come, see [TODO](./README.md#todo)
 See [Installing Appium on a local machine](./docs/APPIUM.md)
 
 ## Setting up Android and iOS on a local machine
-To setup your loal machine to use an Android emulator and an iOS simulator see [Setting up Android and iOS on a local machine](./docs/ANDROID_IOS_SETUP.md)
+To setup your local machine to use an Android emulator and an iOS simulator see [Setting up Android and iOS on a local machine](./docs/ANDROID_IOS_SETUP.md)
 
 ## Quick start
 Choose one of the following options:
