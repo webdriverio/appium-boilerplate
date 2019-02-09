@@ -36,7 +36,7 @@ Choose one of the following options:
 
 1. Clone the git repo — `git clone https://github.com/webdriverio/appium-boilerplate.git`
 
-2. Then copy the files to your project directory (all files in `/test` and the `wdio.conf`-files in the `config`-folder)
+2. Then copy the files to your project directory (all files in `/tests` and the `wdio.conf`-files in the `config`-folder)
 
 3. Merge project dev dependencies with your projects dev dependencies in your `package.json`
 
