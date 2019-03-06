@@ -11,10 +11,7 @@ const SELECTORS = {
 };
 
 /**
- * Get the text of an element
- *  NOTE:
- *      This method will contain all the text of the component,
- *      including all the child components
+ * Get the text of an element (including all child elements)
  *
  * @param {element} element
  * @param {boolean} isXpath
@@ -23,21 +20,24 @@ const SELECTORS = {
  */
 export function getTextOfElement (element, isXpath = false) {
     let visualText;
+
     try {
         if (driver.isAndroid) {
-            visualText = element.getText(SELECTORS.ANDROID.TEXT);
+            visualText = element.$$(SELECTORS.ANDROID.TEXT).reduce((currentValue, el) => `${currentValue} ${el.getText()}`, '');
         } else {
-            visualText = element.getText(isXpath ? SELECTORS.IOS.XPATH_TEXT : SELECTORS.IOS.GENERIC_TEXT);
+            const iosElement = isXpath ? element.$$(SELECTORS.IOS.XPATH_TEXT) : element;
+
+            if (isXpath) {
+                visualText = element.$$(SELECTORS.IOS.XPATH_TEXT).reduce((currentValue, el) => `${currentValue} ${el.getText()}`, '');
+            } else {
+                visualText = iosElement.getText();
+            }
         }
     } catch (e) {
         visualText = element.getText();
     }
 
-    if (typeof visualText === 'string') {
-        return visualText;
-    }
-
-    return Array.isArray(visualText) ? visualText.join(' ') : '';
+    return visualText.trim();
 }
 
 /**
