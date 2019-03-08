@@ -21,7 +21,7 @@ config.capabilities = [
         platformVersion: '8.1',
         maxInstances: 1,
         browserName: 'chrome',
-        // Add this option to prevent the anoying "Welcome"-message
+        // Add this option to prevent the annoying "Welcome"-message
         chromeOptions: {
             args: [ '--no-first-run' ],
         },

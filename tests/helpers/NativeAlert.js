@@ -1,11 +1,12 @@
 const SELECTORS = {
     ANDROID: {
         ALERT_TITLE: '*//android.widget.TextView[@resource-id="android:id/alertTitle"]',
+        ALERT_MESSAGE: '*//android.widget.TextView[@resource-id="android:id/message"]',
         ALERT_BUTTON: '*//android.widget.Button[@text="{BUTTON_TEXT}"]',
     },
     IOS: {
         ALERT: '*//XCUIElementTypeAlert',
-    }
+    },
 };
 
 class NativeAlert {
@@ -42,7 +43,12 @@ class NativeAlert {
      * @return {string}
      */
     static text () {
-        return driver.getAlertText();
+        // return driver.getAlertText();
+        if (driver.isIOS) {
+            return driver.getAlertText();
+        }
+
+        return `${$(SELECTORS.ANDROID.ALERT_TITLE).getText()}\n${$(SELECTORS.ANDROID.ALERT_MESSAGE).getText()}`;
     }
 }
 

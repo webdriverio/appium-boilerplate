@@ -70,8 +70,8 @@ class Carousel extends Gestures {
         const carouselRectangles = this.getCarouselRectangles();
         const y = Math.round((carouselRectangles.y + carouselRectangles.height) / 2);
         Gestures.swipe(
-            { x: Math.round(carouselRectangles.width - (carouselRectangles.width * 0.05)), y },
-            { x: Math.round(carouselRectangles.x + (carouselRectangles.width * 0.05)), y },
+            { x: Math.round(carouselRectangles.width - (carouselRectangles.width * 0.20)), y },
+            { x: Math.round(carouselRectangles.x + (carouselRectangles.width * 0.20)), y },
         );
     }
 
@@ -82,8 +82,8 @@ class Carousel extends Gestures {
         const carouselRectangles = this.getCarouselRectangles();
         const y = Math.round((carouselRectangles.y + carouselRectangles.height) / 2);
         Gestures.swipe(
-            { x: Math.round(carouselRectangles.x + (carouselRectangles.width * 0.05)), y },
-            { x: Math.round(carouselRectangles.width - (carouselRectangles.width * 0.05)), y },
+            { x: Math.round(carouselRectangles.x + (carouselRectangles.width * 0.20)), y },
+            { x: Math.round(carouselRectangles.width - (carouselRectangles.width * 0.20)), y },
         );
     }
 
