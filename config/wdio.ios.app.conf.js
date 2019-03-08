@@ -16,12 +16,13 @@ config.specs = [
 config.capabilities = [
     {
         // The defaults you need to have in your config
-        deviceName: 'iPhone 6',
+        deviceName: 'iPhone X',
         platformName: 'iOS',
-        platformVersion: '11.4',
+        platformVersion: '12.1',
         orientation: 'PORTRAIT',
+        maxInstances: 1,
         // The path to the app
-        app: join(process.cwd(), './apps/iOS-NativeDemoApp-0.2.0.app.zip'),
+        app: join(process.cwd(), './apps/iOS-Simulator-NativeDemoApp-0.2.1.app.zip'),
         // Read the reset strategies very well, they differ per platform, see
         // http://appium.io/docs/en/writing-running-appium/other/reset-strategies/
         noReset: true,

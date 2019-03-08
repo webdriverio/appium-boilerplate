@@ -15,9 +15,11 @@ config.specs = [
 config.capabilities = [
     {
         // The defaults you need to have in your config
-        deviceName: 'iPhone 6',
+        deviceName: 'iPhone X',
         platformName: 'iOS',
-        platformVersion: '11.4',
+        platformVersion: '12.1',
+        orientation: 'PORTRAIT',
+        maxInstances: 1,
         browserName: 'safari',
         newCommandTimeout: 240,
     },

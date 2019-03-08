@@ -9,28 +9,28 @@ describe('WebdriverIO and Appium', () => {
     });
 
     it('should be able to swipe the carousel from left to right', () => {
-        expect(SwipeScreen.carousel.verifyNthCardContainsText('first', 'Fully Open Source'));
+        SwipeScreen.carousel.verifyNthCardContainsText('first', 'Fully Open Source');
 
         SwipeScreen.carousel.swipeLeft();
-        expect(SwipeScreen.carousel.verifyNthCardContainsText('active', 'Creat community'));
+        SwipeScreen.carousel.verifyNthCardContainsText('active', 'Creat community');
 
         SwipeScreen.carousel.swipeLeft();
-        expect(SwipeScreen.carousel.verifyNthCardContainsText('active', 'JS.Foundation'));
+        SwipeScreen.carousel.verifyNthCardContainsText('active', 'JS.Foundation');
 
         SwipeScreen.carousel.swipeLeft();
-        expect(SwipeScreen.carousel.verifyNthCardContainsText('active', 'Support Videos'));
+        SwipeScreen.carousel.verifyNthCardContainsText('active', 'Support Videos');
 
         SwipeScreen.carousel.swipeLeft();
         SwipeScreen.carousel.swipeLeft();
-        expect(SwipeScreen.carousel.verifyNthCardContainsText('active', 'Compatible'));
+        SwipeScreen.carousel.verifyNthCardContainsText('active', 'Compatible');
 
         SwipeScreen.carousel.swipeRight();
-        expect(SwipeScreen.carousel.verifyNthCardContainsText('active', 'Extendable'));
+        SwipeScreen.carousel.verifyNthCardContainsText('active', 'Extendable');
 
         SwipeScreen.carousel.swipeRight();
         SwipeScreen.carousel.swipeRight();
         SwipeScreen.carousel.swipeRight();
         SwipeScreen.carousel.swipeRight();
-        expect(SwipeScreen.carousel.verifyNthCardContainsText('first', 'Fully Open Source'));
+        SwipeScreen.carousel.verifyNthCardContainsText('first', 'Fully Open Source');
     });
 });

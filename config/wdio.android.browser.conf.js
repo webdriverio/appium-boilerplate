@@ -16,11 +16,12 @@ config.capabilities = [
     {
         // The defaults you need to have in your config
         automationName: 'UiAutomator2',
-        deviceName: 'Nexus_5_7.1.1',
+        deviceName: 'Pixel_8.1',
         platformName: 'Android',
-        platformVersion: '7.1.1',
+        platformVersion: '8.1',
+        maxInstances: 1,
         browserName: 'chrome',
-        // Add this option to prevent the anoying "Welcome"-message
+        // Add this option to prevent the annoying "Welcome"-message
         chromeOptions: {
             args: [ '--no-first-run' ],
         },
