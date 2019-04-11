@@ -9,8 +9,19 @@ Failed: An unknown server-side error occurred while processing the command. Orig
 ```
 
 The solution is to:
+- use an older version of ChromeDriver
 - manually upgrade chrome on your emulator/device
 - pick a newer emulator/device
+
+### Use an older version of ChromeDriver
+Go to the link that is provided in the log, see [here](https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/web/chromedriver.md), follow the steps and download the version you need to have.
+Then provide the path to the downloaded ChromeDriver by adding the following to your command:
+
+```shell
+$ npm run android.app -- --appium.args.chromedriverExecutable="./chromeDriver/chromedriver"
+```
+
+The `appium.args.chromedriverExecutable` needs to refer to the location where the ChromeDriver is downloaded.
 
 ### Manually update chrome
 Execute the following steps to install Chrome on an Android emulator 

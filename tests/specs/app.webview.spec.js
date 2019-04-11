@@ -23,13 +23,13 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
         toggle.waitForDisplayed(3000);
         toggle.click();
 
-        const call = $('=call');
-        call.waitForDisplayed(3000);
-        call.click();
+        const webdriverProtocol = $('=Webdriver Protocol');
+        webdriverProtocol.waitForDisplayed(3000);
+        webdriverProtocol.click();
 
         const header = $('h1.postHeaderTitle');
         header.waitForDisplayed(3000);
-        expect(header.getText()).toEqual('CALL');
+        expect(header.getText()).toEqual('WEBDRIVER PROTOCOL');
 
         /**
          * IMPORTANT!!
@@ -68,12 +68,13 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
         WebViewScreen.switchToContext(CONTEXT_REF.WEBVIEW);
         // And open the `call` action
         toggle.click();
-        const call = $('=call');
-        call.waitForDisplayed(3000);
-        call.click();
+
+        const webdriverProtocol = $('=Webdriver Protocol');
+        webdriverProtocol.waitForDisplayed(3000);
+        webdriverProtocol.click();
 
         const header = $('h1.postHeaderTitle');
         header.waitForDisplayed(3000);
-        expect(header.getText()).toEqual('CALL');
+        expect(header.getText()).toEqual('WEBDRIVER PROTOCOL');
     });
 });
