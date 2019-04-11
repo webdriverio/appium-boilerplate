@@ -47,4 +47,7 @@ config.region = 'eu';
 // and uncomment the below line of code
 // config.region = 'us';
 
+// This port was defined in the `wdio.shared.conf.js`
+delete config.port;
+
 exports.config = config;

@@ -20,10 +20,9 @@ Boilerplate project to run Appium tests together with WebdriverIO for:
 
 ## Based on
 This boilerplate is currently based on:
-- **WebdriverIO:** `4.13.#`
-- **Appium:** `1.9.0`
+- **WebdriverIO:** `5.7.#`
+- **Appium:** `1.12.0`
 
-Updates to the latest versions will come, see [TODO](./README.md#todo)
 
 ## Installing Appium on a local machine
 See [Installing Appium on a local machine](./docs/APPIUM.md)
@@ -47,6 +46,8 @@ Choose one of the following options:
 ## Config
 This boilerplate uses a specific config for iOS and Android, see [configs](./config/) and are based on `wdio.shared.conf.js`.
 This shared config holds all the defaults so the iOS and Android configs only need to hold the capabilities and specs that are needed for running on iOS and or Android (app or browser).
+
+> **NEW:** The new `@wdio/appium-service` is now also integrated in this boilerplate so you don't need to start an Appium server yourself, WebdriverIO will do that for you
 
 ## Locator strategy for native apps
 The locator strategy for this boilerplate is to use `accessibilityID`'s, see also the [WebdriverIO docs](http://webdriver.io/guide/usage/selectors.html#Accessibility-ID) or this newsletter on [AppiumPro](https://appiumpro.com/editions/20).
