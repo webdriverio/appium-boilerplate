@@ -18,7 +18,7 @@ config.capabilities = [
         // The defaults you need to have in your config
         deviceName: 'iPhone X',
         platformName: 'iOS',
-        platformVersion: '12.1',
+        platformVersion: '12.2',
         orientation: 'PORTRAIT',
         maxInstances: 1,
         // The path to the app
@@ -29,11 +29,5 @@ config.capabilities = [
         newCommandTimeout: 240,
     },
 ];
-
-// ====================
-// Appium Configuration
-// ====================
-// Default port for Appium
-config.port = 4723;
 
 exports.config = config;

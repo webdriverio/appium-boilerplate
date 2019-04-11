@@ -30,10 +30,4 @@ config.capabilities = [
     },
 ];
 
-// ====================
-// Appium Configuration
-// ====================
-// Default port for Appium
-config.port = 4723;
-
 exports.config = config;

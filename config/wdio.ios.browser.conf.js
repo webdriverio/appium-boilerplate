@@ -23,12 +23,6 @@ config.capabilities = [
         browserName: 'safari',
         newCommandTimeout: 240,
     },
-];
-
-// ====================
-// Appium Configuration
-// ====================
-// Default port for Appium
-config.port = 4723;
+]
 
 exports.config = config;

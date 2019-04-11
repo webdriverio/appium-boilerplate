@@ -21,6 +21,21 @@ exports.config = {
     reporters: [ 'spec' ],
 
     // ====================
+    // Appium Configuration
+    // ====================
+    services: [ 'appium' ],
+    appium: {
+        // For options see
+        // https://github.com/webdriverio/webdriverio/tree/master/packages/wdio-appium-service
+        args: {
+            // For arguments see
+            // https://github.com/webdriverio/webdriverio/tree/master/packages/wdio-appium-service
+        },
+    },
+
+    port: 4723,
+
+    // ====================
     // Some hooks
     // ====================
     beforeSession: (config, capabilities, specs) => {
