@@ -1,6 +1,6 @@
 {
   "name": "appium-boilerplate",
-  "version": "5.2.0",
+  "version": "5.3.0",
   "description": "Boilerplate project to run WebdriverIO tests with Appium to test native applications on iOS and Android",
   "scripts": {
     "android.sauce.rdc.app": "./node_modules/.bin/wdio ./config/saucelabs/wdio.android.rdc.app.conf.js",
