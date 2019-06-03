@@ -14,6 +14,7 @@ config.specs = [
 // http://appium.io/docs/en/writing-running-appium/caps/#general-capabilities
 config.capabilities = [
     {
+        automationName: 'XCUITest',
         deviceName: 'iPhone X*',
         // The reference to the app
         testobject_app_id: '3',
