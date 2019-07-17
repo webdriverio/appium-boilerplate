@@ -48,6 +48,7 @@ This boilerplate uses a specific config for iOS and Android, see [configs](./con
 This shared config holds all the defaults so the iOS and Android configs only need to hold the capabilities and specs that are needed for running on iOS and or Android (app or browser).
 
 > **NEW:** The new `@wdio/appium-service` is now also integrated in this boilerplate so you don't need to start an Appium server yourself, WebdriverIO will do that for you
+
 Since we do not have Appium installed as part of this package, this has been configured to use the global Appium installation. This is configured in wdio.shared.conf.js
 ```
 appium: {
