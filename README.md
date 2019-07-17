@@ -53,7 +53,7 @@ Since we do not have Appium installed as part of this package, this has been con
 ```
 appium: {
     command : 'appium'
-    },
+},
 ```
 
 ## Locator strategy for native apps
