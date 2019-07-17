@@ -31,6 +31,7 @@ exports.config = {
             // For arguments see
             // https://github.com/webdriverio/webdriverio/tree/master/packages/wdio-appium-service
         },
+        command : 'appium'
     },
 
     port: 4723,
