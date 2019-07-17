@@ -52,7 +52,7 @@ This shared config holds all the defaults so the iOS and Android configs only ne
 Since we do not have Appium installed as part of this package, this has been configured to use the global Appium installation. This is configured in wdio.shared.conf.js
 ```
 appium: {
-        command : 'appium'
+    command : 'appium'
     },
 ```
 
