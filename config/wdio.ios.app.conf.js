@@ -24,7 +24,7 @@ config.capabilities = [
         'appium:deviceName': 'iPhone X',
         'appium:platformVersion': '12.2',
         'appium:orientation': 'PORTRAIT',
-        // `automationName` will be manatory, see
+        // `automationName` will be mandatory, see
         // https://github.com/appium/appium/releases/tag/v1.13.0
         'appium:automationName': 'XCUITest',
         // The path to the app

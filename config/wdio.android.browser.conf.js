@@ -24,7 +24,7 @@ config.capabilities = [
         'appium:deviceName': 'Pixel_8.1',
         'appium:platformVersion': '8.1',
         'appium:orientation': 'PORTRAIT',
-        // `automationName` will be manatory, see
+        // `automationName` will be mandatory, see
         // https://github.com/appium/appium/releases/tag/v1.13.0
         'appium:automationName': 'UiAutomator2',
         'appium:newCommandTimeout': 240,
