@@ -5,7 +5,7 @@ const SELECTORS = {
         ALERT_BUTTON: '*//android.widget.Button[@text="{BUTTON_TEXT}"]',
     },
     IOS: {
-        ALERT: '*//XCUIElementTypeAlert',
+        ALERT: '-ios predicate string:type == \'XCUIElementTypeAlert\'',
     },
 };
 
