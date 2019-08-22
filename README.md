@@ -20,8 +20,8 @@ Boilerplate project to run Appium tests together with WebdriverIO for:
 
 ## Based on
 This boilerplate is currently based on:
-- **WebdriverIO:** `5.7.#`
-- **Appium:** `1.12.0`
+- **WebdriverIO:** `5.12.#`
+- **Appium:** `1.14.#`
 
 
 ## Installing Appium on a local machine
