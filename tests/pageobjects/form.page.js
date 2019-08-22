@@ -17,6 +17,7 @@ class FormPage extends Page {
     }
 
     submit () {
+        browser.hideKeyboard();
         this.submitButton.click();
     }
 }

@@ -16,17 +16,23 @@ config.specs = [
 config.capabilities = [
     {
         // The defaults you need to have in your config
-        automationName: 'UiAutomator2',
-        deviceName: 'Pixel_8.1',
         platformName: 'Android',
-        platformVersion: '8.1',
-        orientation: 'PORTRAIT',
         maxInstances: 1,
-        app: join(process.cwd(), './apps/Android-NativeDemoApp-0.2.1.apk'),
+        // For W3C the appium capabilities need to have an extension prefix
+        // http://appium.io/docs/en/writing-running-appium/caps/
+        // This is `appium:` for all Appium Capabilities which can be found here
+        'appium:deviceName': 'Pixel_8.1',
+        'appium:platformVersion': '8.1',
+        'appium:orientation': 'PORTRAIT',
+        // `automationName` will be mandatory, see
+        // https://github.com/appium/appium/releases/tag/v1.13.0
+        'appium:automationName': 'UiAutomator2',
+        // The path to the app
+        'appium:app': join(process.cwd(), './apps/Android-NativeDemoApp-0.2.1.apk'),
         // Read the reset strategies very well, they differ per platform, see
         // http://appium.io/docs/en/writing-running-appium/other/reset-strategies/
-        noReset: true,
-        newCommandTimeout: 240,
+        'appium:noReset': true,
+        'appium:newCommandTimeout': 240,
     },
 ];
 
