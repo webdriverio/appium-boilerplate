@@ -5,8 +5,7 @@ const SELECTORS = {
     },
     IOS: {
         GENERIC_TEXT: null,
-        XPATH_TEXT: '*//XCUIElementTypeStaticText',
-        TEXT_FIELD: '*//XCUIElementTypeTextField',
+        TEXT_ELEMENT: '-ios predicate string:type == \'XCUIElementTypeStaticText\'',
     },
 };
 
@@ -25,10 +24,10 @@ export function getTextOfElement (element, isXpath = false) {
         if (driver.isAndroid) {
             visualText = element.$$(SELECTORS.ANDROID.TEXT).reduce((currentValue, el) => `${currentValue} ${el.getText()}`, '');
         } else {
-            const iosElement = isXpath ? element.$$(SELECTORS.IOS.XPATH_TEXT) : element;
+            const iosElement = isXpath ? element.$$(SELECTORS.IOS.TEXT_ELEMENT) : element;
 
             if (isXpath) {
-                visualText = element.$$(SELECTORS.IOS.XPATH_TEXT).reduce((currentValue, el) => `${currentValue} ${el.getText()}`, '');
+                visualText = element.$$(SELECTORS.IOS.TEXT_ELEMENT).reduce((currentValue, el) => `${currentValue} ${el.getText()}`, '');
             } else {
                 visualText = iosElement.getText();
             }
