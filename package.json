@@ -38,13 +38,13 @@
     "@babel/register": "^7.7.7",
     "@babel/traverse": "^7.7.4",
     "@babel/types": "^7.7.4",
-    "@wdio/appium-service": "^5.16.11",
+    "@wdio/appium-service": "^6.0.1",
     "@wdio/cli": "^5.18.1",
     "@wdio/jasmine-framework": "^5.16.15",
-    "@wdio/local-runner": "^5.18.0",
+    "@wdio/local-runner": "^6.0.3",
     "@wdio/sauce-service": "^6.0.1",
     "@wdio/spec-reporter": "^5.16.11",
-    "@wdio/sync": "^5.17.0",
+    "@wdio/sync": "^6.0.1",
     "babel-eslint": "^10.0.3",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",
@@ -54,6 +54,6 @@
     "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-wdio": "^5.13.2",
     "node-fetch": "^2.6.0",
-    "webdriverio": "^5.18.0"
+    "webdriverio": "^6.0.2"
   }
 }
