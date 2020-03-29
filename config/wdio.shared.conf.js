@@ -39,7 +39,7 @@ exports.config = {
     // ====================
     // Some hooks
     // ====================
-    beforeSession: (config, capabilities, specs) => {
+    before: () => {
         require('@babel/register');
     },
 };
