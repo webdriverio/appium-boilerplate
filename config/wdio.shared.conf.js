@@ -18,12 +18,12 @@ exports.config = {
     waitforTimeout: 10000,
     connectionRetryTimeout: 90000,
     connectionRetryCount: 3,
-    reporters: [ 'spec' ],
+    reporters: ['spec'],
 
     // ====================
     // Appium Configuration
     // ====================
-    services: [ 'appium' ],
+    services: ['appium'],
     appium: {
         // For options see
         // https://github.com/webdriverio/webdriverio/tree/master/packages/wdio-appium-service
@@ -31,7 +31,7 @@ exports.config = {
             // For arguments see
             // https://github.com/webdriverio/webdriverio/tree/master/packages/wdio-appium-service
         },
-        command : 'appium'
+        command: 'appium'
     },
 
     port: 4723,
