@@ -22,8 +22,8 @@ Boilerplate project to run Appium tests together with WebdriverIO for:
 
 ## Based on
 This boilerplate is currently based on:
-- **WebdriverIO:** `5.12.#`
-- **Appium:** `1.14.#`
+- **WebdriverIO:** `6.##.#`
+- **Appium:** `1.15.#`
 
 
 ## Installing Appium on a local machine
@@ -49,13 +49,25 @@ Choose one of the following options:
 This boilerplate uses a specific config for iOS and Android, see [configs](./config/) and are based on `wdio.shared.conf.js`.
 This shared config holds all the defaults so the iOS and Android configs only need to hold the capabilities and specs that are needed for running on iOS and or Android (app or browser).
 
-> **NEW:** The new `@wdio/appium-service` is now also integrated in this boilerplate so you don't need to start an Appium server yourself, WebdriverIO will do that for you.
-
 Since we do not have Appium installed as part of this package, this has been configured to use the global Appium installation. This is configured in wdio.shared.conf.js
 ```
-appium: {
-    command : 'appium'
-},
+    // ====================
+    // Appium Configuration
+    // ====================
+    services: [
+        [
+            'appium',
+            {
+            // For options see
+            // https://github.com/webdriverio/webdriverio/tree/master/packages/wdio-appium-service
+                args: {
+                // For arguments see
+                // https://github.com/webdriverio/webdriverio/tree/master/packages/wdio-appium-service
+                },
+                command: 'appium',
+            },
+        ],
+    ],
 ```
 
 ## Locator strategy for native apps
