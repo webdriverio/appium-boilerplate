@@ -15,7 +15,10 @@ class NativeAlert {
      */
     static waitForIsShown (isShown = true) {
         const selector = driver.isAndroid ? SELECTORS.ANDROID.ALERT_TITLE : SELECTORS.IOS.ALERT;
-        $(selector).waitForExist(11000, !isShown);
+        $(selector).waitForExist({
+            timeout: 11000,
+            reverse: !isShown,
+        });
     }
 
     /**

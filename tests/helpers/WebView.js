@@ -24,10 +24,11 @@ class WebView {
 
                 return currentContexts.length > 1 &&
                     currentContexts.find(context => context.toLowerCase().includes(CONTEXT_REF.WEBVIEW));
+            }, {
+                timeout: 10000,
+                timeoutMsg: 'Webview context not loaded',
+                interval: 100,
             },
-            10000,
-            'Webview context not loaded',
-            100
         );
     }
 
@@ -37,7 +38,7 @@ class WebView {
      * @param {string} context should be native of webview
      */
     switchToContext (context) {
-        driver.switchContext(this.getCurrentContexts()[context === CONTEXT_REF.WEBVIEW ? 1 : 0]);
+        driver.switchContext(this.getCurrentContexts()[ context === CONTEXT_REF.WEBVIEW ? 1 : 0 ]);
     }
 
     /**
@@ -55,9 +56,11 @@ class WebView {
     waitForDocumentFullyLoaded () {
         driver.waitUntil(
             () => driver.execute(() => document.readyState) === DOCUMENT_READY_STATE.COMPLETE,
-            15000,
-            'Website not loaded',
-            100
+            {
+                timeout: 15000,
+                timeoutMsg: 'Website not loaded',
+                interval: 100,
+            },
         );
     }
 

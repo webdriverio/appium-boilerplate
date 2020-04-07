@@ -6,7 +6,7 @@ describe('auth form', () => {
         FormPage.username.setValue('foo');
         FormPage.password.setValue('bar');
         FormPage.submit();
-        FormPage.flash.waitForDisplayed(3000);
+        FormPage.flash.waitForDisplayed({ timeout: 3000 });
         expect(FormPage.flash.getText()).toContain('Your username is invalid!');
     });
 
@@ -15,7 +15,7 @@ describe('auth form', () => {
         FormPage.username.setValue('tomsmith');
         FormPage.password.setValue('SuperSecretPassword!');
         FormPage.submit();
-        FormPage.flash.waitForDisplayed(3000);
+        FormPage.flash.waitForDisplayed({ timeout: 3000 });
         expect(FormPage.flash.getText()).toContain('You logged into a secure area!');
     });
 });

@@ -20,16 +20,16 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
         $('=API').click();
         // And open the `click` action
         const toggle = $('.navToggle');
-        toggle.waitForDisplayed(3000);
+        toggle.waitForDisplayed({ timeout: 3000 });
         toggle.click();
 
         const webdriverProtocol = $('=Webdriver Protocol');
-        webdriverProtocol.waitForDisplayed(3000);
+        webdriverProtocol.waitForDisplayed({ timeout: 3000 });
         webdriverProtocol.click();
 
         const header = $('h1.postHeaderTitle');
-        header.waitForDisplayed(3000);
-        expect(header.getText()).toEqual('WEBDRIVER PROTOCOL');
+        header.waitForDisplayed({ timeout: 3000 });
+        expect(header.getText()).toEqual('Webdriver Protocol');
 
         /**
          * IMPORTANT!!
@@ -49,7 +49,7 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
         $('=API').click();
 
         const toggle = $('.navToggle');
-        toggle.waitForDisplayed(3000);
+        toggle.waitForDisplayed({ timeout: 3000 });
 
         // Now open the swipe screen and do some action there
         // This can only be done if webdriver.io is told to go to the native context
@@ -70,11 +70,11 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
         toggle.click();
 
         const webdriverProtocol = $('=Webdriver Protocol');
-        webdriverProtocol.waitForDisplayed(3000);
+        webdriverProtocol.waitForDisplayed({ timeout: 3000 });
         webdriverProtocol.click();
 
         const header = $('h1.postHeaderTitle');
-        header.waitForDisplayed(3000);
-        expect(header.getText()).toEqual('WEBDRIVER PROTOCOL');
+        header.waitForDisplayed({ timeout: 3000 });
+        expect(header.getText()).toEqual('Webdriver Protocol');
     });
 });

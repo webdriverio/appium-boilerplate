@@ -20,6 +20,8 @@ export default class TabBar {
     }
 
     static waitForTabBarShown () {
-        $('~Home').waitForDisplayed(20000);
+        $('~Home').waitForDisplayed({
+            timeout: 20000,
+        });
     }
 }
