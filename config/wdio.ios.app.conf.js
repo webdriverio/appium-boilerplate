@@ -21,8 +21,8 @@ config.capabilities = [
         // For W3C the appium capabilities need to have an extension prefix
         // This is `appium:` for all Appium Capabilities which can be found here
         // http://appium.io/docs/en/writing-running-appium/caps/
-        'appium:deviceName': 'iPhone X',
-        'appium:platformVersion': '12.2',
+        'appium:deviceName': 'iPhone 11',
+        'appium:platformVersion': '13.4',
         'appium:orientation': 'PORTRAIT',
         // `automationName` will be mandatory, see
         // https://github.com/appium/appium/releases/tag/v1.13.0

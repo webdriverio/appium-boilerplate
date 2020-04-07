@@ -1,7 +1,7 @@
 const SELECTORS = {
     ANDROID_LISTVIEW: '//android.widget.ListView',
     IOS_PICKERWHEEL: '-ios predicate string:type == \'XCUIElementTypePickerWheel\'',
-    DONE: `~header-Dropdown`,
+    DONE: '~header-Dropdown',
 };
 
 class Picker {
@@ -12,7 +12,10 @@ class Picker {
      */
     static waitForIsShown (isShown = true) {
         const selector = driver.isIOS ? SELECTORS.IOS_PICKERWHEEL : SELECTORS.ANDROID_LISTVIEW;
-        $(selector).waitForExist(11000, !isShown);
+        $(selector).waitForExist({
+            timeout: 11000,
+            reverse: !isShown,
+        });
     }
 
     /**

@@ -12,6 +12,9 @@ export default class AppScreen {
      * @return {boolean}
      */
     waitForIsShown (isShown = true) {
-        return $(this.selector).waitForDisplayed(DEFAULT_TIMEOUT, !isShown);
+        return $(this.selector).waitForDisplayed({
+            timeout: DEFAULT_TIMEOUT,
+            reverse: !isShown,
+        });
     }
 }

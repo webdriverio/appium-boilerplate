@@ -9,6 +9,7 @@ exports.config = {
         // Updated the timeout to 30 seconds due to possible longer appium calls
         // When using XPATH
         defaultTimeoutInterval: 90000,
+        helpers: [require.resolve('@babel/register')],
     },
     sync: true,
     logLevel: 'silent',
@@ -18,28 +19,24 @@ exports.config = {
     waitforTimeout: 10000,
     connectionRetryTimeout: 90000,
     connectionRetryCount: 3,
-    reporters: [ 'spec' ],
+    reporters: ['spec'],
 
     // ====================
     // Appium Configuration
     // ====================
-    services: [ 'appium' ],
-    appium: {
-        // For options see
-        // https://github.com/webdriverio/webdriverio/tree/master/packages/wdio-appium-service
-        args: {
-            // For arguments see
+    services: [
+        [
+            'appium',
+            {
+            // For options see
             // https://github.com/webdriverio/webdriverio/tree/master/packages/wdio-appium-service
-        },
-        command : 'appium'
-    },
-
+                args: {
+                // For arguments see
+                // https://github.com/webdriverio/webdriverio/tree/master/packages/wdio-appium-service
+                },
+                command: 'appium',
+            },
+        ],
+    ],
     port: 4723,
-
-    // ====================
-    // Some hooks
-    // ====================
-    beforeSession: (config, capabilities, specs) => {
-        require('@babel/register');
-    },
 };

@@ -16,7 +16,10 @@ class Carousel extends Gestures {
      * @param {boolean} isShown
      */
     waitForIsDisplayed (isShown = true) {
-        $(SELECTORS.CAROUSEL).waitForDisplayed(DEFAULT_TIMEOUT, !isShown);
+        $(SELECTORS.CAROUSEL).waitForDisplayed({
+            timeout: DEFAULT_TIMEOUT,
+            reverse: !isShown,
+        });
     }
 
     /**
@@ -42,8 +45,10 @@ class Carousel extends Gestures {
         const cards = $$(SELECTORS.CARD);
         driver.waitUntil(
             () => cards.length > 0,
-            DEFAULT_TIMEOUT,
-            `Expected to have more than 0 cards withing ${DEFAULT_TIMEOUT} milliseconds`,
+            {
+                timeout: DEFAULT_TIMEOUT,
+                timeoutMsg: `Expected to have more than 0 cards withing ${DEFAULT_TIMEOUT} milliseconds`,
+            },
         );
 
         const cardNumber = (nthCard === 'first' || cards.length === 1) ? 0 : 1;
