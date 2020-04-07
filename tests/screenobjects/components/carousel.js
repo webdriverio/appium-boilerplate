@@ -52,7 +52,7 @@ class Carousel extends Gestures {
         );
 
         const cardNumber = (nthCard === 'first' || cards.length === 1) ? 0 : 1;
-        const cardText = getTextOfElement(cards[ cardNumber ]).replace(/(?:\r\n|\r|\n)/g, ' ').toLowerCase();
+        const cardText = getTextOfElement(cards[cardNumber]).replace(/(?:\r\n|\r|\n)/g, ' ').toLowerCase();
         const expectedText = partialText.toLowerCase();
 
         if (driver.isIOS) {

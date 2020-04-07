@@ -14,7 +14,7 @@ config.specs = [
 // http://appium.io/docs/en/writing-running-appium/caps/#general-capabilities
 config.capabilities = [
     {
-        deviceName: 'Samsung Galaxy S9*',
+        deviceName: 'Samsung Galaxy S[8912].*',
         automationName: 'UiAutomator2',
         // The reference to the app
         testobject_app_id: '4',
@@ -27,7 +27,7 @@ config.capabilities = [
         platformName: 'Android',
         idleTimeout: 180,
         maxInstances: 6,
-        testobject_cache_device: true,
+        cacheId: new Date().getTime(),
         noReset: true,
         orientation: 'PORTRAIT',
         newCommandTimeout: 180,
