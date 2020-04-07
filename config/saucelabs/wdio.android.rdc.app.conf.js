@@ -47,6 +47,8 @@ config.services = ['sauce'];
 config.region = 'eu';
 // and uncomment the below line of code
 // config.region = 'us';
+// Increase for real device support
+config.connectionRetryTimeout = 180000;
 
 // This port was defined in the `wdio.shared.conf.js`
 delete config.port;
