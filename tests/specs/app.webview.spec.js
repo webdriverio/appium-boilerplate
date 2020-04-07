@@ -29,7 +29,7 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
 
         const header = $('h1.postHeaderTitle');
         header.waitForDisplayed(3000);
-        expect(header.getText()).toEqual('WEBDRIVER PROTOCOL');
+        expect(header.getText()).toEqual('Webdriver Protocol');
 
         /**
          * IMPORTANT!!
@@ -75,6 +75,6 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
 
         const header = $('h1.postHeaderTitle');
         header.waitForDisplayed(3000);
-        expect(header.getText()).toEqual('WEBDRIVER PROTOCOL');
+        expect(header.getText()).toEqual('Webdriver Protocol');
     });
 });

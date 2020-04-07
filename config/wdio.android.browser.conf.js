@@ -31,7 +31,7 @@ config.capabilities = [
         'goog:chromeOptions': {
             w3c: true,
             // Add this option to prevent the annoying "Welcome"-message
-            args: [ '--no-first-run' ],
+            args: ['--no-first-run'],
         },
     },
 ];
