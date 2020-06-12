@@ -84,7 +84,7 @@ When Appium Destkop is started make sure the _Automatic Server_-tab is enabled. 
 }
 ```
 
-And the following settings for iOS (also check [here](../config/wdio.aniosdroid.app.conf.js))
+And the following settings for iOS (also check [here](../config/wdio.ios.app.conf.js))
 
 
 ```js
