@@ -1,6 +1,6 @@
 let SCREEN_SIZE;
 /**
- * The values in the below object are percentages of the screen
+ * The values in the below object are percentages of the screen kuki
  */
 const SWIPE_DIRECTION = {
     down: {
