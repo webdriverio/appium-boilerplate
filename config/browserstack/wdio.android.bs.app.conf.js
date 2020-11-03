@@ -1,5 +1,4 @@
 const { config } = require('../wdio.shared.conf');
-const browserstack = require('browserstack-local');
 
 // ============
 // Specs
@@ -19,7 +18,6 @@ config.exclude = [
 config.capabilities = [
     {
         // Set your BrowserStack config
-        'browserstack.local': true,
         'browserstack.debug': true,
 
         // Set URL of the application under test
@@ -43,36 +41,7 @@ config.capabilities = [
 config.user = process.env.BROWSERSTACK_USER || 'BROWSERSTACK_USER';
 config.key = process.env.BROWSERSTACK_ACCESS_KEY || 'BROWSERSTACK_ACCESS_KEY';
 // Use browserstack service
-config.services = [
-    ['browserstack', {
-        browserstackLocal: true
-    }]
-];
-
-// Prepare browserstack local before test execution
-config.onPrepare = (config, capabilities) => {
-    console.log('Connecting local...');
-    return new Promise((resolve, reject) => {
-        exports.bs_local = new browserstack.Local();
-        exports.bs_local.start({ key: config.key }, (error) => {
-            if (error) return reject(error);
-            console.log('Connected. Now testing...');
-            resolve();
-        });
-    });
-};
-
-// Stop browserstack local after end of test
-config.onComplete = (capabilties, specs) => {
-    console.log('Closing local tunnel...');
-    return new Promise((resolve, reject) => {
-        exports.bs_local.stop((error) => {
-            if (error) return reject(error);
-            console.log('Stopped BrowserStackLocal');
-            resolve();
-        });
-    });
-};
+config.services = ['browserstack'];
 
 // This port was defined in the `wdio.shared.conf.js`
 delete config.port;

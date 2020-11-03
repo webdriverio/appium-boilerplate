@@ -49,7 +49,6 @@
     "@wdio/spec-reporter": "^6.1.23",
     "@wdio/sync": "^6.1.14",
     "babel-eslint": "^10.1.0",
-    "browserstack-local": "^1.4.8",
     "eslint": "^7.4.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.22.0",
