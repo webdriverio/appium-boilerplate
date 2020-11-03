@@ -117,6 +117,24 @@ There are 2 scripts that can be used, see the [`package.json`](./package.json), 
     // For Android
     $ npm run android.sauce.rdc.app
 
+### BrowserStack
+
+This boilerplate provides a setup for testing with BrowserStack. Please check the [BrowserStack](./config/browserstack)-folder to see the setup for iOS and Android.
+
+Make sure you install the latest version of the `@wdio/browserstack-service` with
+
+```shell
+$ npm install --save-dev @wdio/browserstack-service
+```
+
+There are 2 scripts that can be used, see the [`package.json`](./package.json), to execute the tests in the cloud:
+
+    // For iOS
+    $ npm run ios.browserstack.app
+
+    // For Android
+    $ npm run android.browserstack.app
+
 ## FAQ
 See [FAQ](./docs/FAQ.md)
 
