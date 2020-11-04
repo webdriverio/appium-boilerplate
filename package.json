@@ -3,11 +3,13 @@
   "version": "5.3.1",
   "description": "Boilerplate project to run WebdriverIO tests with Appium to test native applications on iOS and Android",
   "scripts": {
+    "android.browserstack.app": "./node_modules/.bin/wdio ./config/browserstack/wdio.android.bs.app.conf.js",
     "android.sauce.rdc.app": "./node_modules/.bin/wdio ./config/saucelabs/wdio.android.rdc.app.conf.js",
     "android.app": "./node_modules/.bin/wdio ./config/wdio.android.app.conf.js",
     "android.browser": "./node_modules/.bin/wdio ./config/wdio.android.browser.conf.js",
     "ios.app": "./node_modules/.bin/wdio ./config/wdio.ios.app.conf.js",
     "ios.sauce.rdc.app": "./node_modules/.bin/wdio ./config/saucelabs/wdio.ios.rdc.app.conf.js",
+    "ios.browserstack.app": "./node_modules/.bin/wdio ./config/browserstack/wdio.ios.bs.app.conf.js",
     "ios.browser": "./node_modules/.bin/wdio ./config/wdio.ios.browser.conf.js",
     "lint": "eslint config tests"
   },
@@ -39,6 +41,7 @@
     "@babel/traverse": "^7.10.4",
     "@babel/types": "^7.10.4",
     "@wdio/appium-service": "^6.1.16",
+    "@wdio/browserstack-service": "^6.6.7",
     "@wdio/cli": "^6.1.24",
     "@wdio/jasmine-framework": "^6.1.23",
     "@wdio/local-runner": "^6.1.24",
