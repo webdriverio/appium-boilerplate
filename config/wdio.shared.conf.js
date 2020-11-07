@@ -31,8 +31,11 @@ exports.config = {
             // For options see
             // https://github.com/webdriverio/webdriverio/tree/master/packages/wdio-appium-service
                 args: {
-                // For arguments see
-                // https://github.com/webdriverio/webdriverio/tree/master/packages/wdio-appium-service
+                    // Auto download ChromeDriver
+                    relaxedSecurity: true,
+                    // chromedriverAutodownload: true,
+                    // For more arguments see
+                    // https://github.com/webdriverio/webdriverio/tree/master/packages/wdio-appium-service
                 },
                 command: 'appium',
             },
