@@ -40,7 +40,7 @@
     "@babel/register": "^7.10.4",
     "@babel/traverse": "^7.10.4",
     "@babel/types": "^7.10.4",
-    "@wdio/appium-service": "^6.1.16",
+    "@wdio/appium-service": "^7.0.0",
     "@wdio/browserstack-service": "^6.6.7",
     "@wdio/cli": "^6.1.24",
     "@wdio/jasmine-framework": "^6.1.23",
