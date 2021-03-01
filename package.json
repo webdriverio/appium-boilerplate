@@ -57,6 +57,6 @@
     "eslint-plugin-standard": "^5.0.0",
     "eslint-plugin-wdio": "^6.6.0",
     "node-fetch": "^2.6.1",
-    "webdriverio": "^6.7.2"
+    "webdriverio": "^7.0.8"
   }
 }
