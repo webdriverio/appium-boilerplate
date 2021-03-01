@@ -55,7 +55,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^5.0.0",
-    "eslint-plugin-wdio": "^6.6.0",
+    "eslint-plugin-wdio": "^7.0.0",
     "node-fetch": "^2.6.1",
     "webdriverio": "^6.7.2"
   }
