@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "types": [
+            "node",
+            "webdriverio/sync",
+            "@wdio/jasmine-framework",
+            "expect-webdriverio/jasmine"
+        ]
+    },
+    "include": [
+        "./config/**/*.ts",
+        "./tests/**/*.ts"
+    ]
+}

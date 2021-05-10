@@ -2,6 +2,7 @@
 
 > **NOTE:**
 > This boilerplate is for Webdriver V6, if you need a boilerplate for:\
+> - V6 please click [here](https://github.com/webdriverio/appium-boilerplate/tree/v6)
 > - V5 please click [here](https://github.com/webdriverio/appium-boilerplate/tree/v5)
 > - V4 please click [here](https://github.com/webdriverio/appium-boilerplate/tree/v4)
 
@@ -12,17 +13,19 @@ Boilerplate project to run Appium tests together with WebdriverIO for:
 - Android Chrome and iOS Safari browser ([check here](./README.md#automating-chrome-or-safari))
 
 > This boilerplate uses the WebdriverIO native demo app which can be found [here](https://github.com/webdriverio/native-demo-app).
-> The releases can be found and downloaded [here](https://github.com/webdriverio/native-demo-app/releases).
-> Before running tests, please create a `./apps` directory, download the app and move the zip files into that directory
+> The releases can be found and downloaded [here](https://github.com/webdriverio/native-demo-app/releases), this boilerplate works with
+> version `0.4.0` or higher.
+> Before running tests, please create a `./apps` directory, download the apps and move the files into that directory
 
 > **Note:**
-> This boilerplate only handles local execution on 1 em/simulator at a time, not parallel execution. For more info about that Google on setting up a grid with Appium.
+> This boilerplate only handles local execution on 1 em/simulator at a time, not parallel execution. For more info about that Google on
+> setting up a grid with Appium.
 
 ![webdriverio-demo-app-ios.ios](./docs/assets/appium-tests.gif)
 
 ## Based on
 This boilerplate is currently based on:
-- **WebdriverIO:** `6.##.#`
+- **WebdriverIO:** `7.##.#`
 - **Appium:** `1.15.#`
 
 
@@ -30,7 +33,8 @@ This boilerplate is currently based on:
 See [Installing Appium on a local machine](./docs/APPIUM.md)
 
 ## Setting up Android and iOS on a local machine
-To setup your local machine to use an Android emulator and an iOS simulator see [Setting up Android and iOS on a local machine](./docs/ANDROID_IOS_SETUP.md)
+To setup your local machine to use an Android emulator and an iOS simulator see
+[Setting up Android and iOS on a local machine](./docs/ANDROID_IOS_SETUP.md)
 
 ## Quick start
 Choose one of the following options:
@@ -46,29 +50,16 @@ Choose one of the following options:
 5. Run the tests for iOS with `npm run ios.app` and for Android with `npm run android.app`
 
 ## Config
-This boilerplate uses a specific config for iOS and Android, see [configs](./config/) and are based on `wdio.shared.conf.js`.
-This shared config holds all the defaults so the iOS and Android configs only need to hold the capabilities and specs that are needed for running on iOS and or Android (app or browser).
+This boilerplate uses a specific config for iOS and Android, see [configs](./config/) and are based on
+[`wdio.shared.conf.ts`](./config/wdio.shared.conf.ts).
+This shared config holds **all the defaults** so the iOS and Android configs only need to hold the capabilities and specs that are needed
+for running on iOS and or Android (app or browser).
 
-Since we do not have Appium installed as part of this package, this has been configured to use the global Appium installation. This is configured in wdio.shared.conf.js
-```
-    // ====================
-    // Appium Configuration
-    // ====================
-    services: [
-        [
-            'appium',
-            {
-            // For options see
-            // https://github.com/webdriverio/webdriverio/tree/master/packages/wdio-appium-service
-                args: {
-                // For arguments see
-                // https://github.com/webdriverio/webdriverio/tree/master/packages/wdio-appium-service
-                },
-                command: 'appium',
-            },
-        ],
-    ],
-```
+Please check the [`wdio.shared.conf.ts`](./config/wdio.shared.conf.ts)-file for the minimal configuration options. Notes are added for why
+a different value has been selected in comparison to the default values WebdriverIO provides.
+
+Since we do not have Appium installed as part of this package we are going to use the globally installed version of Appium. This is
+configured in [`wdio.shared.local.appium.conf.ts`](./config/wdio.shared.local.appium.conf.ts).
 
 ## Locator strategy for native apps
 The locator strategy for this boilerplate is to use `accessibilityID`'s, see also the [WebdriverIO docs](http://webdriver.io/guide/usage/selectors.html#Accessibility-ID) or this newsletter on [AppiumPro](https://appiumpro.com/editions/20).
@@ -86,7 +77,7 @@ const SELECTORS = {
 
 ## Automating Chrome or Safari
 Mobile web automation is almost the same as writing tests for desktop browsers. The only difference can be found in the configuration that needs to be used.
-Click [here](./config/wdio.ios.browser.conf.js) to find the config for iOS Safari and [here](./config/wdio.android.browser.conf.js) for Android Chrome.
+Click [here](config/wdio.ios.browser.conf.ts) to find the config for iOS Safari and [here](config/wdio.android.browser.conf.ts) for Android Chrome.
 For Android be sure that the lastest version of Chrome is installed, see also [here](./docs/FAQ.md#i-get-the-error-no-chromedriver-found-that-can-automate-chrome-).
 
 For this boilerplate the testcases from the [jasmine-boilerplate](https://github.com/webdriverio/jasmine-boilerplate), created by [Christian Bromann](https://github.com/christian-bromann), are used.

@@ -55,7 +55,7 @@ If the npm install was successful you should be able to run this command `appium
 ```bash
 ➜  appium -v
 1.9.0
-➜ 
+➜
 ```
 
 > Always make sure to check the Appium site if there is a new version. New Appium version are released mostly when Android/iOS release new versions.
@@ -89,10 +89,10 @@ And the following settings for iOS (also check [here](../config/wdio.ios.app.con
 
 ```js
 {
-  "app": "/Users/wswebcreation/git/appium-boilerplate/apps/iOS-NativeDemoApp-0.2.0.zip",
   "platformName": "iOS",
-  "deviceName": "iPhone 6",
-  "platformVersion": "11.1",
-  "noReset": true
+  "appium:app": "/Users/wswebcreation/git/appium-boilerplate/apps/iOS-NativeDemoApp-0.2.0.zip",
+  "appium:deviceName": "iPhone 6",
+  "appium:platformVersion": "11.1",
+  "appium:noReset": true
 }
 ```

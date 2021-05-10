@@ -1,10 +1,10 @@
-const { config } = require('./wdio.shared.conf');
+const { config:sharedAppiumAndroidConfig }:{config: WebdriverIO.Config} = require('./wdio.shared.local.appium.conf');
 
 // ============
 // Specs
 // ============
-config.specs = [
-    './tests/specs/**/browser*.spec.js',
+sharedAppiumAndroidConfig.specs = [
+    './tests/specs/**/browser*.spec.ts',
 ];
 
 // ============
@@ -12,7 +12,7 @@ config.specs = [
 // ============
 // For all capabilities please check
 // http://appium.io/docs/en/writing-running-appium/caps/#general-capabilities
-config.capabilities = [
+sharedAppiumAndroidConfig.capabilities = [
     {
         // The defaults you need to have in your config
         platformName: 'Android',
@@ -21,19 +21,11 @@ config.capabilities = [
         // For W3C the appium capabilities need to have an extension prefix
         // http://appium.io/docs/en/writing-running-appium/caps/
         // This is `appium:` for all Appium Capabilities which can be found here
-        'appium:deviceName': 'Pixel_8.1',
-        'appium:platformVersion': '8.1',
+        'appium:deviceName': 'Pixel_3_10.0',
+        'appium:platformVersion': '10.0',
         'appium:orientation': 'PORTRAIT',
-        // `automationName` will be mandatory, see
-        // https://github.com/appium/appium/releases/tag/v1.13.0
-        'appium:automationName': 'UiAutomator2',
         'appium:newCommandTimeout': 240,
-        'goog:chromeOptions': {
-            w3c: true,
-            // Add this option to prevent the annoying "Welcome"-message
-            args: ['--no-first-run'],
-        },
     },
 ];
 
-exports.config = config;
+exports.config = sharedAppiumAndroidConfig;
