@@ -26,13 +26,13 @@ Boilerplate project to run Appium tests together with WebdriverIO for:
 ## Based on
 This boilerplate is currently based on:
 - **WebdriverIO:** `7.##.#`
-- **Appium:** `1.15.#`
+- **Appium:** `1.20.#`
 
-
-## Installing Appium on a local machine
+## Prerequisites
+### Installing Appium on a local machine
 See [Installing Appium on a local machine](./docs/APPIUM.md)
 
-## Setting up Android and iOS on a local machine
+### Setting up Android and iOS on a local machine
 To setup your local machine to use an Android emulator and an iOS simulator see
 [Setting up Android and iOS on a local machine](./docs/ANDROID_IOS_SETUP.md)
 
@@ -47,10 +47,16 @@ Choose one of the following options:
 
 4. merge the scripts to your `package.json` scripts
 
-5. Run the tests for iOS with `npm run ios.app` and for Android with `npm run android.app`
+5. Run the tests for:
+   - **App:**
+       - Android with `npm run android.app`
+       - iOS with `npm run ios.app`
+   - **Browser:**
+       - Android with `npm run android.browser`
+       - iOS with `npm run ios.browser`
 
-## Config
-This boilerplate uses a specific config for iOS and Android, see [configs](./config/) and are based on
+## Configuration files
+This boilerplate uses a specific config for iOS and Android, see [configs](./config/). The configs are based on a shared config
 [`wdio.shared.conf.ts`](./config/wdio.shared.conf.ts).
 This shared config holds **all the defaults** so the iOS and Android configs only need to hold the capabilities and specs that are needed
 for running on iOS and or Android (app or browser).
@@ -62,10 +68,13 @@ Since we do not have Appium installed as part of this package we are going to us
 configured in [`wdio.shared.local.appium.conf.ts`](./config/wdio.shared.local.appium.conf.ts).
 
 ## Locator strategy for native apps
-The locator strategy for this boilerplate is to use `accessibilityID`'s, see also the [WebdriverIO docs](http://webdriver.io/guide/usage/selectors.html#Accessibility-ID) or this newsletter on [AppiumPro](https://appiumpro.com/editions/20).
+The locator strategy for this boilerplate is to use `accessibilityID`'s, see also the
+[WebdriverIO docs](https://webdriver.io/docs/selectors#accessibility-id) or this newsletter on
+[AppiumPro](https://appiumpro.com/editions/20).
 `accessibilityID`'s make it easy to script once and run on iOS and Android because most of the apps already have some `accessibilityID`'s.
 
-If `accessibilityID`'s can't be used and for example only XPATH is only available then the following setup could be used to make cross-platform selectors
+If `accessibilityID`'s can't be used, and for example only XPATH is available, then the following setup could be used to make cross-platform
+selectors
 
 ```js
 const SELECTORS = {
@@ -75,21 +84,45 @@ const SELECTORS = {
 };
 ```
 
-## Automating Chrome or Safari
-Mobile web automation is almost the same as writing tests for desktop browsers. The only difference can be found in the configuration that needs to be used.
-Click [here](config/wdio.ios.browser.conf.ts) to find the config for iOS Safari and [here](config/wdio.android.browser.conf.ts) for Android Chrome.
-For Android be sure that the lastest version of Chrome is installed, see also [here](./docs/FAQ.md#i-get-the-error-no-chromedriver-found-that-can-automate-chrome-).
+## Native App Tests
+### Navigation
+There are 2 types of navigation tests that explained in this boilerplate.
 
-For this boilerplate the testcases from the [jasmine-boilerplate](https://github.com/webdriverio/jasmine-boilerplate), created by [Christian Bromann](https://github.com/christian-bromann), are used.
+1. [Tab Bar](./tests/specs/app.tab.bar.navigation.spec.ts)
+1. [Deep Links](./tests/specs/app.deep.link.navigation.spec.ts)
+
+The most interesting test here will be the [Deep Links](./tests/specs/app.deep.link.navigation.spec.ts) because this might speed up your own
+tests if your app supports Deep Links. Check the code and the `openDeepLinkUrl()` method in the [`Utils.ts`](./tests/helpers/Utils.ts)-file
+to see how this works.
+
+> **PRO TIP:** If you are automating iOS apps and you can use Deep Links, then you might want to try adding the capability
+> `autoAcceptAlerts:true` when you start the iOS device. This capability will automatically accept all alerts, also the alert that will
+> appear when you want to open your deep link in Safari.
+>
+> If you ware going to use this capability, then don't forget to remove the last few lines in the
+> [`openDeepLinkUrl()`](./tests/helpers/Utils.ts)-method, see the comments in the method
+
+## Automating Chrome or Safari
+Mobile web automation is almost the same as writing tests for desktop browsers. The only difference can be found in the configuration that
+needs to be used. Click [here](config/wdio.ios.browser.conf.ts) to find the config for iOS Safari and
+[here](config/wdio.android.browser.conf.ts) for Android Chrome.
+For Android be sure that the latest version of Chrome is installed, see also
+[here](./docs/FAQ.md#i-get-the-error-no-chromedriver-found-that-can-automate-chrome-). Our
+[`wdio.shared.local.appium.conf.ts`](./config/wdio.shared.local.appium.conf.ts) uses the `relaxedSecurity: true` argument from Appium which
+will allow Appium to automatically download the latest ChromeDriver.
+
+For this boilerplate the testcases from the [jasmine-boilerplate](https://github.com/webdriverio/jasmine-boilerplate), created by
+[Christian Bromann](https://github.com/christian-bromann), are used.
 
 ## Cloud vendors
-
 ### Sauce Labs Real Device Cloud
-This boilerplate now also provides a setup for testing with the Real Device Cloud (RDC) of Sauce Labs. Please check the [SauceLabs](./config/saucelabs)-folder to see the setup for iOS and Android.
+This boilerplate now also provides a setup for testing with the Real Device Cloud (RDC) of Sauce Labs. Please check the
+[SauceLabs](./config/saucelabs)-folder to see the setup for iOS and Android.
 
 > With the latest version of WebdriverIO (`5.4.13` and higher) the iOS and Android config holds:
-> - automatic US or EU RDC cloud selection by providing a `region` in the config, see the [iOS](./config/saucelabs/wdio.ios.rdc.app.conf.js) and the [Android](./config/saucelabs/wdio.ios.rdc.app.conf.js) configs
-> - automatic update of the teststatus in the RDC cloud without using a customer script
+> - automatic US or EU RDC cloud selection by providing a `region` in the config, see the
+> [iOS](./config/saucelabs/wdio.ios.rdc.app.conf.js) and the [Android](./config/saucelabs/wdio.ios.rdc.app.conf.js) configs
+> - automatic update of the test status in the RDC cloud without using a custom script
 
 Make sure you install the latest version of the `@wdio/sauce-service` with
 
@@ -109,8 +142,8 @@ There are 2 scripts that can be used, see the [`package.json`](./package.json), 
     $ npm run android.sauce.rdc.app
 
 ### BrowserStack
-
-This boilerplate provides a setup for testing with BrowserStack. Please check the [BrowserStack](./config/browserstack)-folder to see the setup for iOS and Android.
+This boilerplate provides a setup for testing with BrowserStack. Please check the [BrowserStack](./config/browserstack)-folder to see the
+setup for iOS and Android.
 
 Make sure you install the latest version of the `@wdio/browserstack-service` with
 

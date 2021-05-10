@@ -1,4 +1,4 @@
-import AppScreen from './app.screen';
+import AppScreen from './AppScreen';
 import NativeAlert from '../helpers/NativeAlert';
 
 const SELECTORS = {
@@ -17,31 +17,31 @@ class LoginScreen extends AppScreen {
         super(SELECTORS.LOGIN_SCREEN);
     }
 
-    get loginContainerButon () {
+    get loginContainerButton ():WebdriverIO.Element {
         return $(SELECTORS.LOGIN_CONTAINER_BUTTON);
     }
 
-    get signUpContainerButon () {
+    get signUpContainerButon ():WebdriverIO.Element {
         return $(SELECTORS.SIGN_UP_CONTAINER_BUTTON);
     }
 
-    get loginButton () {
+    get loginButton ():WebdriverIO.Element {
         return $(SELECTORS.LOGIN_BUTTON);
     }
 
-    get signUpButton () {
+    get signUpButton ():WebdriverIO.Element {
         return $(SELECTORS.SIGN_UP_BUTTON);
     }
 
-    get email () {
+    get email ():WebdriverIO.Element {
         return $(SELECTORS.INPUT);
     }
 
-    get password () {
+    get password ():WebdriverIO.Element {
         return $(SELECTORS.PASSWORD);
     }
 
-    get repeatPassword () {
+    get repeatPassword ():WebdriverIO.Element {
         return $(SELECTORS.REPEAT_PASSWORD);
     }
 

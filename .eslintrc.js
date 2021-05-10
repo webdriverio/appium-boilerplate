@@ -11,8 +11,18 @@ module.exports = {
     },
     globals: {
         describe: true,
+        xdescribe: true,
+        fdescribe: true,
         it: true,
+        xit: true,
+        fit: true,
         expect: true,
+        $: true,
+        $$: true,
+        driver: true,
+        beforeEach: true,
+        browser: true,
+        document: true,
     },
     parserOptions: {
         ecmaVersion: 2017,

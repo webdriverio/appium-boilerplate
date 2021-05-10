@@ -1,6 +1,5 @@
 import Gestures from '../../helpers/Gestures';
-import { DEFAULT_TIMEOUT } from '../../constants';
-import { getTextOfElement } from '../../helpers/utils';
+import { getTextOfElement } from '../../helpers/Utils';
 
 const SELECTORS = {
     CAROUSEL: '~Carousel',
@@ -15,9 +14,8 @@ class Carousel extends Gestures {
      *
      * @param {boolean} isShown
      */
-    waitForIsDisplayed (isShown = true) {
+    waitForIsDisplayed (isShown = true): void {
         $(SELECTORS.CAROUSEL).waitForDisplayed({
-            timeout: DEFAULT_TIMEOUT,
             reverse: !isShown,
         });
     }
@@ -39,15 +37,14 @@ class Carousel extends Gestures {
      *                 like for example 'active'
      * @param {string} partialText
      */
-    verifyNthCardContainsText (nthCard, partialText) {
+    verifyNthCardContainsText (nthCard:string, partialText:string):boolean|void {
         this.waitForIsDisplayed();
 
         const cards = $$(SELECTORS.CARD);
         driver.waitUntil(
             () => cards.length > 0,
             {
-                timeout: DEFAULT_TIMEOUT,
-                timeoutMsg: `Expected to have more than 0 cards withing ${DEFAULT_TIMEOUT} milliseconds`,
+                timeoutMsg: 'Expected to have more than 0 cards',
             },
         );
 
@@ -71,7 +68,7 @@ class Carousel extends Gestures {
     /**
      * Swipe the carousel to the LEFT (from right to left)
      */
-    swipeLeft () {
+    swipeLeft ():void {
         const carouselRectangles = this.getCarouselRectangles();
         const y = Math.round((carouselRectangles.y + carouselRectangles.height) / 2);
         Gestures.swipe(
@@ -83,7 +80,7 @@ class Carousel extends Gestures {
     /**
      * Swipe the carousel to the RIGHT (from left to right)
      */
-    swipeRight () {
+    swipeRight ():void {
         const carouselRectangles = this.getCarouselRectangles();
         const y = Math.round((carouselRectangles.y + carouselRectangles.height) / 2);
         Gestures.swipe(
@@ -94,25 +91,8 @@ class Carousel extends Gestures {
 
     /**
      * Get the carousel position and size
-     *
-     * @return
-     *  x: number,
-     *  y: number,
-     *  width: number,
-     *  height: number,
-     *
-     * @example
-     *
-     * <pre>
-     *   const result = {
-     *      x: 0,
-     *      y: 297,
-     *      width: 375,
-     *      height: 395
-     *    };
-     * </pre>
      */
-    getCarouselRectangles () {
+    getCarouselRectangles (): { x:number; y:number; width: number; height:number } {
         CAROUSEL_RECTANGLES = CAROUSEL_RECTANGLES || driver.getElementRect($(SELECTORS.CAROUSEL).elementId);
         return CAROUSEL_RECTANGLES;
     }

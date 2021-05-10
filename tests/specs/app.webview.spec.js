@@ -1,6 +1,6 @@
-import TabBar from '../screenobjects/components/tab.bar';
-import WebViewScreen from '../screenobjects/webview.screen';
-import SwipeScreen from '../screenobjects/swipe.screen';
+import TabBar from '../screenobjects/components/TabBar';
+import WebViewScreen from '../screenobjects/WebviewScreen';
+import SwipeScreen from '../screenobjects/SwipeScreen';
 import { CONTEXT_REF } from '../helpers/WebView';
 
 describe('WebdriverIO and Appium, when interacting with a WebView,', () => {

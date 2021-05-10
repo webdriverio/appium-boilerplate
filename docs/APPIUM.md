@@ -71,20 +71,20 @@ This tool is mainly used to view the UI-hierarchy and locate elements to be sure
 
 See the [readme](https://github.com/appium/appium-desktop) about how to use the Appium Desktop.
 
-When Appium Destkop is started make sure the _Automatic Server_-tab is enabled. Use the following settings for Android (also check [here](../config/wdio.android.app.conf.js))
+When Appium Destkop is started make sure the _Automatic Server_-tab is enabled. Use the following settings for Android (also check [here](../config/wdio.android.app.conf.ts))
 
 ```js
 {
   "app": "/Users/wswebcreation/git/appium-boilerplate/apps/Android-NativeDemoApp-0.2.0.apk",
   "platformName": "Android",
-  "deviceName": "config/wdio.android.app.conf.js",
+  "deviceName": "Pixel XL",
   "platformVersion": "7.1.1",
   "noReset": true,
   "automationName": "UiAutomator2"
 }
 ```
 
-And the following settings for iOS (also check [here](../config/wdio.ios.app.conf.js))
+And the following settings for iOS (also check [here](../config/wdio.ios.app.conf.ts))
 
 
 ```js

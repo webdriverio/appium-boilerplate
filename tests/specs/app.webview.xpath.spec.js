@@ -1,6 +1,6 @@
-import TabBar from '../screenobjects/components/tab.bar';
-import WebViewScreen from '../screenobjects/webview.screen';
-import { timeDifference } from '../helpers/utils';
+import TabBar from '../screenobjects/components/TabBar';
+import WebViewScreen from '../screenobjects/WebviewScreen';
+import { timeDifference } from '../helpers/Utils';
 
 describe('WebdriverIO and Appium', () => {
     let start;

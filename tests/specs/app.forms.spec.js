@@ -1,7 +1,7 @@
 import Gestures from '../helpers/Gestures';
-import TabBar from '../screenobjects/components/tab.bar';
-import FormScreen from '../screenobjects/forms.screen';
-import LoginScreen from '../screenobjects/login.screen';
+import TabBar from '../screenobjects/components/TabBar';
+import FormScreen from '../screenobjects/FormsScreen';
+import LoginScreen from '../screenobjects/LoginScreen';
 
 describe('WebdriverIO and Appium, interacting with form elements,', () => {
     beforeEach(() => {

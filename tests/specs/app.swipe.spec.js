@@ -1,5 +1,5 @@
-import TabBar from '../screenobjects/components/tab.bar';
-import SwipeScreen from '../screenobjects/swipe.screen';
+import TabBar from '../screenobjects/components/TabBar';
+import SwipeScreen from '../screenobjects/SwipeScreen';
 
 describe('WebdriverIO and Appium', () => {
     beforeEach(() => {

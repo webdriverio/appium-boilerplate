@@ -1,4 +1,4 @@
-import AppScreen from './app.screen';
+import AppScreen from './AppScreen';
 
 const SELECTORS = {
     HOME_SCREEN: '~Home-screen'

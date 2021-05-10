@@ -1,13 +1,14 @@
-import TabBar from '../screenobjects/components/tab.bar';
-import WebViewScreen from '../screenobjects/webview.screen';
-import LoginScreen from '../screenobjects/login.screen';
-import FormsScreen from '../screenobjects/forms.screen';
-import SwipeScreen from '../screenobjects/swipe.screen';
-import HomeScreen from '../screenobjects/home.screen';
+import TabBar from '../screenobjects/components/TabBar';
+import WebViewScreen from '../screenobjects/WebviewScreen';
+import LoginScreen from '../screenobjects/LoginScreen';
+import FormsScreen from '../screenobjects/FormsScreen';
+import SwipeScreen from '../screenobjects/SwipeScreen';
+import HomeScreen from '../screenobjects/HomeScreen';
+import DragScreen from '../screenobjects/DragScreen';
 
-describe('WebdriverIO and Appium', () => {
+describe('Navigation with the tab bar', () => {
     beforeEach(() => {
-        TabBar.waitForTabBarShown(true);
+        TabBar.waitForTabBarShown();
     });
 
     it('should be able to open the webview', () => {
@@ -28,6 +29,11 @@ describe('WebdriverIO and Appium', () => {
     it('should be able to open the swipe screen', () => {
         TabBar.openSwipe();
         SwipeScreen.waitForIsShown(true);
+    });
+
+    it('should be able to open the drag and drop screen', () => {
+        TabBar.openDrag();
+        DragScreen.waitForIsShown(true);
     });
 
     it('should be able to open the home screen', () => {

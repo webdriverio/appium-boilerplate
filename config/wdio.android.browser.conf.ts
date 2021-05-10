@@ -1,9 +1,10 @@
-const { config:sharedAppiumAndroidConfig }:{config: WebdriverIO.Config} = require('./wdio.shared.local.appium.conf');
+// @ts-ignore
+const { config }:{config: WebdriverIO.Config} = require('./wdio.shared.local.appium.conf');
 
 // ============
 // Specs
 // ============
-sharedAppiumAndroidConfig.specs = [
+config.specs = [
     './tests/specs/**/browser*.spec.ts',
 ];
 
@@ -12,7 +13,7 @@ sharedAppiumAndroidConfig.specs = [
 // ============
 // For all capabilities please check
 // http://appium.io/docs/en/writing-running-appium/caps/#general-capabilities
-sharedAppiumAndroidConfig.capabilities = [
+config.capabilities = [
     {
         // The defaults you need to have in your config
         platformName: 'Android',
@@ -28,4 +29,4 @@ sharedAppiumAndroidConfig.capabilities = [
     },
 ];
 
-exports.config = sharedAppiumAndroidConfig;
+exports.config = config;

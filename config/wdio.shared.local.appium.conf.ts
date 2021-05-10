@@ -1,11 +1,12 @@
-const { config:sharedConfig }:{config: WebdriverIO.Config} = require('./wdio.shared.conf');
+// @ts-ignore
+const { config }:{config: WebdriverIO.Config} = require('./wdio.shared.conf');
 
 //
 // ======
 // Appium
 // ======
 //
-sharedConfig.services = sharedConfig.services.concat([
+config.services = config.services.concat([
     [
         'appium',
         {
@@ -25,6 +26,6 @@ sharedConfig.services = sharedConfig.services.concat([
 // Server Configurations
 // =====================
 //
-sharedConfig.port = 4723;
+config.port = 4723;
 
-exports.config = sharedConfig;
+exports.config = config;

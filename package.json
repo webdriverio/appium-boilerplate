@@ -5,9 +5,9 @@
   "scripts": {
     "android.browserstack.app": "./node_modules/.bin/wdio ./config/browserstack/wdio.android.bs.app.conf.js",
     "android.sauce.rdc.app": "./node_modules/.bin/wdio ./config/saucelabs/wdio.android.rdc.app.conf.js",
-    "android.app": "./node_modules/.bin/wdio ./config/wdio.android.app.conf.js",
+    "android.app": "./node_modules/.bin/wdio config/wdio.android.app.conf.ts",
     "android.browser": "./node_modules/.bin/wdio config/wdio.android.browser.conf.ts",
-    "ios.app": "./node_modules/.bin/wdio ./config/wdio.ios.app.conf.js",
+    "ios.app": "./node_modules/.bin/wdio config/wdio.ios.app.conf.ts",
     "ios.sauce.rdc.app": "./node_modules/.bin/wdio ./config/saucelabs/wdio.ios.rdc.app.conf.js",
     "ios.browserstack.app": "./node_modules/.bin/wdio ./config/browserstack/wdio.ios.bs.app.conf.js",
     "ios.browser": "wdio config/wdio.ios.browser.conf.ts",

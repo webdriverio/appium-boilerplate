@@ -1,7 +1,7 @@
 import NativeAlert from '../helpers/NativeAlert';
 import Picker from '../helpers/Picker';
-import { getTextOfElement } from '../helpers/utils';
-import AppScreen from './app.screen';
+import { getTextOfElement } from '../helpers/Utils';
+import AppScreen from './AppScreen';
 
 const SELECTORS = {
     FORMS_SCREEN: '~Forms-screen',
@@ -19,60 +19,56 @@ class FormsScreen extends AppScreen {
         super(SELECTORS.FORMS_SCREEN);
     }
 
-    get input () {
+    get input ():WebdriverIO.Element {
         return $(SELECTORS.INPUT);
     }
 
-    get inputTextResult () {
+    get inputTextResult ():WebdriverIO.Element {
         return $(SELECTORS.INPUT_TEXT);
     }
 
-    get switch () {
+    get switch ():WebdriverIO.Element {
         return $(SELECTORS.SWITCH);
     }
 
-    get switchText () {
+    get switchText ():WebdriverIO.Element {
         return $(SELECTORS.SWITCH_TEXT);
     }
 
     /**
      * Return if the switch is active or not active for iOS / Android
      * For Android the switch is `ON|OFF`, for iOS '1|0'
-     *
-     * @return {boolean}
      */
-    isSwitchActive () {
+    isSwitchActive ():boolean {
         const active = driver.isAndroid ? 'ON' : '1';
 
         return this.switch.getText() === active;
     }
 
-    get dropDown () {
+    get dropDown ():WebdriverIO.Element {
         return $(SELECTORS.DROP_DOWN);
     }
 
     /**
      * Get the text of the drop down component
-     *
-     * @return {string}
      */
-    getDropDownText () {
+    getDropDownText ():string {
         return getTextOfElement($(SELECTORS.DROP_DOWN));
     }
 
-    get picker () {
+    get picker ():Picker {
         return Picker;
     }
 
-    get activeButton () {
+    get activeButton ():WebdriverIO.Element {
         return $(SELECTORS.ACTIVE_BUTTON);
     }
 
-    get inActiveButton () {
+    get inActiveButton ():WebdriverIO.Element {
         return $(SELECTORS.IN_ACTIVE_BUTTON);
     }
 
-    get alert () {
+    get alert ():NativeAlert {
         return NativeAlert;
     }
 }

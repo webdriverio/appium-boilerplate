@@ -9,10 +9,8 @@ const SELECTORS = {
 class WebViewScreen extends WebView {
     /**
      * Wait for the screen to be displayed based on Xpath
-     *
-     * @param {boolean} isShown
      */
-    waitForWebViewIsDisplayedByXpath (isShown = true) {
+    waitForWebViewIsDisplayedByXpath (isShown = true): boolean|void {
         $(SELECTORS.WEB_VIEW_SCREEN).waitForDisplayed({
             timeout: 20000,
             reverse: !isShown,

@@ -1,9 +1,10 @@
-const { config:sharedAppiumIOSConfig }:{config: WebdriverIO.Config} = require('./wdio.shared.local.appium.conf');
+// @ts-ignore
+const { config }:{config: WebdriverIO.Config} = require('./wdio.shared.local.appium.conf');
 
 // ============
 // Specs
 // ============
-sharedAppiumIOSConfig.specs = [
+config.specs = [
     './tests/specs/**/browser*.spec.ts',
 ];
 
@@ -12,7 +13,7 @@ sharedAppiumIOSConfig.specs = [
 // ============
 // For all capabilities please check
 // http://appium.io/docs/en/writing-running-appium/caps/#general-capabilities
-sharedAppiumIOSConfig.capabilities = [
+config.capabilities = [
     {
         // The defaults you need to have in your config
         browserName: 'safari',
@@ -29,4 +30,4 @@ sharedAppiumIOSConfig.capabilities = [
     },
 ];
 
-exports.config = sharedAppiumIOSConfig;
+exports.config = config;

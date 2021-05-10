@@ -1,5 +1,5 @@
-import TabBar from '../screenobjects/components/tab.bar';
-import LoginScreen from '../screenobjects/login.screen';
+import TabBar from '../screenobjects/components/TabBar';
+import LoginScreen from '../screenobjects/LoginScreen';
 
 describe('WebdriverIO and Appium, when interacting with a login form,', () => {
     beforeEach(() => {
@@ -9,7 +9,7 @@ describe('WebdriverIO and Appium, when interacting with a login form,', () => {
     });
 
     it('should be able login successfully', () => {
-        LoginScreen.loginContainerButon.click();
+        LoginScreen.loginContainerButton.click();
         LoginScreen.email.setValue('test@webdriver.io');
         LoginScreen.password.setValue('Test1234!');
 
