@@ -10,14 +10,21 @@ Check the following sites for more information about WebdriverIO/Appium
 The following helpers can be found [here](../tests/helpers/)
 
 - Gestures (static methods)
-- Native alerts (static methods)
-- Picker (static methods)
 - Webview
 
-These helpers can be used to easily automate certain actions with native apps without reinventing the wheel again. Just copy them in your project and use them.
+There are also two components objects that can be useful:
+
+- Native alerts (static methods)
+- Picker (static methods)
+
+and can be found [here](./tests/screenobjects/components/).
+
+These helpers and component objects can be used to easily automate certain actions with native apps without reinventing the wheel again.
+Just copy them in your project and use them.
 
 ## Is it wise to use XPATH?
-The advise is to prevent using XPATH unless there is no other option. XPATH is a brittle locator strategy and will take some time to find elements on a page.
+The advice is to prevent using XPATH unless there is no other option. XPATH is a brittle locator strategy and will take some time to find
+elements on a page.
 More info about that can be found in the [Appium Pro News letters](https://appiumpro.com):
 - [Making Your Appium Tests Fast and Reliable, Part 2: Finding Elements](https://appiumpro.com/editions/20)
 - [How to Find Elements in iOS (Not) By XPath](https://appiumpro.com/editions/8)

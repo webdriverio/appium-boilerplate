@@ -11,10 +11,14 @@ const SELECTORS = {
 
 class NativeAlert {
     /**
-     * Wait for the alert to exist
+     * Wait for the alert to exist.
+     *
+     * The selector for Android differs from iOS
      */
     static waitForIsShown (isShown = true):void {
-        const selector = driver.isAndroid ? SELECTORS.ANDROID.ALERT_TITLE : SELECTORS.IOS.ALERT;
+        const selector = driver.isAndroid
+            ? SELECTORS.ANDROID.ALERT_TITLE
+            : SELECTORS.IOS.ALERT;
         $(selector).waitForExist({
             timeout: 11000,
             reverse: !isShown,
@@ -40,6 +44,12 @@ class NativeAlert {
 
     /**
      * Get the alert text
+     *
+     * iOS:
+     *  The default Appium method can be used to get the text of the alert
+     * Android:
+     *  The UI hierarchy for Android is different so it will not give the same result as with
+     *  iOS if `getText` is being used. Here we construct a method that would give the same output.
      */
     static text ():string {
         if (driver.isIOS) {

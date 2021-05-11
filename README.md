@@ -85,6 +85,17 @@ const SELECTORS = {
 ```
 
 ## Native App Tests
+### Form components
+The Forms-tab holds some components that might be a challenge during automation:
+
+- Input fields
+- Switches
+- Dropdowns / Pickers
+- Native alerts
+
+The tests and used page objects hopefully explain what you need to do to make this work and can be found
+[here](./tests/specs/app.forms.spec.ts).
+
 ### Navigation
 There are 2 types of navigation tests that explained in this boilerplate.
 

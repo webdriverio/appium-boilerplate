@@ -28,6 +28,8 @@ export function getTextOfElement (element: WebdriverIO.Element, isXpath = false)
             }
         }
     } catch (e) {
+        // If nothing works then we have a fallback that will just get the text from the provided
+        // element. This could not be the correct value, but better a value then completely nothing.
         visualText = element.getText();
     }
 

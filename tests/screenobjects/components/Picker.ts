@@ -1,16 +1,16 @@
 const SELECTORS = {
     ANDROID_LISTVIEW: '//android.widget.ListView',
     IOS_PICKERWHEEL: '-ios predicate string:type == \'XCUIElementTypePickerWheel\'',
-    DONE: '~header-Dropdown',
+    DONE: '~done_button',
 };
 
 class Picker {
     /**
      * Wait for the picker to be shown
-     *
-     * @param {boolean} isShown
      */
     static waitForIsShown (isShown = true): void {
+        // iOS and Android have different elements we need to interact with
+        // we determine the selector here
         const selector = driver.isIOS ? SELECTORS.IOS_PICKERWHEEL : SELECTORS.ANDROID_LISTVIEW;
         $(selector).waitForExist({
             timeout: 11000,
@@ -22,12 +22,15 @@ class Picker {
      * Select a value from the picker
      */
     static selectValue (value:string):void {
+        // Wait for the picker to be shown
         this.waitForIsShown(true);
+        // There is a differnce between setting the value for iOS and Android
         if (driver.isIOS) {
-            this.setIosValue(value);
+            this.setIOSValue(value);
         } else {
             this.setAndroidValue(value);
         }
+        // Wait for the picker to be gone
         this.waitForIsShown(false);
     }
 
@@ -35,13 +38,14 @@ class Picker {
      * Set the value for Android
      */
     private static setAndroidValue (value:string):void {
+        // For Android we can click on a value, if it's in the list, based on the text
         $(`${SELECTORS.ANDROID_LISTVIEW}/*[@text='${value}']`).click();
     }
 
     /**
      * Set the value for IOS
      */
-    private static setIosValue (value: string): void {
+    private static setIOSValue (value: string): void {
         $(SELECTORS.IOS_PICKERWHEEL).addValue(value);
         $(SELECTORS.DONE).click();
     }

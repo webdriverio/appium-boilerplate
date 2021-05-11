@@ -1,5 +1,5 @@
 import AppScreen from './AppScreen';
-import NativeAlert from '../helpers/NativeAlert';
+import NativeAlert from './components/NativeAlert';
 
 const SELECTORS = {
     LOGIN_SCREEN: '~Login-screen',
