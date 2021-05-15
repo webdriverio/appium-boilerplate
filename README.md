@@ -113,6 +113,37 @@ to see how this works.
 > If you ware going to use this capability, then don't forget to remove the last few lines in the
 > [`openDeepLinkUrl()`](./tests/helpers/Utils.ts)-method, see the comments in the method
 
+### WebViews
+The app has a WebView that will automatically load the WebdriverIO documentation page. This boilerplate holds 2 test files:
+
+1. [Interact within a WebView with CSS Selectors](./tests/specs/app.webview.spec.ts).
+   *You will also find a test that interacts between a WebView and the Native part of the app.*
+1. [Automate a WebView based on Native Selectors](./tests/specs/app.webview.xpath.spec.ts). This test will compare the execution time of:
+
+    - automating the WebView by **NOT** switching to the WebView (by using native selectors).
+    - automating the WebView by **SWITCHING** to the WebView.
+
+   Check the console for load time differences. An example time could look like this
+   ```log
+    // Android
+    [0-0] RUNNING in Android - /tests/specs/app.webview.xpath.spec.ts
+    [0-0] Test time for using XPATH It took 0.799 seconds.
+    [0-0] Test time for switching to the WebView It took 0.238 seconds.
+    [0-0] PASSED in Android - /tests/specs/app.webview.xpath.spec.ts
+
+    // iOS
+    [0-0] RUNNING in iOS - /tests/specs/app.webview.xpath.spec.ts
+    [0-0] Test time for using XPATH It took 3.125 seconds.
+    [0-0] Test time for switching to the WebView It took 1.443 seconds.
+    [0-0] PASSED in iOS - /tests/specs/app.webview.xpath.spec.ts
+   ```
+
+You will also find a [WebView](./tests/helpers/WebView.ts)-helper with hopefully useful methods that can help you automate a Hybrid App.
+Keep in the back of your mind that for *simplicity* of the Demo app only one WebView is used. This is also used in the WebView-helper.
+
+More information about **Automating Hybrid Applications with Appium** and more complex WebViews can be found in
+[this webinar](https://youtu.be/_mPCRxplBfo) recording.
+
 ## Automating Chrome or Safari
 Mobile web automation is almost the same as writing tests for desktop browsers. The only difference can be found in the configuration that
 needs to be used. Click [here](config/wdio.ios.browser.conf.ts) to find the config for iOS Safari and

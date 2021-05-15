@@ -30,7 +30,9 @@ class WebView {
                 return currentContexts.length > 1 &&
                     currentContexts.find(context => context.toLowerCase().includes(CONTEXT_REF.WEBVIEW)) !== 'undefined';
             }, {
-                timeout: 10000,
+                // Wait a max of 45 seconds. Reason for this high amount is that loading
+                // a webview for iOS might take longer
+                timeout: 45000,
                 timeoutMsg: 'Webview context not loaded',
                 interval: 100,
             },
@@ -41,7 +43,9 @@ class WebView {
      * Switch to native or webview context
      */
     switchToContext (context:string):void {
-        driver.switchContext(this.getCurrentContexts()[context === CONTEXT_REF.WEBVIEW ? 1 : 0]);
+        // The first context will always be the NATIVE_APP,
+        // the second one will always be the WebdriverIO web page
+        driver.switchContext(this.getCurrentContexts()[context === CONTEXT_REF.NATIVE ? 0 : 1]);
     }
 
     /**
@@ -56,6 +60,10 @@ class WebView {
      */
     waitForDocumentFullyLoaded ():void {
         driver.waitUntil(
+            // A webpage can have multiple states, the ready state is the one we need to have.
+            // This looks like the same implementation as for the w3c implementation for `browser.url('https://webdriver.io')`
+            // That command also waits for the readiness of the page, see also the w3c specs
+            // https://www.w3.org/TR/webdriver/#dfn-waiting-for-the-navigation-to-complete
             () => driver.execute(() => document.readyState) === DOCUMENT_READY_STATE.COMPLETE,
             {
                 timeout: 15000,

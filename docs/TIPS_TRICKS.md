@@ -30,7 +30,8 @@ More info about that can be found in the [Appium Pro News letters](https://appiu
 - [How to Find Elements in iOS (Not) By XPath](https://appiumpro.com/editions/8)
 
 ### Example
-A testcase can be found [here](../tests/specs/app.webview.xpath.spec.js) that illustrates the difference between finding a webview by XPATH and in a different way.
+A testcase can be found [here](../tests/specs/app.webview.xpath.spec.ts) that illustrates the difference between finding a webview by XPATH
+and in a different way.
 Checking if the WebView is loaded including the webpage can be done in **4 seconds** with this piece of JS
 
 #### XPATH logs (17 seconds)

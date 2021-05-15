@@ -39,9 +39,9 @@ export function getTextOfElement (element: WebdriverIO.Element, isXpath = false)
 /**
  * Get the time difference in seconds
  */
-export function timeDifference (start:number, end:number):void {
+export function timeDifference (string: string, start:number, end:number):void {
     const elapsed = (end - start) / 1000;
-    console.log('elapsed = ', elapsed, ' seconds');
+    console.log(`${string} It took ${elapsed} seconds.`);
 }
 
 /**

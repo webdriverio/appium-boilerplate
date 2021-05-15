@@ -3,10 +3,11 @@ import WebViewScreen from '../screenobjects/WebviewScreen';
 import { timeDifference } from '../helpers/Utils';
 
 describe('WebdriverIO and Appium', () => {
-    let start;
+    let start:number;
+
     beforeEach(() => {
         browser.reset();
-        TabBar.waitForTabBarShown(true);
+        TabBar.waitForTabBarShown();
         TabBar.openWebView();
         start = Date.now();
     });
@@ -19,15 +20,15 @@ describe('WebdriverIO and Appium', () => {
      * THIS IS JUST ONE EXAMPLE IN THE DIFFERENCE BETWEEN USING
      * XPATH OR A DIFFERENT LOCATOR STRATEGY
      */
-    it('should be able to go to the webview by xpath', () => {
+    it('should be able to verify that the WebView is shown by xpath', () => {
         WebViewScreen.waitForWebViewIsDisplayedByXpath();
         const end = Date.now();
-        timeDifference(start, end);
+        timeDifference('Test time for using XPATH', start, end);
     });
 
-    it('should be able to go to the webview faster', () => {
+    it('should be able to verify that the WebView is shown by switching to the WebView', () => {
         WebViewScreen.waitForWebViewContextLoaded();
         const end = Date.now();
-        timeDifference(start, end);
+        timeDifference('Test time for switching to the WebView', start, end);
     });
 });
