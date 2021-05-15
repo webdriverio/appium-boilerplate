@@ -67,7 +67,7 @@ describe('WebdriverIO and Appium, interacting with form elements,', () => {
     });
 
     it('should be able to open the alert and close it with all 3 buttons', () => {
-        Gestures.checkIfDisplayedWithScrollDown(FormScreen.activeButton, 2);
+        Gestures.checkIfDisplayedWithSwipeUp(FormScreen.activeButton, 2);
         FormScreen.activeButton.click();
         NativeAlert.waitForIsShown(true);
         expect(NativeAlert.text()).toEqual('This button is\nThis button is active');
@@ -94,7 +94,7 @@ describe('WebdriverIO and Appium, interacting with form elements,', () => {
     it('should be able to determine that the inactive button is inactive', () => {
         // Depending on the size of the screen we might need to scroll. This methods determines if it's visible,
         // if not, it will automatically scroll to find it. This will be done two times.
-        Gestures.checkIfDisplayedWithScrollDown(FormScreen.inActiveButton, 2);
+        Gestures.checkIfDisplayedWithSwipeUp(FormScreen.inActiveButton, 2);
         // In this case the button can't be asked if it is active or not with
         // `expect(FormScreen.inActiveButton.isEnabled()).toEqual(false);`
         // So use a click and check if shown, make sure the alert is not there

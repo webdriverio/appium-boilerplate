@@ -1,8 +1,8 @@
 import AppScreen from './AppScreen';
-import Carousel from './components/Carousel';
 
 const SELECTORS = {
-    SWIPE_SCREEN: '~Swipe-screen'
+    SWIPE_SCREEN: '~Swipe-screen',
+    LOGO: '~WebdriverIO logo',
 };
 
 class SwipeScreen extends AppScreen {
@@ -10,8 +10,8 @@ class SwipeScreen extends AppScreen {
         super(SELECTORS.SWIPE_SCREEN);
     }
 
-    get carousel ():typeof Carousel {
-        return Carousel;
+    get logo ():WebdriverIO.Element {
+        return $(SELECTORS.LOGO);
     }
 }
 

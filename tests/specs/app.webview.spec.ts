@@ -78,10 +78,10 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
         WebViewScreen.switchToContext(CONTEXT_REF.NATIVE);
         TabBar.openSwipe();
         SwipeScreen.waitForIsShown();
-        expect(SwipeScreen.carousel.verifyNthCardContainsText('first', 'Fully Open Source'));
+        expect(SwipeScreen.carousel.getNthCardText('first')).toContain('FULLY OPEN SOURCE');
 
         SwipeScreen.carousel.swipeLeft();
-        expect(SwipeScreen.carousel.verifyNthCardContainsText('active', 'Creat community'));
+        expect(SwipeScreen.carousel.getNthCardText('active')).toContain('GREAT COMMUNITY');
 
         // Now go back to the webview. It will automatically open in the previous state
         TabBar.openWebView();

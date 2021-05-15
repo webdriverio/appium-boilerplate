@@ -113,6 +113,21 @@ to see how this works.
 > If you ware going to use this capability, then don't forget to remove the last few lines in the
 > [`openDeepLinkUrl()`](./tests/helpers/Utils.ts)-method, see the comments in the method
 
+### Swiping
+Swiping is basically a movement with your finger on the screen that has a starting position on the screen, an x-, and y-coordinate and an
+end position, also an x-, and y-coordinate. The starting position can be seen as the first time you touch the screen, the initial *press*.
+The end position can be seen as the time you release the screen. If you translate this to steps you will get:
+
+1. Press your finger on the screen on starting position
+1. Move your finger to the end position
+1. Release your finger when you are on the end position
+
+The [Swipe](./tests/specs/app.swipe.spec.ts)-test will be an example on how to do that. It uses a
+[Gesture](./tests/helpers/Gestures.ts)-helper that might be useful for you in the future.
+
+If you want to know more about Gestures and how to automate them, then we would advise you to watch
+[this webinar "Automating Mobile Gestures with Appium"](https://youtu.be/SDfxD8aGZRE).
+
 ### WebViews
 The app has a WebView that will automatically load the WebdriverIO documentation page. This boilerplate holds 2 test files:
 

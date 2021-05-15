@@ -1,6 +1,19 @@
 import { RectReturn } from '@wdio/protocols/build/types';
 
+/**
+ * To make a Gesture methods more robust for multiple devices and also
+ * multiple screen sizes the advice is to work with percentages instead of
+ * actual coordinates. The percentages will calculate the position on the
+ * screen based on the SCREEN_SIZE which will be determined once if needed
+ * multiple times.
+ */
+
 let SCREEN_SIZE:RectReturn;
+interface XY {
+    x:number;
+    y:number;
+}
+
 /**
  * The values in the below object are percentages of the screen
  */
@@ -25,16 +38,21 @@ const SWIPE_DIRECTION = {
 
 class Gestures {
     /**
-     * Check if an element is visible and if not scroll down a portion of the screen to
-     * check if it visible after a x amount of scrolls
+     * Check if an element is visible and if not wipe up a portion of the screen to
+     * check if it visible after x amount of scrolls
      */
-    static checkIfDisplayedWithScrollDown (element:WebdriverIO.Element, maxScrolls:number, amount = 0):void {
-        if ((!element.isExisting() || !element.isDisplayed()) && amount <= maxScrolls) {
+    static checkIfDisplayedWithSwipeUp (element:WebdriverIO.Element, maxScrolls:number, amount = 0):void | Error {
+        // If the element is not displayed and we haven't scrolled the max amount of scrolls
+        // then scroll and execute the method again
+        if (!element.isDisplayed() && amount <= maxScrolls) {
             this.swipeUp(0.85);
-            this.checkIfDisplayedWithScrollDown(element, maxScrolls, amount + 1);
+            this.checkIfDisplayedWithSwipeUp(element, maxScrolls, amount + 1);
         } else if (amount > maxScrolls) {
+            // If the element is still not visible after the max amount of scroll let it fail
             throw new Error(`The element '${element}' could not be found or is not visible.`);
         }
+
+        // The element was found, proceed with the next action
     }
 
     /**
@@ -81,10 +99,15 @@ class Gestures {
      * Swipe from coordinates (from) to the new coordinates (to). The given coordinates are
      * percentages of the screen.
      */
-    static swipeOnPercentage (from: {x:number; y:number;}, to: {x:number; y:number;}):void {
+    static swipeOnPercentage (from: XY, to: XY):void {
+        // Get the screen size and store it so it can be re-used.
+        // This will save a lot of webdriver calls if this methods is used multiple times.
         SCREEN_SIZE = SCREEN_SIZE || driver.getWindowRect();
+        // Get the start position on the screen for the swipe
         const pressOptions = this.getDeviceScreenCoordinates(SCREEN_SIZE, from);
+        // Get the move to position on the screen for the swipe
         const moveToScreenCoordinates = this.getDeviceScreenCoordinates(SCREEN_SIZE, to);
+
         this.swipe(
             pressOptions,
             moveToScreenCoordinates,
@@ -94,7 +117,7 @@ class Gestures {
     /**
      * Swipe from coordinates (from) to the new coordinates (to). The given coordinates are in pixels.
      */
-    static swipe (from: {x:number; y:number;}, to: {x:number; y:number;}):void {
+    static swipe (from: XY, to: XY):void {
         driver.touchPerform([{
             action: 'press',
             options: from,
@@ -107,13 +130,14 @@ class Gestures {
         }, {
             action: 'release',
         }]);
+        // Add a pause, just to make sure the swipe is done
         driver.pause(1000);
     }
 
     /**
-     * Get the screen coordinates based on a device his screensize
+     * Get the screen coordinates based on a device his screen size
      */
-    private static getDeviceScreenCoordinates (screenSize:RectReturn, coordinates: {x:number; y:number}) {
+    private static getDeviceScreenCoordinates (screenSize:RectReturn, coordinates: XY) {
         return {
             x: Math.round(screenSize.width * (coordinates.x / 100)),
             y: Math.round(screenSize.height * (coordinates.y / 100)),
@@ -123,7 +147,7 @@ class Gestures {
     /**
      * Calculate the x y coordinates based on a percentage
      */
-    private static calculateXY ({ x, y }:{x:number;y:number;}, percentage:number):{x:number;y:number;} {
+    private static calculateXY ({ x, y }:XY, percentage:number):XY {
         return {
             x: x * percentage,
             y: y * percentage,
