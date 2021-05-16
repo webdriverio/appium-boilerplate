@@ -118,18 +118,27 @@ class Gestures {
      * Swipe from coordinates (from) to the new coordinates (to). The given coordinates are in pixels.
      */
     static swipe (from: XY, to: XY):void {
-        driver.touchPerform([{
-            action: 'press',
-            options: from,
-        }, {
-            action: 'wait',
-            options: { ms: 1000 },
-        }, {
-            action: 'moveTo',
-            options: to,
-        }, {
-            action: 'release',
-        }]);
+        driver.touchPerform([
+            // Press the 'finger' on the first location
+            {
+                action: 'press',
+                options: from,
+            },
+            // This will be the swipe time
+            {
+                action: 'wait',
+                options: { ms: 1000 },
+            },
+            // Move the finger to the second position where we want to release it
+            {
+                action: 'moveTo',
+                options: to,
+            },
+            // Release it
+            {
+                action: 'release',
+            },
+        ]);
         // Add a pause, just to make sure the swipe is done
         driver.pause(1000);
     }

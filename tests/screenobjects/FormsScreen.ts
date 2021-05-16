@@ -1,48 +1,17 @@
 import AppScreen from './AppScreen';
 
-const SELECTORS = {
-    FORMS_SCREEN: '~Forms-screen',
-    INPUT: '~text-input',
-    INPUT_TEXT: '~input-text-result',
-    SWITCH: '~switch',
-    SWITCH_TEXT: '~switch-text',
-    DROP_DOWN: '~Dropdown',
-    ACTIVE_BUTTON: '~button-Active',
-    IN_ACTIVE_BUTTON: '~button-Inactive',
-};
-
 class FormsScreen extends AppScreen {
     constructor () {
-        super(SELECTORS.FORMS_SCREEN);
+        super('~Forms-screen');
     }
 
-    get input ():WebdriverIO.Element {
-        return $(SELECTORS.INPUT);
-    }
-
-    get inputTextResult ():WebdriverIO.Element {
-        return $(SELECTORS.INPUT_TEXT);
-    }
-
-    get switch ():WebdriverIO.Element {
-        return $(SELECTORS.SWITCH);
-    }
-
-    get switchText ():WebdriverIO.Element {
-        return $(SELECTORS.SWITCH_TEXT);
-    }
-
-    get dropDown ():WebdriverIO.Element {
-        return $(SELECTORS.DROP_DOWN);
-    }
-
-    get activeButton ():WebdriverIO.Element {
-        return $(SELECTORS.ACTIVE_BUTTON);
-    }
-
-    get inActiveButton ():WebdriverIO.Element {
-        return $(SELECTORS.IN_ACTIVE_BUTTON);
-    }
+    get input ():WebdriverIO.Element {return $('~text-input');}
+    get inputTextResult ():WebdriverIO.Element {return $('~input-text-result');}
+    get switch ():WebdriverIO.Element {return $('~switch');}
+    get switchText ():WebdriverIO.Element {return $('~switch-text');}
+    get dropDown ():WebdriverIO.Element {return $('~Dropdown');}
+    get activeButton ():WebdriverIO.Element {return $('~button-Active');}
+    get inActiveButton ():WebdriverIO.Element {return $('~button-Inactive');}
 
     /**
      * Return if the switch is active or not active for iOS / Android

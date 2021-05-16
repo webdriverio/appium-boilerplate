@@ -85,6 +85,20 @@ const SELECTORS = {
 ```
 
 ## Native App Tests
+### Drag And Drop
+Drag and Drop an element can be a complex gesture to automate with Appium. The demo app has a simple puzzle that hopefully makes it easier
+and fun to understand how to implement a drag and drop in WebdriverIO. The test can be found [here](./tests/specs/app.drag.and.drop.spec.ts)
+and the drag and drop implementation can be found in [this](./tests/screenobjects/DragScreen.ts)-file. This file will hold two ways of
+executing a drag and drop through:
+
+- [`touchPerform`](https://webdriver.io/docs/api/mjsonwp/#touchperform)
+- [`touchAction`](https://webdriver.io/docs/api/browser/touchAction/)
+
+The `touchPerform` is the *old* JSONWP way of implementing a gesture. It's *easier* to understand and less verbose.
+
+The `touchAction` is the new official W3C implementation of a gesture. The downside of this method is that it's more verbose and a little
+but more complex in comparison to `touchPerform`. Both methods are explained in the code.
+
 ### Form components
 The Forms-tab holds some components that might be a challenge during automation:
 

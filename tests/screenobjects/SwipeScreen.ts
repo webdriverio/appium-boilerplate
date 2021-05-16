@@ -1,18 +1,11 @@
 import AppScreen from './AppScreen';
 
-const SELECTORS = {
-    SWIPE_SCREEN: '~Swipe-screen',
-    LOGO: '~WebdriverIO logo',
-};
-
 class SwipeScreen extends AppScreen {
     constructor () {
-        super(SELECTORS.SWIPE_SCREEN);
+        super('~Swipe-screen');
     }
 
-    get logo ():WebdriverIO.Element {
-        return $(SELECTORS.LOGO);
-    }
+    get logo ():WebdriverIO.Element {return $('~WebdriverIO logo');}
 }
 
 export default new SwipeScreen();
