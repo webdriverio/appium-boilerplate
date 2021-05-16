@@ -7,7 +7,7 @@ const { config }:{config: WebdriverIO.Config} = require('./wdio.shared.local.app
 // Specs
 // ============
 config.specs = [
-    './tests/specs/**/app*.spec.js',
+    './tests/specs/**/app*.spec.ts',
 ];
 
 // ============

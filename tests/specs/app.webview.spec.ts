@@ -2,6 +2,7 @@ import TabBar from '../screenobjects/components/TabBar';
 import WebViewScreen from '../screenobjects/WebviewScreen';
 import SwipeScreen from '../screenobjects/SwipeScreen';
 import { CONTEXT_REF } from '../helpers/WebView';
+import Carousel from '../screenobjects/components/Carousel';
 
 describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
     beforeEach(() => {
@@ -78,10 +79,10 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
         WebViewScreen.switchToContext(CONTEXT_REF.NATIVE);
         TabBar.openSwipe();
         SwipeScreen.waitForIsShown();
-        expect(SwipeScreen.carousel.getNthCardText('first')).toContain('FULLY OPEN SOURCE');
+        expect(Carousel.getNthCardText('first')).toContain('FULLY OPEN SOURCE');
 
-        SwipeScreen.carousel.swipeLeft();
-        expect(SwipeScreen.carousel.getNthCardText('active')).toContain('GREAT COMMUNITY');
+        Carousel.swipeLeft();
+        expect(Carousel.getNthCardText('active')).toContain('GREAT COMMUNITY');
 
         // Now go back to the webview. It will automatically open in the previous state
         TabBar.openWebView();

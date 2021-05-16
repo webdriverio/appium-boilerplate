@@ -85,6 +85,16 @@ const SELECTORS = {
 ```
 
 ## Native App Tests
+All tests can be executed on te devices as configured in [`wdio.android.app.conf.ts`](./config/wdio.android.app.conf.ts) or
+[`wdio.ios.app.conf.ts`](./config/wdio.ios.app.conf.ts). Please check the below tests on what they do or on how to run them separately.
+
+        // For Android local execution
+        npm run android.app
+
+        // For iOS local execution
+        npm run ios.app
+
+
 ### Drag And Drop
 Drag and Drop an element can be a complex gesture to automate with Appium. The demo app has a simple puzzle that hopefully makes it easier
 and fun to understand how to implement a drag and drop in WebdriverIO. The test can be found [here](./tests/specs/app.drag.and.drop.spec.ts)
@@ -99,6 +109,14 @@ The `touchPerform` is the *old* JSONWP way of implementing a gesture. It's *easi
 The `touchAction` is the new official W3C implementation of a gesture. The downside of this method is that it's more verbose and a little
 but more complex in comparison to `touchPerform`. Both methods are explained in the code.
 
+You can run the single test with the following commands
+
+        // For Android local execution
+        npm run android.app -- --spec=tests/specs/app.drag.and.drop.spec.ts
+
+        // For iOS local execution
+        npm run ios.app -- --spec=tests/specs/app.drag.and.drop.spec.ts
+
 ### Form components
 The Forms-tab holds some components that might be a challenge during automation:
 
@@ -109,6 +127,38 @@ The Forms-tab holds some components that might be a challenge during automation:
 
 The tests and used page objects hopefully explain what you need to do to make this work and can be found
 [here](./tests/specs/app.forms.spec.ts).
+
+You can run the single test with the following commands
+
+        // For Android local execution
+        npm run android.app -- --spec=tests/specs/app.forms.spec.ts
+
+        // For iOS local execution
+        npm run ios.app -- --spec=tests/specs/app.forms.spec.ts
+
+### Login with Biometric support
+The Login screen holds a simple implementation of a Login and SignUp form. This boilerplate holds 2 different test-files for the Login
+screen.
+
+- [Default Login/Sign Up](./tests/specs/app.login.spec.ts)
+- [Login through Touch-/FaceID or FingerPrint (Biometric Support)](./tests/specs/app.biometric.login.spec.ts)
+
+The last one can be very interesting because it will give you an idea what you need to do when you need to log in with Touch-/FaceID or
+FingerPrint. The [`app.biometric.login.spec.ts`](./tests/specs/app.biometric.login.spec.ts) will also enable Touch-/FaceID if needed
+automatically for you for **Android Emulators** or **iOS Simulators**. It covers almost all platform versions.
+
+> **NOTE:** The methods rely on the fact that the Android Emulator or iOS Simulator have English as the default language. If you have set up
+> your test devices with a different language you might need to change certain selectors and or texts for the selectors.
+
+You can run the single test with the following commands
+
+        // For Android local execution
+        npm run android.app -- --spec=tests/specs/app.login.spec.ts
+        npm run android.app -- --spec=tests/specs/app.biometric.login.spec.ts
+
+        // For iOS local execution
+        npm run ios.app -- --spec=tests/specs/app.login.spec.ts
+        npm run ios.app -- --spec=tests/specs/app.biometric.login.spec.ts
 
 ### Navigation
 There are 2 types of navigation tests that explained in this boilerplate.
@@ -127,6 +177,16 @@ to see how this works.
 > If you ware going to use this capability, then don't forget to remove the last few lines in the
 > [`openDeepLinkUrl()`](./tests/helpers/Utils.ts)-method, see the comments in the method
 
+You can run the single test with the following commands
+
+        // For Android local execution
+        npm run android.app -- --spec=tests/specs/app.tab.bar.navigation.spec.ts
+        npm run android.app -- --spec=tests/specs/app.deep.link.navigation.spec.ts
+
+        // For iOS local execution
+        npm run ios.app -- --spec=tests/specs/app.tab.bar.navigation.spec.ts
+        npm run ios.app -- --spec=tests/specs/app.deep.link.navigation.spec.ts
+
 ### Swiping
 Swiping is basically a movement with your finger on the screen that has a starting position on the screen, an x-, and y-coordinate and an
 end position, also an x-, and y-coordinate. The starting position can be seen as the first time you touch the screen, the initial *press*.
@@ -141,6 +201,14 @@ The [Swipe](./tests/specs/app.swipe.spec.ts)-test will be an example on how to d
 
 If you want to know more about Gestures and how to automate them, then we would advise you to watch
 [this webinar "Automating Mobile Gestures with Appium"](https://youtu.be/SDfxD8aGZRE).
+
+You can run the single test with the following commands
+
+        // For Android local execution
+        npm run android.app -- --spec=tests/specs/app.swipe.spec.ts
+
+        // For iOS local execution
+        npm run ios.app -- --spec=tests/specs/app.swipe.spec.ts
 
 ### WebViews
 The app has a WebView that will automatically load the WebdriverIO documentation page. This boilerplate holds 2 test files:
@@ -172,6 +240,16 @@ Keep in the back of your mind that for *simplicity* of the Demo app only one Web
 
 More information about **Automating Hybrid Applications with Appium** and more complex WebViews can be found in
 [this webinar](https://youtu.be/_mPCRxplBfo) recording.
+
+You can run the single test with the following commands
+
+        // For Android local execution
+        npm run android.app -- --spec=tests/specs/app.webview.spec.ts
+        npm run android.app -- --spec=tests/specs/app.webview.xpath.spec.ts
+
+        // For iOS local execution
+        npm run ios.app -- --spec=tests/specs/app.webview.spec.ts
+        npm run ios.app -- --spec=tests/specs/app.webview.xpath.spec.ts
 
 ## Automating Chrome or Safari
 Mobile web automation is almost the same as writing tests for desktop browsers. The only difference can be found in the configuration that

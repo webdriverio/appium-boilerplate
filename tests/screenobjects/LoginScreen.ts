@@ -1,5 +1,4 @@
 import AppScreen from './AppScreen';
-import NativeAlert from './components/NativeAlert';
 
 class LoginScreen extends AppScreen {
     constructor () {
@@ -7,13 +6,56 @@ class LoginScreen extends AppScreen {
     }
 
     get loginContainerButton ():WebdriverIO.Element {return $('~button-login-container');}
-    get signUpContainerButon ():WebdriverIO.Element {return $('~button-sign-up-container');}
+    get signUpContainerButton ():WebdriverIO.Element {return $('~button-sign-up-container');}
     get loginButton ():WebdriverIO.Element {return $('~button-LOGIN');}
     get signUpButton ():WebdriverIO.Element {return $('~button-SIGN UP');}
     get email ():WebdriverIO.Element {return $('~input-email');}
     get password ():WebdriverIO.Element {return $('~input-password');}
     get repeatPassword ():WebdriverIO.Element {return $('~input-repeat-password');}
-    get alert () {return NativeAlert;}
+    get biometricButton ():WebdriverIO.Element {return $('~button-biometric');}
+
+    submitLoginForm({ username, password }:{username:string; password:string;}):void {
+        this.email.setValue(username);
+        this.password.setValue(password);
+
+        if (driver.isKeyboardShown()) {
+            /**
+             * Normally we would hide the keyboard with this command `driver.hideKeyboard()`, but there is an issue for hiding the keyboard
+             * on iOS when using the command. You will get an error like below
+             *
+             *  Request failed with status 400 due to Error Domain=com.facebook.WebDriverAgent Code=1 "The keyboard on iPhone cannot be
+             *  dismissed because of a known XCTest issue. Try to dismiss it in the way supported by your application under test."
+             *  UserInfo={NSLocalizedDescription=The keyboard on iPhone cannot be dismissed because of a known XCTest issue. Try to dismiss
+             *  it in the way supported by your application under test.}
+             *
+             * That's why we click outside of the keyboard.
+             */
+            $('~Login-screen').click();
+        }
+        this.loginButton.click();
+    }
+
+    submitSignUpForm({ username, password }:{username:string; password:string;}):void {
+        this.email.setValue(username);
+        this.password.setValue(password);
+        this.repeatPassword.setValue(password);
+
+        if (driver.isKeyboardShown()) {
+            /**
+             * Normally we would hide the keyboard with this command `driver.hideKeyboard()`, but there is an issue for hiding the keyboard
+             * on iOS when using the command. You will get an error like below
+             *
+             *  Request failed with status 400 due to Error Domain=com.facebook.WebDriverAgent Code=1 "The keyboard on iPhone cannot be
+             *  dismissed because of a known XCTest issue. Try to dismiss it in the way supported by your application under test."
+             *  UserInfo={NSLocalizedDescription=The keyboard on iPhone cannot be dismissed because of a known XCTest issue. Try to dismiss
+             *  it in the way supported by your application under test.}
+             *
+             * That's why we click outside of the keyboard.
+             */
+            $('~Login-screen').click();
+        }
+        this.signUpButton.click();
+    }
 }
 
 export default new LoginScreen();
