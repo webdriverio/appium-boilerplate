@@ -1,26 +1,17 @@
 module.exports = {
     root: true,
     parser: '@typescript-eslint/parser',
-    plugins: [ '@typescript-eslint' ],
+    plugins: ['@typescript-eslint', 'wdio'],
     extends: [
         'eslint:recommended',
+        'plugin:wdio/recommended',
     ],
     env: {
         node: true,
         es6: true,
+        jasmine: true,
     },
     globals: {
-        describe: true,
-        xdescribe: true,
-        fdescribe: true,
-        it: true,
-        xit: true,
-        fit: true,
-        expect: true,
-        $: true,
-        $$: true,
-        driver: true,
-        beforeEach: true,
         browser: true,
         document: true,
     },
@@ -29,8 +20,8 @@ module.exports = {
         sourceType: 'module',
     },
     rules: {
-        semi: [ 'error', 'always' ],
-        indent: [ 2, 4 ],
+        semi: ['error', 'always'],
+        indent: [2, 4],
 
         'no-multiple-empty-lines': [ 2, { 'max': 1, 'maxEOF': 1 } ],
         'array-bracket-spacing': [ 'error', 'never' ],

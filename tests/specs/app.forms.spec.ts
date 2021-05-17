@@ -38,7 +38,7 @@ describe('WebdriverIO and Appium, when interacting with form elements,', () => {
         }
     });
 
-    fit('should be able turn on and off the switch', () => {
+    it('should be able turn on and off the switch', () => {
         expect(FormScreen.isSwitchActive()).toEqual(false);
 
         FormScreen.switch.click();

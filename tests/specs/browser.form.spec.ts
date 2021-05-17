@@ -1,6 +1,6 @@
 import FormPage from '../pageobjects/form.page';
 
-fdescribe('auth form', () => {
+describe('auth form', () => {
     it('should deny access with wrong creds',  () => {
         FormPage.open();
         FormPage.login({ username:'foo', password: 'bar!' });

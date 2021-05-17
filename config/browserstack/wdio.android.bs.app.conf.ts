@@ -1,5 +1,4 @@
-// @ts-ignore
-const { config }:{config: WebdriverIO.Config} = require('../wdio.shared.conf');
+import { config } from '../wdio.shared.conf';
 
 // ============
 // Specs
