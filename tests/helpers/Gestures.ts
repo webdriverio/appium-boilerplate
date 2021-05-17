@@ -58,7 +58,7 @@ class Gestures {
     /**
      * Swipe down based on a percentage
      */
-    static swipeDown (percentage = 1):void {
+    static swipeDown (percentage = 1) {
         this.swipeOnPercentage(
             this.calculateXY(SWIPE_DIRECTION.down.start, percentage),
             this.calculateXY(SWIPE_DIRECTION.down.end, percentage),
@@ -68,7 +68,7 @@ class Gestures {
     /**
      * Swipe Up based on a percentage
      */
-    static swipeUp (percentage = 1):void {
+    static swipeUp (percentage = 1) {
         this.swipeOnPercentage(
             this.calculateXY(SWIPE_DIRECTION.up.start, percentage),
             this.calculateXY(SWIPE_DIRECTION.up.end, percentage),
@@ -78,7 +78,7 @@ class Gestures {
     /**
      * Swipe left based on a percentage
      */
-    static swipeLeft (percentage = 1):void {
+    static swipeLeft (percentage = 1) {
         this.swipeOnPercentage(
             this.calculateXY(SWIPE_DIRECTION.left.start, percentage),
             this.calculateXY(SWIPE_DIRECTION.left.end, percentage),
@@ -88,7 +88,7 @@ class Gestures {
     /**
      * Swipe right based on a percentage
      */
-    static swipeRight (percentage = 1):void {
+    static swipeRight (percentage = 1) {
         this.swipeOnPercentage(
             this.calculateXY(SWIPE_DIRECTION.right.start, percentage),
             this.calculateXY(SWIPE_DIRECTION.right.end, percentage),
@@ -99,7 +99,7 @@ class Gestures {
      * Swipe from coordinates (from) to the new coordinates (to). The given coordinates are
      * percentages of the screen.
      */
-    static swipeOnPercentage (from: XY, to: XY):void {
+    static swipeOnPercentage (from: XY, to: XY) {
         // Get the screen size and store it so it can be re-used.
         // This will save a lot of webdriver calls if this methods is used multiple times.
         SCREEN_SIZE = SCREEN_SIZE || driver.getWindowRect();
@@ -117,7 +117,7 @@ class Gestures {
     /**
      * Swipe from coordinates (from) to the new coordinates (to). The given coordinates are in pixels.
      */
-    static swipe (from: XY, to: XY):void {
+    static swipe (from: XY, to: XY) {
         driver.touchPerform([
             // Press the 'finger' on the first location
             {

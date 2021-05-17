@@ -22,7 +22,7 @@ class WebView {
      * The string behind `WEBVIEW` will the package name of the app that holds
      * the webview
      */
-    waitForWebViewContextLoaded ():void {
+    waitForWebViewContextLoaded () {
         driver.waitUntil(
             () => {
                 const currentContexts = this.getCurrentContexts();
@@ -42,7 +42,7 @@ class WebView {
     /**
      * Switch to native or webview context
      */
-    switchToContext (context:string):void {
+    switchToContext (context:string) {
         // The first context will always be the NATIVE_APP,
         // the second one will always be the WebdriverIO web page
         driver.switchContext(this.getCurrentContexts()[context === CONTEXT_REF.NATIVE ? 0 : 1]);
@@ -58,7 +58,7 @@ class WebView {
     /**
      * Wait for the document to be fully loaded
      */
-    waitForDocumentFullyLoaded ():void {
+    waitForDocumentFullyLoaded () {
         driver.waitUntil(
             // A webpage can have multiple states, the ready state is the one we need to have.
             // This looks like the same implementation as for the w3c implementation for `browser.url('https://webdriver.io')`

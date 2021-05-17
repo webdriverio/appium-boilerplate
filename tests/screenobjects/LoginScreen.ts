@@ -15,7 +15,7 @@ class LoginScreen extends AppScreen {
     get repeatPassword ():WebdriverIO.Element {return $('~input-repeat-password');}
     get biometricButton ():WebdriverIO.Element {return $('~button-biometric');}
 
-    submitLoginForm({ username, password }:{username:string; password:string;}):void {
+    submitLoginForm({ username, password }:{username:string; password:string;}) {
         this.email.setValue(username);
         this.password.setValue(password);
 
@@ -38,7 +38,7 @@ class LoginScreen extends AppScreen {
         this.loginButton.click();
     }
 
-    submitSignUpForm({ username, password }:{username:string; password:string;}):void {
+    submitSignUpForm({ username, password }:{username:string; password:string;}) {
         this.email.setValue(username);
         this.password.setValue(password);
         this.repeatPassword.setValue(password);

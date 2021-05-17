@@ -94,7 +94,7 @@ describe('WebdriverIO and Appium, when interacting with a biometric button,', ()
 /**
  * Go to the login screen
  */
-function goToLoginPage(): void{
+function goToLoginPage(){
     TabBar.waitForTabBarShown();
     TabBar.openLogin();
     LoginScreen.waitForIsShown(true);

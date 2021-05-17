@@ -1,5 +1,4 @@
-// @ts-ignore
-const { config }:{config: WebdriverIO.Config} = require('./wdio.shared.conf');
+import { config } from './wdio.shared.conf';
 
 //
 // ======
@@ -28,4 +27,4 @@ config.services = (config.services ? config.services : []).concat([
 //
 config.port = 4723;
 
-exports.config = config;
+export default config;

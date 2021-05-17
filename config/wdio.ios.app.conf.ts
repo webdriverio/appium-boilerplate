@@ -1,7 +1,5 @@
-// @ts-ignore
-const { join } = require('path');
-// @ts-ignore
-const { config }:{config: WebdriverIO.Config} = require('./wdio.shared.local.appium.conf');
+import { join } from 'path';
+import config from './wdio.shared.local.appium.conf';
 
 // ============
 // Specs

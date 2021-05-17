@@ -1,25 +1,25 @@
 export default class TabBar {
-    static openHome ():void {
+    static openHome () {
         $('~Home').click();
     }
 
-    static openWebView ():void {
+    static openWebView () {
         $('~Webview').click();
     }
 
-    static openLogin ():void {
+    static openLogin () {
         $('~Login').click();
     }
 
-    static openForms ():void {
+    static openForms () {
         $('~Forms').click();
     }
 
-    static openSwipe ():void {
+    static openSwipe () {
         $('~Swipe').click();
     }
 
-    static openDrag ():void {
+    static openDrag () {
         $('~Drag').click();
     }
 

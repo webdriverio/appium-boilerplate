@@ -29,7 +29,7 @@ class DragScreen extends AppScreen {
     /**
      * Drag an element to a position.
      */
-    dragElementTo(elementOne: WebdriverIO.Element, elementTwo: WebdriverIO.Element):void {
+    dragElementTo(elementOne: WebdriverIO.Element, elementTwo: WebdriverIO.Element) {
         driver.touchPerform([
             // Press the 'finger' on the first element. We provide the elementId here so
             // Appium can automatically determine the location of the element instead

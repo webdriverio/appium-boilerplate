@@ -1,7 +1,7 @@
 /**
  * Get the time difference in seconds
  */
-export function timeDifference (string: string, start:number, end:number):void {
+export function timeDifference (string: string, start:number, end:number) {
     const elapsed = (end - start) / 1000;
     console.log(`${string} It took ${elapsed} seconds.`);
 }
@@ -9,7 +9,7 @@ export function timeDifference (string: string, start:number, end:number):void {
 /**
  * Create a cross platform solution for opening a deep link
  */
-export function openDeepLinkUrl(url:string):void {
+export function openDeepLinkUrl(url:string) {
     const prefix = 'wdio://';
 
     if (driver.isAndroid) {

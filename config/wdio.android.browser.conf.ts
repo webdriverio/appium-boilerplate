@@ -1,5 +1,4 @@
-// @ts-ignore
-const { config }:{config: WebdriverIO.Config} = require('./wdio.shared.local.appium.conf');
+import config from './wdio.shared.local.appium.conf';
 
 // ============
 // Specs

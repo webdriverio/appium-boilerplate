@@ -46,7 +46,7 @@ class Biometrics {
     /**
      * Submit Android biometric login
      */
-    submitAndroidBiometricLogin(fingerprintId:number):void {
+    submitAndroidBiometricLogin(fingerprintId:number) {
         this.androidBiometryAlert.waitForDisplayed();
 
         driver.fingerPrint(fingerprintId);

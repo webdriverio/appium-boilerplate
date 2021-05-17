@@ -14,7 +14,7 @@ class Carousel extends Gestures {
      *
      * @param {boolean} isShown
      */
-    waitForIsDisplayed (isShown = true): void {
+    waitForIsDisplayed (isShown = true) {
         $(SELECTORS.CAROUSEL).waitForDisplayed({
             reverse: !isShown,
         });
@@ -73,7 +73,7 @@ class Carousel extends Gestures {
     /**
      * Swipe the carousel to the LEFT (from right to left)
      */
-    swipeLeft ():void {
+    swipeLeft () {
         // Determine the rectangles of the carousel
         const carouselRectangles = this.getCarouselRectangles();
         // We need to determine the center position of the carousel on the screen. This can be done by taking the
@@ -94,7 +94,7 @@ class Carousel extends Gestures {
     /**
      * Swipe the carousel to the RIGHT (from left to right)
      */
-    swipeRight ():void {
+    swipeRight () {
         // Determine the rectangles of the carousel
         const carouselRectangles = this.getCarouselRectangles();
         // We need to determine the center position of the carousel on the screen. This can be done by taking the

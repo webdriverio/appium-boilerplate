@@ -15,7 +15,7 @@ class NativeAlert {
      *
      * The selector for Android differs from iOS
      */
-    static waitForIsShown (isShown = true):void {
+    static waitForIsShown (isShown = true) {
         const selector = driver.isAndroid
             ? SELECTORS.ANDROID.ALERT_TITLE
             : SELECTORS.IOS.ALERT;
@@ -35,7 +35,7 @@ class NativeAlert {
      *  Use the text of the button, provide a string and it will automatically transform it to uppercase
      *  and click on the button
      */
-    static pressButton (selector: string):void {
+    static pressButton (selector: string) {
         const buttonSelector = driver.isAndroid
             ? SELECTORS.ANDROID.ALERT_BUTTON.replace(/{BUTTON_TEXT}/, selector.toUpperCase())
             : `~${selector}`;

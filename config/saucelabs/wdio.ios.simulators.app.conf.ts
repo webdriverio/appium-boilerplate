@@ -1,6 +1,4 @@
-// @ts-ignore
-const { config }:{config: WebdriverIO.Config} = require('./wdio.shared.sauce.conf');
-// @ts-ignore
+import config from './wdio.shared.sauce.conf';
 const buildName = `WebdriverIO Native Demo app, iOS Simulators: ${new Date().getTime()}`;
 
 // ============

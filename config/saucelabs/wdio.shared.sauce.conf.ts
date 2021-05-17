@@ -1,5 +1,4 @@
-// @ts-ignore
-const { config }:{config: WebdriverIO.Config} = require('../wdio.shared.conf');
+import { config } from '../wdio.shared.conf';
 
 // ========
 // Services
@@ -26,4 +25,4 @@ config.region = process.env.REGION || 'us';
 // Increase for real device support
 config.connectionRetryTimeout = 180000;
 
-exports.config = config;
+export default config;

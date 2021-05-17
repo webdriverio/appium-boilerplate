@@ -35,7 +35,7 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
         $('#docsearch-item-0 a').click();
 
         // Now wait for the header to be displayed and verify that we are on the correct page
-        $('h1.docTitle_Oumm').waitForDisplayed({ timeout: 3000 });
+        $('h1').waitForDisplayed({ timeout: 3000 });
         expect(driver.getTitle()).toEqual('url | WebdriverIO');
 
         /**
@@ -99,7 +99,7 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
         $('#docsearch-item-0 a').click();
 
         // Now wait for the header to be displayed and verify that we are on the correct page
-        $('h1.docTitle_Oumm').waitForDisplayed({ timeout: 3000 });
+        $('h1').waitForDisplayed({ timeout: 3000 });
         expect(driver.getTitle()).toEqual('OCR service for Appium Native Apps Service | WebdriverIO');
     });
 });

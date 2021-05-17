@@ -8,7 +8,7 @@ class Picker {
     /**
      * Wait for the picker to be shown
      */
-    static waitForIsShown (isShown = true): void {
+    static waitForIsShown (isShown = true) {
         // iOS and Android have different elements we need to interact with
         // we determine the selector here
         const selector = driver.isIOS ? SELECTORS.IOS_PICKERWHEEL : SELECTORS.ANDROID_LISTVIEW;
@@ -21,7 +21,7 @@ class Picker {
     /**
      * Select a value from the picker
      */
-    static selectValue (value:string):void {
+    static selectValue (value:string) {
         // Wait for the picker to be shown
         this.waitForIsShown(true);
         // There is a differnce between setting the value for iOS and Android
@@ -37,7 +37,7 @@ class Picker {
     /**
      * Set the value for Android
      */
-    private static setAndroidValue (value:string):void {
+    private static setAndroidValue (value:string) {
         // For Android we can click on a value, if it's in the list, based on the text
         $(`${SELECTORS.ANDROID_LISTVIEW}/*[@text='${value}']`).click();
     }
@@ -45,7 +45,7 @@ class Picker {
     /**
      * Set the value for IOS
      */
-    private static setIOSValue (value: string): void {
+    private static setIOSValue (value: string) {
         $(SELECTORS.IOS_PICKERWHEEL).addValue(value);
         $(SELECTORS.DONE).click();
     }
