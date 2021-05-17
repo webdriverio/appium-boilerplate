@@ -83,11 +83,11 @@ class Carousel extends Gestures {
         // Execute the gesture by providing a starting position and an end position
         Gestures.swipe(
             // Here we start on the right of the carousel. To make sure that we don't touch the outer most right
-            // part of the screen we take 20% of the x-position. The y-position has already been determined.
-            { x: Math.round(carouselRectangles.width - (carouselRectangles.width * 0.20)), y },
+            // part of the screen we take 10% of the x-position. The y-position has already been determined.
+            { x: Math.round(carouselRectangles.width - (carouselRectangles.width * 0.10)), y },
             // Here we end on the left of the carousel. To make sure that we don't touch the outer most left
-            // part of the screen we add 20% to the x-position. The y-position has already been determined.
-            { x: Math.round(carouselRectangles.x + (carouselRectangles.width * 0.20)), y },
+            // part of the screen we add 10% to the x-position. The y-position has already been determined.
+            { x: Math.round(carouselRectangles.x + (carouselRectangles.width * 0.10)), y },
         );
     }
 
@@ -104,11 +104,11 @@ class Carousel extends Gestures {
         // Execute the gesture by providing a starting position and an end position
         Gestures.swipe(
             // Here we start on the left of the carousel. To make sure that we don't touch the outer most left
-            // part of the screen we add 20% to the x-position. The y-position has already been determined.
-            { x: Math.round(carouselRectangles.x + (carouselRectangles.width * 0.20)), y },
+            // part of the screen we add 10% to the x-position. The y-position has already been determined.
+            { x: Math.round(carouselRectangles.x + (carouselRectangles.width * 0.10)), y },
             // Here we end on the right of the carousel. To make sure that we don't touch the outer most right
-            // part of the screen we take 20% of the x-position. The y-position has already been determined.
-            { x: Math.round(carouselRectangles.width - (carouselRectangles.width * 0.20)), y },
+            // part of the screen we take 10% of the x-position. The y-position has already been determined.
+            { x: Math.round(carouselRectangles.width - (carouselRectangles.width * 0.10)), y },
         );
     }
 

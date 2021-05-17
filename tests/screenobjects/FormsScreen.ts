@@ -20,7 +20,7 @@ class FormsScreen extends AppScreen {
     isSwitchActive ():boolean {
         const active = driver.isAndroid ? 'ON' : '1';
 
-        return this.switch.getText() === active;
+        return this.switch.getText().includes(active);
     }
 
     /**

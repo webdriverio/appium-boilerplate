@@ -21,7 +21,6 @@ Boilerplate project to run Appium tests together with WebdriverIO for:
 > This boilerplate only handles local execution on 1 em/simulator at a time, not parallel execution. For more info about that Google on
 > setting up a grid with Appium.
 
-![webdriverio-demo-app-ios.ios](./docs/assets/appium-tests.gif)
 
 ## Based on
 This boilerplate is currently based on:
@@ -36,7 +35,7 @@ See [Installing Appium on a local machine](./docs/APPIUM.md)
 To setup your local machine to use an Android emulator and an iOS simulator see
 [Setting up Android and iOS on a local machine](./docs/ANDROID_IOS_SETUP.md)
 
-## Quick start
+## How to implement in your project
 Choose one of the following options:
 
 1. Clone the git repo — `git clone https://github.com/webdriverio/appium-boilerplate.git`
@@ -45,15 +44,9 @@ Choose one of the following options:
 
 3. Merge project dev dependencies with your projects dev dependencies in your `package.json`
 
-4. merge the scripts to your `package.json` scripts
+4. Merge the scripts to your `package.json` scripts
 
-5. Run the tests for:
-   - **App:**
-       - Android with `npm run android.app`
-       - iOS with `npm run ios.app`
-   - **Browser:**
-       - Android with `npm run android.browser`
-       - iOS with `npm run ios.browser`
+5. Run the tests, see [Native App Tests](#native-app-tests) or [Automating Chrome of Safari](#automating-chrome-or-safari).
 
 ## Configuration files
 This boilerplate uses a specific config for iOS and Android, see [configs](./config/). The configs are based on a shared config
@@ -264,31 +257,73 @@ For this boilerplate the testcases from the [jasmine-boilerplate](https://github
 [Christian Bromann](https://github.com/christian-bromann), are used.
 
 ## Cloud vendors
-### Sauce Labs Real Device Cloud
-This boilerplate now also provides a setup for testing with the Real Device Cloud (RDC) of Sauce Labs. Please check the
-[SauceLabs](./config/saucelabs)-folder to see the setup for iOS and Android.
+### Sauce Labs
+If you want to run the Native App tests on Sauce Labs you need to do 2 things:
 
-> With the latest version of WebdriverIO (`5.4.13` and higher) the iOS and Android config holds:
-> - automatic US or EU RDC cloud selection by providing a `region` in the config, see the
-> [iOS](./config/saucelabs/wdio.ios.rdc.app.conf.js) and the [Android](./config/saucelabs/wdio.ios.rdc.app.conf.js) configs
-> - automatic update of the test status in the RDC cloud without using a custom script
+- Add the [Sauce Service](#add-sauce-service) to your project
+- Upload the apps to the [Sauce Labs Storage](#upload-apps-to-sauce-storage)
 
+When the above has been executed you can follow the steps in:
+
+- [Run app tests on the Sauce Labs Real Device Cloud](#run-app-tests-on-the-sauce-labs-real-device-cloud)
+- [Run app tests on the Sauce Labs Emulators and Simulators](#run-app-tests-on-the-sauce-labs-emulators-and-simulators)
+
+#### Add Sauce Service
 Make sure you install the latest version of the `@wdio/sauce-service` with
 
 ```shell
 $ npm install --save-dev @wdio/sauce-service
 ```
 
-and add `services: ['sauce'],` to the config. If no `region` is provided it will automatically default to the US-RDC cloud.
-If you provide `region: 'us'` or `region: 'eu'` it will connect to the US or the EU RDC cloud
+and add `services: ['sauce'],` to the config. If no `region` is provided it will automatically default to the US-Virtual/RDC cloud.
+If you provide `region: 'us'` or `region: 'eu'` it will connect to the US or the EU Virtual/RDC cloud.
 
-There are 2 scripts that can be used, see the [`package.json`](./package.json), to execute the tests in the cloud:
+#### Upload apps to Sauce Storage
+If you want to use Android emulators, iOS simulators or Android real devices in the Sauce Labs UI you need to upload the apps to the Sauce
+Storage. You can find a script to upload them to, and the US, and EU DC in [this](./scripts)-folder. You can push the files to the storage
+by executing the following steps in a terminal from the root of this project:
+
+    cd scripts
+    ./push_apps_to_sauce_storage.sh
+
+When you've done that you will see a lot of successful logs in your terminal.
+
+#### Run app tests on the Sauce Labs Real Device Cloud
+> **NOTE:** Due to signing iOS Real Devices are not supported. Only Android Real Devices are supported.
+
+Please check the [Android Real Devices](./config/wdio.android.app.conf.ts)-config to see the setup for Android real devices.
+
+You can use the following scripts, see the [`package.json`](./package.json), to execute the tests in the cloud:
+
+    // For Android Real Devices
+    // On EU DC
+    npm run android.sauce.rdc.app.eu
+    // On US DC
+    npm run android.sauce.rdc.app.us
+
+#### Run app tests on the Sauce Labs Emulators and Simulators
+Please check the following configs to verify the configurations:
+- [Android Emulators](./config/saucelabs/wdio.android.emulators.app.conf.ts)
+- [iOS Simulators](./config/saucelabs/wdio.ios.simulators.app.conf.ts)
+
+The following scripts that can be used, see the [`package.json`](./package.json), to execute the tests in the cloud:
+
+    // For Android Emulators
+    // On EU DC
+    npm run android.sauce.emulators.app.eu
+    // On US DC
+    npm run android.sauce.emulators.app.us
+    // For Android Real Devices
+    // On EU DC
+    npm run android.sauce.rdc.app.eu
+    // On US DC
+    npm run android.sauce.rdc.app.us
 
     // For iOS
-    $ npm run ios.sauce.rdc.app
-
-    // For Android
-    $ npm run android.sauce.rdc.app
+    // On EU DC
+    npm run ios.sauce.simulator.app.eu
+    // On US DC
+    npm run ios.sauce.simulator.app.us
 
 ### BrowserStack
 This boilerplate provides a setup for testing with BrowserStack. Please check the [BrowserStack](./config/browserstack)-folder to see the

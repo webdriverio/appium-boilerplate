@@ -2,7 +2,7 @@ import TabBar from '../screenobjects/components/TabBar';
 import WebViewScreen from '../screenobjects/WebviewScreen';
 import { timeDifference } from '../helpers/Utils';
 
-describe('WebdriverIO and Appium', () => {
+describe('WebdriverIO and Appium, when interacting with a webview through XPATH', () => {
     let start:number;
 
     beforeEach(() => {

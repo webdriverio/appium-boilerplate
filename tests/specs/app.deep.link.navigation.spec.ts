@@ -7,7 +7,7 @@ import HomeScreen from '../screenobjects/HomeScreen';
 import DragScreen from '../screenobjects/DragScreen';
 import { openDeepLinkUrl } from '../helpers/Utils';
 
-describe('Navigation by deep link', () => {
+describe('WebdriverIO and Appium, when navigating by deep link', () => {
     beforeEach(() => {
         TabBar.waitForTabBarShown();
     });

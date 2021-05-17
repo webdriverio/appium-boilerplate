@@ -51,7 +51,7 @@ config.region = 'eu';
 // Increase for real device support
 config.connectionRetryTimeout = 180000;
 
-// This port was defined in the `wdio.shared.conf.js`
+// This port was defined in the `wdio.shared.conf.ts`
 delete config.port;
 
 exports.config = config;

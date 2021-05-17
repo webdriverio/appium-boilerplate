@@ -4,7 +4,7 @@ import FormScreen from '../screenobjects/FormsScreen';
 import Picker from '../screenobjects/components/Picker';
 import NativeAlert from '../screenobjects/components/NativeAlert';
 
-describe('WebdriverIO and Appium, interacting with form elements,', () => {
+describe('WebdriverIO and Appium, when interacting with form elements,', () => {
     beforeEach(() => {
         TabBar.waitForTabBarShown();
         TabBar.openForms();
@@ -38,7 +38,7 @@ describe('WebdriverIO and Appium, interacting with form elements,', () => {
         }
     });
 
-    it('should be able turn on and off the switch', () => {
+    fit('should be able turn on and off the switch', () => {
         expect(FormScreen.isSwitchActive()).toEqual(false);
 
         FormScreen.switch.click();

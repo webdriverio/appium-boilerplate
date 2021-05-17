@@ -6,7 +6,7 @@ const { config }:{config: WebdriverIO.Config} = require('./wdio.shared.conf');
 // Appium
 // ======
 //
-config.services = config.services.concat([
+config.services = (config.services ? config.services : []).concat([
     [
         'appium',
         {

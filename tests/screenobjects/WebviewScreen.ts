@@ -7,7 +7,7 @@ class WebViewScreen extends WebView {
     waitForWebViewIsDisplayedByXpath (isShown = true): boolean|void {
         const selector =  browser.isAndroid ? '*//android.webkit.WebView' : '*//XCUIElementTypeWebView';
         $(selector).waitForDisplayed({
-            timeout: 20000,
+            timeout: 45000,
             reverse: !isShown,
         });
     }

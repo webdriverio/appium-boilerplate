@@ -1,4 +1,5 @@
 import AppScreen from './AppScreen';
+import Gestures from '../helpers/Gestures';
 
 class LoginScreen extends AppScreen {
     constructor () {
@@ -32,6 +33,8 @@ class LoginScreen extends AppScreen {
              */
             $('~Login-screen').click();
         }
+        // On smaller screens there could be a possibility that the button is not shown
+        Gestures.checkIfDisplayedWithSwipeUp(this.loginButton, 2);
         this.loginButton.click();
     }
 
@@ -54,6 +57,8 @@ class LoginScreen extends AppScreen {
              */
             $('~Login-screen').click();
         }
+        // On smaller screens there could be a possibility that the button is not shown
+        Gestures.checkIfDisplayedWithSwipeUp(this.signUpButton, 2);
         this.signUpButton.click();
     }
 }

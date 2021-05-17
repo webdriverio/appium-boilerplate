@@ -3,14 +3,14 @@ import SwipeScreen from '../screenobjects/SwipeScreen';
 import Carousel from '../screenobjects/components/Carousel';
 import Gestures from '../helpers/Gestures';
 
-describe('WebdriverIO and Appium', () => {
+describe('WebdriverIO and Appium, when using swiping', () => {
     beforeEach(() => {
         TabBar.waitForTabBarShown();
         TabBar.openSwipe();
         SwipeScreen.waitForIsShown(true);
     });
 
-    it('should be able to swipe horizontal by swiping the carousel from left to right', () => {
+    fit('should be able to swipe horizontal by swiping the carousel from left to right', () => {
         /**
          * To understand what happens in `getNthCardText()` please check the method
          */

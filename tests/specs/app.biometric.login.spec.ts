@@ -67,15 +67,24 @@ describe('WebdriverIO and Appium, when interacting with a biometric button,', ()
 
             // Close the alert
             NativeAlert.pressButton('Cancel');
-            // This will show the face ID alert again. Let it fail again to make the alert go away.
-            Biometrics.submitBiometricLogin(false);
-            NativeAlert.pressButton('Cancel');
+            try {
+                // In certain situations we need to Cancel it again for this specific app
+                NativeAlert.pressButton('Cancel');
+            } catch (ign) {
+                // Do nothing
+            }
             NativeAlert.waitForIsShown(false);
         } else {
             AndroidSettings.waitAndClick('Cancel');
-            // This will show the face ID alert again. Let it fail again to make the alert go away.
-            Biometrics.submitBiometricLogin(false);
-            AndroidSettings.waitAndClick('Cancel');
+
+            // When FingerPrint in this app is cancelled on Android 9 and higher it will show the
+            // FingerPrint modal again. This means it needs to be cancelled again.
+            // @ts-ignore
+            if (parseInt(driver.capabilities.platformVersion) > 8){
+                // This will show the face ID alert again. Let it fail again to make the alert go away.
+                Biometrics.submitBiometricLogin(false);
+                AndroidSettings.waitAndClick('Cancel');
+            }
             AndroidSettings.findAndroidElementByText('Cancel').waitForDisplayed({ reverse:true });
             NativeAlert.waitForIsShown(false);
         }

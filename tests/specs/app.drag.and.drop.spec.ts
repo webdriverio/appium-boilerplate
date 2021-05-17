@@ -1,7 +1,7 @@
 import TabBar from '../screenobjects/components/TabBar';
 import DragScreen from '../screenobjects/DragScreen';
 
-describe('WebdriverIO and Appium', () => {
+describe('WebdriverIO and Appium, when using drag and drop', () => {
     beforeEach(() => {
         TabBar.waitForTabBarShown();
         TabBar.openDrag();

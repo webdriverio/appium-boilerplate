@@ -6,7 +6,7 @@ import SwipeScreen from '../screenobjects/SwipeScreen';
 import HomeScreen from '../screenobjects/HomeScreen';
 import DragScreen from '../screenobjects/DragScreen';
 
-describe('Navigation with the tab bar', () => {
+describe('WebdriverIO and Appium, when using navigation through the tab bar', () => {
     beforeEach(() => {
         TabBar.waitForTabBarShown();
     });
