@@ -18,8 +18,7 @@ Boilerplate project to run Appium tests together with WebdriverIO for:
 > Before running tests, please create a `./apps` directory, download the apps and move the files into that directory
 
 > **Note:**
-> This boilerplate only handles local execution on 1 em/simulator at a time, not parallel execution. For more info about that Google on
-> setting up a grid with Appium.
+> This boilerplate only handles local execution on 1 em/simulator at a time, not parallel execution. For more info about that Google on setting up a grid with Appium.
 
 
 ## Based on
