@@ -49,6 +49,7 @@
     "chromedriver": "^90.0.0",
     "eslint-plugin-wdio": "^7.4.2",
     "ts-node": "^9.1.1",
-    "typescript": "^4.2.4"
+    "typescript": "^4.2.4",
+    "@wdio/cli": "^7.8.0"
   }
 }
