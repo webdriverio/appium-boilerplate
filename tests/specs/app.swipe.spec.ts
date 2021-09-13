@@ -10,7 +10,7 @@ describe('WebdriverIO and Appium, when using swiping', () => {
         SwipeScreen.waitForIsShown(true);
     });
 
-    fit('should be able to swipe horizontal by swiping the carousel from left to right', () => {
+    it('should be able to swipe horizontal by swiping the carousel from left to right', () => {
         /**
          * To understand what happens in `getNthCardText()` please check the method
          */
