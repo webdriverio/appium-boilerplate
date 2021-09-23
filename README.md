@@ -1,7 +1,7 @@
 # appium-boilerplate
 
 > **NOTE:**
-> This boilerplate is for Webdriver V7 where the tests are written in `async` mode and TypeScript.\
+> This boilerplate is for Webdriver V7 where the tests are written with `async`/`await` and TypeScript.\
 > If you need a boilerplate for sync mode then check the following:
 > - V7 (TypeScript) please click [here](https://github.com/webdriverio/appium-boilerplate/tree/sync-mode)
 > - V6 (JavaScript) please click [here](https://github.com/webdriverio/appium-boilerplate/tree/v6)
