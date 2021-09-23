@@ -1,10 +1,12 @@
 # appium-boilerplate
 
 > **NOTE:**
-> This boilerplate is for Webdriver V7, if you need a boilerplate for:\
-> - V6 please click [here](https://github.com/webdriverio/appium-boilerplate/tree/v6)
-> - V5 please click [here](https://github.com/webdriverio/appium-boilerplate/tree/v5)
-> - V4 please click [here](https://github.com/webdriverio/appium-boilerplate/tree/v4)
+> This boilerplate is for Webdriver V7 where the tests are written with `async`/`await` and TypeScript.\
+> If you need a boilerplate for sync mode then check the following:
+> - V7 (TypeScript) please click [here](https://github.com/webdriverio/appium-boilerplate/tree/sync-mode)
+> - V6 (JavaScript) please click [here](https://github.com/webdriverio/appium-boilerplate/tree/v6)
+> - V5 (JavaScript) please click [here](https://github.com/webdriverio/appium-boilerplate/tree/v5)
+> - V4 (JavaScript) please click [here](https://github.com/webdriverio/appium-boilerplate/tree/v4)
 
 Boilerplate project to run Appium tests together with WebdriverIO for:
 
@@ -21,32 +23,26 @@ Boilerplate project to run Appium tests together with WebdriverIO for:
 ## Based on
 This boilerplate is currently based on:
 - **WebdriverIO:** `7.##.#`
-- **Appium:** `1.20.#`
+- **Appium:** `1.22.#`
 
 ## Installation
 
 1. Running `git clone https://github.com/webdriverio/appium-boilerplate.git`
-1. Running `npm install`
-2. Installing Appium on a local machine [here](./docs/APPIUM.md)
-
-3. Setting up Android and iOS on a local machine [here](./docs/ANDROID_IOS_SETUP.md)
-
-4. Making demo app available. Create a `./apps` directory. Download the app files (.app / .apk) with version >= `0.4.0` [here](https://github.com/webdriverio/native-demo-app/releases). Move the files into the directory `apps`.
-
-5. Running tests `npm run android.app` or `npm run android.app`
+2. Running `npm install`
+3. Installing Appium on a local machine [here](./docs/APPIUM.md)
+4. Setting up Android and iOS on a local machine [here](./docs/ANDROID_IOS_SETUP.md)
+5. Making demo app available. Create a `./apps` directory. Download the app files (.app / .apk) with version >= `0.4.0`
+[here](https://github.com/webdriverio/native-demo-app/releases). Move the files into the directory `apps`.
+6. Running tests `npm run android.app` or `npm run android.app`
 
 
 ## How to implement in your project
 Choose one of the following options:
 
 1. Clone the git repo — `git clone https://github.com/webdriverio/appium-boilerplate.git`
-
 2. Then copy the files to your project directory (all files in `/tests` and the `wdio.conf`-files in the `config`-folder)
-
 3. Merge project dev dependencies with your projects dev dependencies in your `package.json`
-
 4. Merge the scripts to your `package.json` scripts
-
 5. Run the tests, see [Native App Tests](#native-app-tests) or [Automating Chrome of Safari](#automating-chrome-or-safari).
 
 ## Configuration files
@@ -78,6 +74,11 @@ const SELECTORS = {
 };
 ```
 
+> **NOTE:** If you look into the screen/page-objects you might see that a lot of selectors are made private, meaning you can use the
+> elements in the spec-file itself. This has been done on purpose because one of the *best practices* is to remove all interactions from
+> your spec files and implement the interactions in the page objects. This will make it easier to maintain for the future and easier to
+> refactor if new interaction methods will be added or names will be adjusted.
+
 ## Native App Tests
 All tests can be executed on te devices as configured in [`wdio.android.app.conf.ts`](./config/wdio.android.app.conf.ts) or
 [`wdio.ios.app.conf.ts`](./config/wdio.ios.app.conf.ts). Please check the below tests on what they do or on how to run them separately.
@@ -92,16 +93,10 @@ All tests can be executed on te devices as configured in [`wdio.android.app.conf
 ### Drag And Drop
 Drag and Drop an element can be a complex gesture to automate with Appium. The demo app has a simple puzzle that hopefully makes it easier
 and fun to understand how to implement a drag and drop in WebdriverIO. The test can be found [here](./tests/specs/app.drag.and.drop.spec.ts)
-and the drag and drop implementation can be found in [this](./tests/screenobjects/DragScreen.ts)-file. This file will hold two ways of
-executing a drag and drop through:
-
-- [`touchPerform`](https://webdriver.io/docs/api/mjsonwp/#touchperform)
-- [`touchAction`](https://webdriver.io/docs/api/browser/touchAction/)
-
-The `touchPerform` is the *old* JSONWP way of implementing a gesture. It's *easier* to understand and less verbose.
-
-The `touchAction` is the new official W3C implementation of a gesture. The downside of this method is that it's more verbose and a little
-but more complex in comparison to `touchPerform`. Both methods are explained in the code.
+and the drag and drop implementation can be found in [this](./tests/screenobjects/DragScreen.ts)-file.
+This file will now only hold the [`touchAction`](https://webdriver.io/docs/api/browser/touchAction/) way of using the drag and drop Gesture.
+The `touchPerform` is the *old* JSONWP way of implementing a gesture and is not W3C compatible. The `touchAction` is the new official W3C
+implementation of a gesture.
 
 You can run the single test with the following commands
 
@@ -194,7 +189,7 @@ The [Swipe](./tests/specs/app.swipe.spec.ts)-test will be an example on how to d
 [Gesture](./tests/helpers/Gestures.ts)-helper that might be useful for you in the future.
 
 If you want to know more about Gestures and how to automate them, then we would advise you to watch
-[this webinar "Automating Mobile Gestures with Appium"](https://youtu.be/SDfxD8aGZRE).
+[this presentation "Swiping your way through Appium by Wim Selles"](https://youtu.be/oAJ7jwMNFVU).
 
 You can run the single test with the following commands
 

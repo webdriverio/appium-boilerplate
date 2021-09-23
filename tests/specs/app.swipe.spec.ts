@@ -4,50 +4,50 @@ import Carousel from '../screenobjects/components/Carousel';
 import Gestures from '../helpers/Gestures';
 
 describe('WebdriverIO and Appium, when using swiping', () => {
-    beforeEach(() => {
-        TabBar.waitForTabBarShown();
-        TabBar.openSwipe();
-        SwipeScreen.waitForIsShown(true);
+    beforeEach(async () => {
+        await TabBar.waitForTabBarShown();
+        await TabBar.openSwipe();
+        await SwipeScreen.waitForIsShown(true);
     });
 
-    it('should be able to swipe horizontal by swiping the carousel from left to right', () => {
+    it('should be able to swipe horizontal by swiping the carousel from left to right', async () => {
         /**
          * To understand what happens in `getNthCardText()` please check the method
          */
-        expect(Carousel.getNthCardText('first')).toContain('FULLY OPEN SOURCE');
+        await expect(await Carousel.getNthCardText('first')).toContain('FULLY OPEN SOURCE');
 
         /**
          * To understand what happens in `swipeLeft()` please check the method
          */
-        Carousel.swipeLeft();
-        expect(Carousel.getNthCardText('active')).toContain('GREAT COMMUNITY');
+        await Carousel.swipeLeft();
+        await expect(await Carousel.getNthCardText('active')).toContain('GREAT COMMUNITY');
 
-        Carousel.swipeLeft();
-        expect(Carousel.getNthCardText('active')).toContain( 'JS.FOUNDATION');
+        await Carousel.swipeLeft();
+        await expect(await Carousel.getNthCardText('active')).toContain( 'JS.FOUNDATION');
 
-        Carousel.swipeLeft();
-        expect(Carousel.getNthCardText('active')).toContain( 'SUPPORT VIDEOS');
+        await Carousel.swipeLeft();
+        await expect(await Carousel.getNthCardText('active')).toContain( 'SUPPORT VIDEOS');
 
-        Carousel.swipeLeft();
-        Carousel.swipeLeft();
-        expect(Carousel.getNthCardText('active')).toContain('COMPATIBLE');
+        await Carousel.swipeLeft();
+        await Carousel.swipeLeft();
+        await expect(await Carousel.getNthCardText('active')).toContain('COMPATIBLE');
 
         /**
          * To understand what happens in `swipeRight()` please check the method
          */
-        Carousel.swipeRight();
-        expect(Carousel.getNthCardText('active')).toContain('EXTENDABLE');
+        await Carousel.swipeRight();
+        await expect(await Carousel.getNthCardText('active')).toContain('EXTENDABLE');
 
-        Carousel.swipeRight();
-        Carousel.swipeRight();
-        Carousel.swipeRight();
-        Carousel.swipeRight();
-        expect(Carousel.getNthCardText('first')).toContain('FULLY OPEN SOURCE');
+        await Carousel.swipeRight();
+        await Carousel.swipeRight();
+        await Carousel.swipeRight();
+        await Carousel.swipeRight();
+        await expect(await Carousel.getNthCardText('first')).toContain('FULLY OPEN SOURCE');
     });
 
-    it('should be able to swipe vertical by finding the surprise', ()=>{
+    it('should be able to swipe vertical by finding the surprise', async ()=>{
         // Swipe horizontal and try to find the element. You can only swipe a max of 5 times
-        Gestures.checkIfDisplayedWithSwipeUp(SwipeScreen.logo, 5);
-        expect(SwipeScreen.logo).toBeDisplayed();
+        await Gestures.checkIfDisplayedWithSwipeUp(await SwipeScreen.logo, 5);
+        await expect(SwipeScreen.logo).toBeDisplayed();
     });
 });

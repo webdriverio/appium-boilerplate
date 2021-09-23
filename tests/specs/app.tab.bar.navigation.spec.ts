@@ -7,37 +7,37 @@ import HomeScreen from '../screenobjects/HomeScreen';
 import DragScreen from '../screenobjects/DragScreen';
 
 describe('WebdriverIO and Appium, when using navigation through the tab bar', () => {
-    beforeEach(() => {
-        TabBar.waitForTabBarShown();
+    beforeEach(async () => {
+        await TabBar.waitForTabBarShown();
     });
 
-    it('should be able to open the webview', () => {
-        TabBar.openWebView();
-        WebViewScreen.waitForWebsiteLoaded();
+    it('should be able to open the webview', async () => {
+        await TabBar.openWebView();
+        await WebViewScreen.waitForWebsiteLoaded();
     });
 
-    it('should be able to open the login form screen', () => {
-        TabBar.openLogin();
-        LoginScreen.waitForIsShown(true);
+    it('should be able to open the login form screen', async () => {
+        await TabBar.openLogin();
+        await LoginScreen.waitForIsShown(true);
     });
 
-    it('should be able to open the forms screen', () => {
-        TabBar.openForms();
-        FormsScreen.waitForIsShown(true);
+    it('should be able to open the forms screen', async () => {
+        await TabBar.openForms();
+        await FormsScreen.waitForIsShown(true);
     });
 
-    it('should be able to open the swipe screen', () => {
-        TabBar.openSwipe();
-        SwipeScreen.waitForIsShown(true);
+    it('should be able to open the swipe screen', async () => {
+        await TabBar.openSwipe();
+        await SwipeScreen.waitForIsShown(true);
     });
 
-    it('should be able to open the drag and drop screen', () => {
-        TabBar.openDrag();
-        DragScreen.waitForIsShown(true);
+    it('should be able to open the drag and drop screen', async () => {
+        await TabBar.openDrag();
+        await DragScreen.waitForIsShown(true);
     });
 
-    it('should be able to open the home screen', () => {
-        TabBar.openHome();
-        HomeScreen.waitForIsShown(true);
+    it('should be able to open the home screen', async () => {
+        await TabBar.openHome();
+        await HomeScreen.waitForIsShown(true);
     });
 });

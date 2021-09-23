@@ -97,7 +97,7 @@ export const config: WebdriverIO.Config = {
     //
     // Make sure you have the wdio adapter package for the specific framework installed
     // before running any tests.
-    framework: 'jasmine',
+    framework: 'mocha',
     // The number of times to retry the entire specfile when it fails as a whole
     // specFileRetries: 1,
     //
@@ -111,14 +111,14 @@ export const config: WebdriverIO.Config = {
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
     reporters: ['spec'],
-    // Options to be passed to Jasmine.
-    jasmineOpts: {
-        // Jasmine default timeout
+    // Options to be passed to Mocha.
+    mochaOpts: {
+        ui: 'bdd',
         /**
          * NOTE: This has been increased for more stable Appium Native app
          * tests because they can take a bit longer.
          */
-        defaultTimeoutInterval: 1200000,
+        timeout: 3 * 60 * 1000, // 3min
     },
     //
     // =====

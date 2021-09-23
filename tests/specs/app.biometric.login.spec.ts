@@ -12,81 +12,81 @@ import AndroidSettings from '../screenobjects/AndroidSettings';
  * you for Android 7.1 till the latest version of Android.
  */
 describe('WebdriverIO and Appium, when interacting with a biometric button,', () => {
-    beforeEach(() => {
-        goToLoginPage();
+    beforeEach(async () => {
+        await goToLoginPage();
 
         // If the biometry is not shown on iOS, enable it on the phone
-        if (driver.isIOS && !LoginScreen.biometricButton.isDisplayed()) {
+        if (driver.isIOS && !(await LoginScreen.isBiometricButtonDisplayed())) {
             // iOS us pretty straightforward, just enabled it
-            driver.toggleEnrollTouchId(true);
+            await driver.toggleEnrollTouchId(true);
             // restart the app
-            driver.reset();
+            await driver.reset();
 
             // Wait for the app again and go to the login screen
-            goToLoginPage();
-        } else if (driver.isAndroid && !LoginScreen.biometricButton.isDisplayed()) {
+            await goToLoginPage();
+        } else if (driver.isAndroid && !(await LoginScreen.isBiometricButtonDisplayed())) {
             // Android is more complex, see this method
-            AndroidSettings.enableBiometricLogin();
+            await AndroidSettings.enableBiometricLogin();
             // restart the app
-            driver.reset();
+            await driver.reset();
 
             // Wait for the app again and go to the login screen
-            goToLoginPage();
+            await goToLoginPage();
         }
     });
 
-    it('should be able to login with a matching touch/faceID/fingerprint', () => {
+    it('should be able to login with a matching touch/faceID/fingerprint', async () => {
         // Always make sure you are on the right tab
-        LoginScreen.loginContainerButton.click();
+        await LoginScreen.tapOnLoginContainerButton();
         // Press the touch/faceID/Fingerprint button
-        LoginScreen.biometricButton.click();
+        await LoginScreen.tapOnBiometricButton();
         // This method will successfully handle the biometric login for OR Android, OR iOS.
-        Biometrics.submitBiometricLogin(true);
+        await Biometrics.submitBiometricLogin(true);
         // Wait for the alert and validate it
-        NativeAlert.waitForIsShown();
-        expect(NativeAlert.text()).toEqual('Success\nYou are logged in!');
+        await NativeAlert.waitForIsShown();
+        await expect(await NativeAlert.text()).toContain('Success\nYou are logged in!');
 
         // Close the alert
-        NativeAlert.pressButton('OK');
-        NativeAlert.waitForIsShown(false);
+        await NativeAlert.topOnButtonWithText('OK');
+        await NativeAlert.waitForIsShown(false);
     });
 
-    it('should NOT be able to login with a non matching touch/faceID/fingerprint', () => {
+    it('should NOT be able to login with a non matching touch/faceID/fingerprint', async () => {
         // Always make sure you are on the right tab
-        LoginScreen.loginContainerButton.click();
+        await LoginScreen.tapOnLoginContainerButton();
         // Press the touch/faceID/Fingerprint button
-        LoginScreen.biometricButton.click();
+        await LoginScreen.tapOnBiometricButton();
         // This method will let the biometric login for OR Android, OR iOS fail.
-        Biometrics.submitBiometricLogin(false);
+        await Biometrics.submitBiometricLogin(false);
 
         // iOS shows an alert, Android doesn't
         if (driver.isIOS) {
             // Wait for the alert and validate it
-            NativeAlert.waitForIsShown();
-            expect(NativeAlert.text()).toContain('Try Again');
+            await NativeAlert.waitForIsShown();
+            await expect(await NativeAlert.text()).toContain('Try Again');
 
             // Close the alert
-            NativeAlert.pressButton('Cancel');
+            await NativeAlert.topOnButtonWithText('Cancel');
             try {
                 // In certain situations we need to Cancel it again for this specific app
-                NativeAlert.pressButton('Cancel');
+                await NativeAlert.topOnButtonWithText('Cancel');
             } catch (ign) {
                 // Do nothing
             }
-            NativeAlert.waitForIsShown(false);
+            await NativeAlert.waitForIsShown(false);
         } else {
-            AndroidSettings.waitAndClick('Cancel');
+            await AndroidSettings.waitAndTap('Cancel');
 
             // When FingerPrint in this app is cancelled on Android 9 and higher it will show the
             // FingerPrint modal again. This means it needs to be cancelled again.
             // @ts-ignore
             if (parseInt(driver.capabilities.platformVersion) > 8){
                 // This will show the face ID alert again. Let it fail again to make the alert go away.
-                Biometrics.submitBiometricLogin(false);
-                AndroidSettings.waitAndClick('Cancel');
+                await Biometrics.submitBiometricLogin(false);
+                await AndroidSettings.waitAndTap('Cancel');
             }
-            AndroidSettings.findAndroidElementByText('Cancel').waitForDisplayed({ reverse:true });
-            NativeAlert.waitForIsShown(false);
+            await (await AndroidSettings.findAndroidElementByText('Cancel')).waitForDisplayed({ reverse:true });
+            await NativeAlert.waitForIsShown(false);
         }
     });
 });
@@ -94,8 +94,8 @@ describe('WebdriverIO and Appium, when interacting with a biometric button,', ()
 /**
  * Go to the login screen
  */
-function goToLoginPage(){
-    TabBar.waitForTabBarShown();
-    TabBar.openLogin();
-    LoginScreen.waitForIsShown(true);
+async function goToLoginPage(){
+    await TabBar.waitForTabBarShown();
+    await TabBar.openLogin();
+    await LoginScreen.waitForIsShown(true);
 }

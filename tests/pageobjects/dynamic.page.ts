@@ -4,13 +4,13 @@ class DynamicPage extends Page {
     /**
      * define elements
      */
-    get btnStart ():WebdriverIO.Element { return $('button=Start'); }
-    get loadedPage ():WebdriverIO.Element { return $('#finish'); }
+    get btnStart () { return $('button=Start'); }
+    get loadedPage () { return $('#finish'); }
 
     /**
      * define or overwrite page methods
      */
-    open ():string {
+    async open ():Promise<string> {
         return super.open('dynamic_loading/2');
     }
 }

@@ -10,9 +10,10 @@
         "strictNullChecks": true,
         "types": [
             "node",
-            "webdriverio/sync",
-            "@wdio/jasmine-framework",
-            "expect-webdriverio/jasmine"
+            "webdriverio/async",
+            "@wdio/mocha-framework",
+            "expect-webdriverio",
+            "@wdio/sauce-service",
         ]
     },
     "include": [

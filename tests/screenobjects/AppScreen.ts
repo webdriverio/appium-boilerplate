@@ -10,7 +10,7 @@ export default class AppScreen {
      *
      * @param {boolean} isShown
      */
-    waitForIsShown (isShown = true): boolean | void {
+    async waitForIsShown (isShown = true): Promise<boolean | void> {
         return $(this.selector).waitForDisplayed({
             reverse: !isShown,
         });

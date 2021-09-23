@@ -15,11 +15,12 @@ class NativeAlert {
      *
      * The selector for Android differs from iOS
      */
-    static waitForIsShown (isShown = true) {
+    static async waitForIsShown (isShown = true) {
         const selector = driver.isAndroid
             ? SELECTORS.ANDROID.ALERT_TITLE
             : SELECTORS.IOS.ALERT;
-        $(selector).waitForExist({
+
+        return $(selector).waitForExist({
             timeout: 11000,
             reverse: !isShown,
         });
@@ -35,11 +36,11 @@ class NativeAlert {
      *  Use the text of the button, provide a string and it will automatically transform it to uppercase
      *  and click on the button
      */
-    static pressButton (selector: string) {
+    static async topOnButtonWithText (selector: string) {
         const buttonSelector = driver.isAndroid
             ? SELECTORS.ANDROID.ALERT_BUTTON.replace(/{BUTTON_TEXT}/, selector.toUpperCase())
             : `~${selector}`;
-        $(buttonSelector).click();
+        await $(buttonSelector).click();
     }
 
     /**
@@ -51,12 +52,12 @@ class NativeAlert {
      *  The UI hierarchy for Android is different so it will not give the same result as with
      *  iOS if `getText` is being used. Here we construct a method that would give the same output.
      */
-    static text ():string {
+    static async text ():Promise<string> {
         if (driver.isIOS) {
             return driver.getAlertText();
         }
 
-        return `${$(SELECTORS.ANDROID.ALERT_TITLE).getText()}\n${$(SELECTORS.ANDROID.ALERT_MESSAGE).getText()}`;
+        return `${await $(SELECTORS.ANDROID.ALERT_TITLE).getText()}\n${await $(SELECTORS.ANDROID.ALERT_MESSAGE).getText()}`;
     }
 }
 
