@@ -4,13 +4,13 @@ class CheckboxPage extends Page {
     /**
      * define elements
      */
-    get lastCheckbox ():WebdriverIO.Element { return $('#checkboxes input:last-Child'); }
-    get firstCheckbox ():WebdriverIO.Element { return $('#checkboxes input:first-Child'); }
+    get lastCheckbox () { return $('#checkboxes input:last-Child'); }
+    get firstCheckbox (){ return $('#checkboxes input:first-Child'); }
 
     /**
-     * overwrite specificoptions to adapt itto page object
+     * overwrite specific options to adapt into page object
      */
-    open ():string {
+    async open (): Promise<string> {
         return super.open('checkboxes');
     }
 }

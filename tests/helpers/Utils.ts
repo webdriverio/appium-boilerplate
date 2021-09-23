@@ -9,7 +9,7 @@ export function timeDifference (string: string, start:number, end:number) {
 /**
  * Create a cross platform solution for opening a deep link
  */
-export function openDeepLinkUrl(url:string) {
+export async function openDeepLinkUrl(url:string) {
     const prefix = 'wdio://';
 
     if (driver.isAndroid) {
@@ -21,7 +21,7 @@ export function openDeepLinkUrl(url:string) {
     }
 
     // Launch Safari to open the deep link
-    driver.execute('mobile: launchApp', { bundleId: 'com.apple.mobilesafari' });
+    await driver.execute('mobile: launchApp', { bundleId: 'com.apple.mobilesafari' });
 
     // Add the deep link url in Safari in the `URL`-field
     // This can be 2 different elements, or the button, or the text field
@@ -34,13 +34,13 @@ export function openDeepLinkUrl(url:string) {
 
     // Wait for the url button to appear and click on it so the text field will appear
     // iOS 13 now has the keyboard open by default because the URL field has focus when opening the Safari browser
-    if (!driver.isKeyboardShown()) {
-        urlButton.waitForDisplayed();
-        urlButton.click();
+    if (!(await driver.isKeyboardShown())) {
+        await urlButton.waitForDisplayed();
+        await urlButton.click();
     }
 
     // Submit the url and add a break
-    urlField.setValue(`${ prefix }${ url }\uE007`);
+    await urlField.setValue(`${ prefix }${ url }\uE007`);
 
     /**
      * PRO TIP:
@@ -51,8 +51,8 @@ export function openDeepLinkUrl(url:string) {
     try {
         const openSelector = 'type == \'XCUIElementTypeButton\' && name CONTAINS \'Open\'';
         const openButton = $(`-ios predicate string:${ openSelector }`);
-        openButton.waitForDisplayed();
-        openButton.click();
+        await openButton.waitForDisplayed();
+        await openButton.click();
     } catch (e) {
         // ignore
     }

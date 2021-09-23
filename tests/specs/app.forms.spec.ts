@@ -5,16 +5,16 @@ import Picker from '../screenobjects/components/Picker';
 import NativeAlert from '../screenobjects/components/NativeAlert';
 
 describe('WebdriverIO and Appium, when interacting with form elements,', () => {
-    beforeEach(() => {
-        TabBar.waitForTabBarShown();
-        TabBar.openForms();
-        FormScreen.waitForIsShown(true);
+    beforeEach(async () => {
+        await TabBar.waitForTabBarShown();
+        await TabBar.openForms();
+        await FormScreen.waitForIsShown(true);
     });
 
-    it('should be able type in the input and validate the text', () => {
+    it('should be able type in the input and validate the text', async () => {
         const text = 'Hello, this is a demo app';
-        FormScreen.input.setValue(text);
-        expect(FormScreen.inputTextResult.getText()).toEqual(text);
+        await FormScreen.input.setValue(text);
+        await expect(FormScreen.inputTextResult).toHaveTextContaining(text);
 
         /**
          * IMPORTANT!!
@@ -22,7 +22,7 @@ describe('WebdriverIO and Appium, when interacting with form elements,', () => {
          *  (and thus is NOT starting with the keyboard hidden)
          *  the keyboard is closed here if it is still visible.
          */
-        if (driver.isKeyboardShown()) {
+        if (await driver.isKeyboardShown()) {
             /**
              * Normally we would hide the keyboard with this command `driver.hideKeyboard()`, but there is an issue for hiding the keyboard
              * on iOS when using the command. You will get an error like below
@@ -34,43 +34,43 @@ describe('WebdriverIO and Appium, when interacting with form elements,', () => {
              *
              * That's why we click outside of the keyboard.
              */
-            FormScreen.inputTextResult.click();
+            await FormScreen.tapOnInputTextResult();
         }
     });
 
-    it('should be able turn on and off the switch', () => {
-        expect(FormScreen.isSwitchActive()).toEqual(false);
+    it('should be able turn on and off the switch', async () => {
+        await expect(await FormScreen.isSwitchActive()).toEqual(false);
 
-        FormScreen.switch.click();
-        expect(FormScreen.isSwitchActive()).toEqual(true);
+        await FormScreen.tapOnSwitch();
+        await expect(await FormScreen.isSwitchActive()).toEqual(true);
 
-        FormScreen.switch.click();
-        expect(FormScreen.isSwitchActive()).toEqual(false);
+        await FormScreen.tapOnSwitch();
+        await expect(await FormScreen.isSwitchActive()).toEqual(false);
     });
 
-    it('should be able select a value from the select element', () => {
+    it('should be able select a value from the select element', async () => {
         const valueOne = 'This app is awesome';
         const valueTwo = 'webdriver.io is awesome';
         const valueThree = 'Appium is awesome';
 
-        FormScreen.dropDown.click();
-        Picker.selectValue(valueOne);
-        expect(FormScreen.getDropDownText()).toContain(valueOne);
+        await FormScreen.tapOnDropDown();
+        await Picker.selectValue(valueOne);
+        await expect(await FormScreen.getDropDownText()).toContain(valueOne);
 
-        FormScreen.dropDown.click();
-        Picker.selectValue(valueTwo);
-        expect(FormScreen.getDropDownText()).toContain(valueTwo);
+        await FormScreen.tapOnDropDown();
+        await Picker.selectValue(valueTwo);
+        await expect(await FormScreen.getDropDownText()).toContain(valueTwo);
 
-        FormScreen.dropDown.click();
-        Picker.selectValue(valueThree);
-        expect(FormScreen.getDropDownText()).toContain(valueThree);
+        await FormScreen.tapOnDropDown();
+        await Picker.selectValue(valueThree);
+        await expect(await FormScreen.getDropDownText()).toContain(valueThree);
     });
 
-    it('should be able to open the alert and close it with all 3 buttons', () => {
-        Gestures.checkIfDisplayedWithSwipeUp(FormScreen.activeButton, 2);
-        FormScreen.activeButton.click();
-        NativeAlert.waitForIsShown(true);
-        expect(NativeAlert.text()).toEqual('This button is\nThis button is active');
+    it('should be able to open the alert and close it with all 3 buttons', async () => {
+        await Gestures.checkIfDisplayedWithSwipeUp(await FormScreen.activeButton, 2);
+        await FormScreen.tapOnActiveButton();
+        await NativeAlert.waitForIsShown(true);
+        await expect(await NativeAlert.text()).toEqual('This button is\nThis button is active');
 
         /**
          * The following steps don't contain any assertions. This might look strange, but
@@ -79,30 +79,30 @@ describe('WebdriverIO and Appium, when interacting with form elements,', () => {
          * as assertions so we don't need to do double assertions per action (wait for the element
          * to be there, and when it's there, expect that it's there)
          */
-        NativeAlert.pressButton('Ask me later');
-        NativeAlert.waitForIsShown(false);
-        FormScreen.activeButton.click();
-        NativeAlert.waitForIsShown(true);
-        NativeAlert.pressButton('Cancel');
-        NativeAlert.waitForIsShown(false);
-        FormScreen.activeButton.click();
-        NativeAlert.waitForIsShown(true);
-        NativeAlert.pressButton('OK');
-        NativeAlert.waitForIsShown(false);
+        await NativeAlert.topOnButtonWithText('Ask me later');
+        await NativeAlert.waitForIsShown(false);
+        await FormScreen.tapOnActiveButton();
+        await NativeAlert.waitForIsShown(true);
+        await NativeAlert.topOnButtonWithText('Cancel');
+        await NativeAlert.waitForIsShown(false);
+        await FormScreen.tapOnActiveButton();
+        await NativeAlert.waitForIsShown(true);
+        await NativeAlert.topOnButtonWithText('OK');
+        await NativeAlert.waitForIsShown(false);
     });
 
-    it('should be able to determine that the inactive button is inactive', () => {
+    it('should be able to determine that the inactive button is inactive', async () => {
         // Depending on the size of the screen we might need to scroll. This methods determines if it's visible,
         // if not, it will automatically scroll to find it. This will be done two times.
-        Gestures.checkIfDisplayedWithSwipeUp(FormScreen.inActiveButton, 2);
+        await Gestures.checkIfDisplayedWithSwipeUp(await FormScreen.inActiveButton, 2);
         // In this case the button can't be asked if it is active or not with
         // `expect(FormScreen.inActiveButton.isEnabled()).toEqual(false);`
         // So use a click and check if shown, make sure the alert is not there
-        NativeAlert.waitForIsShown(false);
-        FormScreen.inActiveButton.click();
+        await NativeAlert.waitForIsShown(false);
+        await FormScreen.tapOnInActiveButton();
         // Just wait 1 second to be sure it didn't appear
-        driver.pause(1000);
+        await driver.pause(1000);
         // Now validate it isn't there
-        NativeAlert.waitForIsShown(false);
+        await NativeAlert.waitForIsShown(false);
     });
 });
