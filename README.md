@@ -1,10 +1,13 @@
 # appium-boilerplate
 
 > **NOTE:**
-> This boilerplate is for Webdriver V7, if you need a boilerplate for:\
+> This boilerplate is for Webdriver **V7 sync mode**, if you need a boilerplate for:\
 > - V6 please click [here](https://github.com/webdriverio/appium-boilerplate/tree/v6)
 > - V5 please click [here](https://github.com/webdriverio/appium-boilerplate/tree/v5)
 > - V4 please click [here](https://github.com/webdriverio/appium-boilerplate/tree/v4)
+
+> Sync mode can only run on NodeJS 14 or lower. If you are running on NodeJS 16 or higher you need
+> to use the boilerplate from the main branch.
 
 Boilerplate project to run Appium tests together with WebdriverIO for:
 
