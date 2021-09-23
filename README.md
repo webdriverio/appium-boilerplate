@@ -1,7 +1,7 @@
 # appium-boilerplate
 
 > **NOTE:**
-> This boilerplate is for Webdriver V6, if you need a boilerplate for:\
+> This boilerplate is for Webdriver V7, if you need a boilerplate for:\
 > - V6 please click [here](https://github.com/webdriverio/appium-boilerplate/tree/v6)
 > - V5 please click [here](https://github.com/webdriverio/appium-boilerplate/tree/v5)
 > - V4 please click [here](https://github.com/webdriverio/appium-boilerplate/tree/v4)
@@ -13,9 +13,6 @@ Boilerplate project to run Appium tests together with WebdriverIO for:
 - Android Chrome and iOS Safari browser ([check here](./README.md#automating-chrome-or-safari))
 
 > This boilerplate uses the WebdriverIO native demo app which can be found [here](https://github.com/webdriverio/native-demo-app).
-> The releases can be found and downloaded [here](https://github.com/webdriverio/native-demo-app/releases), this boilerplate works with
-> version `0.4.0` or higher.
-> Before running tests, please create a `./apps` directory, download the apps and move the files into that directory
 
 > **Note:**
 > This boilerplate only handles local execution on 1 em/simulator at a time, not parallel execution. For more info about that Google on setting up a grid with Appium.
@@ -26,13 +23,18 @@ This boilerplate is currently based on:
 - **WebdriverIO:** `7.##.#`
 - **Appium:** `1.20.#`
 
-## Prerequisites
-### Installing Appium on a local machine
-See [Installing Appium on a local machine](./docs/APPIUM.md)
+## Installation
 
-### Setting up Android and iOS on a local machine
-To setup your local machine to use an Android emulator and an iOS simulator see
-[Setting up Android and iOS on a local machine](./docs/ANDROID_IOS_SETUP.md)
+1. Running `git clone https://github.com/webdriverio/appium-boilerplate.git`
+1. Running `npm install`
+2. Installing Appium on a local machine [here](./docs/APPIUM.md)
+
+3. Setting up Android and iOS on a local machine [here](./docs/ANDROID_IOS_SETUP.md)
+
+4. Making demo app available. Create a `./apps` directory. Download the app files (.app / .apk) with version >= `0.4.0` [here](https://github.com/webdriverio/native-demo-app/releases). Move the files into the directory `apps`.
+
+5. Running tests `npm run android.app` or `npm run android.app`
+
 
 ## How to implement in your project
 Choose one of the following options:
@@ -48,7 +50,7 @@ Choose one of the following options:
 5. Run the tests, see [Native App Tests](#native-app-tests) or [Automating Chrome of Safari](#automating-chrome-or-safari).
 
 ## Configuration files
-This boilerplate uses a specific config for iOS and Android, see [configs](./config/). The configs are based on a shared config
+This boilerplate uses a specific config for iOS and Android, see [configs](./config). The configs are based on a shared config
 [`wdio.shared.conf.ts`](./config/wdio.shared.conf.ts).
 This shared config holds **all the defaults** so the iOS and Android configs only need to hold the capabilities and specs that are needed
 for running on iOS and or Android (app or browser).

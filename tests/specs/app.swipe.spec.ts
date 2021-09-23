@@ -10,7 +10,7 @@ describe('WebdriverIO and Appium, when using swiping', () => {
         SwipeScreen.waitForIsShown(true);
     });
 
-    fit('should be able to swipe horizontal by swiping the carousel from left to right', () => {
+    it('should be able to swipe horizontal by swiping the carousel from left to right', () => {
         /**
          * To understand what happens in `getNthCardText()` please check the method
          */
@@ -48,6 +48,6 @@ describe('WebdriverIO and Appium, when using swiping', () => {
     it('should be able to swipe vertical by finding the surprise', ()=>{
         // Swipe horizontal and try to find the element. You can only swipe a max of 5 times
         Gestures.checkIfDisplayedWithSwipeUp(SwipeScreen.logo, 5);
-        expect(SwipeScreen.logo).toBeVisible();
+        expect(SwipeScreen.logo).toBeDisplayed();
     });
 });
