@@ -5,28 +5,48 @@ class FormsScreen extends AppScreen {
         super('~Forms-screen');
     }
 
-    get input ():WebdriverIO.Element {return $('~text-input');}
-    get inputTextResult ():WebdriverIO.Element {return $('~input-text-result');}
-    get switch ():WebdriverIO.Element {return $('~switch');}
-    get switchText ():WebdriverIO.Element {return $('~switch-text');}
-    get dropDown ():WebdriverIO.Element {return $('~Dropdown');}
-    get activeButton ():WebdriverIO.Element {return $('~button-Active');}
-    get inActiveButton ():WebdriverIO.Element {return $('~button-Inactive');}
+    get input () {return $('~text-input');}
+    get inputTextResult () {return $('~input-text-result');}
+    private get switch () {return $('~switch');}
+    private get switchText () {return $('~switch-text');}
+    private get dropDown () {return $('~Dropdown');}
+    get activeButton () {return $('~button-Active');}
+    get inActiveButton () {return $('~button-Inactive');}
+
+    async tapOnInputTextResult(){
+        await this.inputTextResult.click();
+    }
+
+    async tapOnSwitch(){
+        await this.switch.click();
+    }
+
+    async tapOnDropDown(){
+        await this.dropDown.click();
+    }
+
+    async tapOnActiveButton(){
+        await this.activeButton.click();
+    }
+
+    async tapOnInActiveButton(){
+        await this.inActiveButton.click();
+    }
 
     /**
      * Return if the switch is active or not active for iOS / Android
      * For Android the switch is `ON|OFF`, for iOS '1|0'
      */
-    isSwitchActive ():boolean {
+    async isSwitchActive ():Promise<boolean> {
         const active = driver.isAndroid ? 'ON' : '1';
 
-        return this.switch.getText().includes(active);
+        return (await this.switch.getText()).includes(active);
     }
 
     /**
      * Get the text of the drop down component
      */
-    getDropDownText ():string {
+    async getDropDownText ():Promise<string> {
         // We need to do some magic here to get the value of the dropdown for Android and for iOS
         // return getTextOfElement(this.dropDown);
         // For Android the selected value can be found with this XPATH

@@ -5,7 +5,7 @@ class SwipeScreen extends AppScreen {
         super('~Swipe-screen');
     }
 
-    get logo ():WebdriverIO.Element {return $('~WebdriverIO logo');}
+    get logo () {return $('~WebdriverIO logo');}
 }
 
 export default new SwipeScreen();

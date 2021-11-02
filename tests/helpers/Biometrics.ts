@@ -1,9 +1,9 @@
 import { DEFAULT_PIN, INCORRECT_PIN } from './Constants';
 
 class Biometrics {
-    get iosAllowBiometry(): WebdriverIO.Element {return $('~Don’t Allow');}
-    get allowBiometry(): WebdriverIO.Element {return $('~OK');}
-    get androidBiometryAlert(): WebdriverIO.Element {
+    private get iosAllowBiometry() {return $('~Don’t Allow');}
+    private get allowBiometry() {return $('~OK');}
+    private get androidBiometryAlert() {
         const selector = 'android=new UiSelector().textContains("Please log in")';
 
         return $(selector);
@@ -12,7 +12,7 @@ class Biometrics {
     /**
      * Submit biometric login
      */
-    submitBiometricLogin(successful: boolean) {
+    async submitBiometricLogin(successful: boolean) {
         // Touch / Face ID needs to be triggered differently on iOS
         if (driver.isIOS) {
             return this.submitIosBiometricLogin(successful);
@@ -24,8 +24,8 @@ class Biometrics {
     /**
      * Submit iOS biometric login
      */
-    submitIosBiometricLogin(successful: boolean) {
-        this.allowIosBiometricUsage();
+    async submitIosBiometricLogin(successful: boolean) {
+        await this.allowIosBiometricUsage();
 
         return driver.touchId(successful);
     }
@@ -33,11 +33,11 @@ class Biometrics {
     /**
      * Allow biometric usage on iOS if it isn't already accepted
      */
-    allowIosBiometricUsage() {
+    async allowIosBiometricUsage() {
         // When Touch/FaceID is used for the first time it could be that an alert is shown which needs to be accepted
         try {
-            this.iosAllowBiometry.waitForDisplayed({ timeout: 3000 });
-            this.allowBiometry.click();
+            await this.iosAllowBiometry.waitForDisplayed({ timeout: 3000 });
+            await this.allowBiometry.click();
         } catch (e) {
             // This means that allow using touch/facID has already been accepted and thus the alert is not shown
         }
@@ -46,10 +46,10 @@ class Biometrics {
     /**
      * Submit Android biometric login
      */
-    submitAndroidBiometricLogin(fingerprintId:number) {
-        this.androidBiometryAlert.waitForDisplayed();
+    async submitAndroidBiometricLogin(fingerprintId:number) {
+        await this.androidBiometryAlert.waitForDisplayed();
 
-        driver.fingerPrint(fingerprintId);
+        await driver.fingerPrint(fingerprintId);
     }
 }
 

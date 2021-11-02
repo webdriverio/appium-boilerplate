@@ -1,14 +1,14 @@
 import DynamicPage from '../pageobjects/dynamic.page';
 
 describe('dynamic loading', () => {
-    it('should be an button on the page',  () => {
-        DynamicPage.open();
+    it('should be an button on the page',  async () => {
+        await DynamicPage.open();
 
-        expect(DynamicPage.loadedPage.isExisting()).toBeFalse();
+        await expect(DynamicPage.loadedPage).not.toBeExisting();
 
-        DynamicPage.btnStart.click();
-        DynamicPage.loadedPage.waitForExist();
+        await DynamicPage.btnStart.click();
+        await DynamicPage.loadedPage.waitForExist();
 
-        expect(DynamicPage.loadedPage.isExisting()).toBeTrue();
+        await expect(DynamicPage.loadedPage).toBeExisting();
     });
 });

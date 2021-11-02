@@ -1,32 +1,106 @@
 import { DEFAULT_PIN } from '../helpers/Constants';
 
 class AndroidSettings {
+    /**
+     * Get the platform version
+     */
+    private get platformVersion(): number {
+        return parseInt(
+            (('platformVersion' in driver.capabilities &&
+                driver.capabilities.platformVersion) as string) || '8',
+            10,
+        );
+    }
 
     /**
-     * This is the core methods to enable FingerPrint for Android. It will walk through all steps to enable
-     * FingerPrint on Android 7.1 till the latest one all automatically for you.
+     * Execute the fingerprint wizard for Android 7 or lower
      */
-    enableBiometricLogin() {
-        // Android Oreo and higher (Android 8) added `locksettings` to ADB to set the pin. So we need to take
-        // a different flow Android on lower than OREO
-        // @ts-ignore
-        if (parseInt(driver.capabilities.platformVersion) < 8) {
-            // Open the settings screen
-            this.executeAdbCommand('am start -a android.settings.SECURITY_SETTINGS');
-            this.waitAndClick('Fingerprint');
-            this.fingerPrintWizardSevenOrLower(DEFAULT_PIN);
+    private async fingerPrintWizardSevenOrLower(pin: number) {
+        await this.waitAndTap('NEXT');
+        await this.setPinSevenOrLower(pin);
+        await this.touchSensorSevenOrLower(pin);
+        await this.waitAndTap('DONE');
+    }
+
+    /**
+     * Enable the finger print through the wizard
+     */
+    private async fingerPrintWizardEightOrHigher(pin: number) {
+        // There is a difference in the order the wizard in Android 10 is executed
+        if (this.platformVersion > 9) {
+            await this.reEnterPin(pin);
+            await this.waitAndTap('NEXT');
         } else {
-            // Open the settings screen and set screen lock to pin
-            this.executeAdbCommand(`am start -a android.settings.SECURITY_SETTINGS && locksettings set-pin ${DEFAULT_PIN}`);
-            this.waitAndClick('Fingerprint');
-            this.fingerPrintWizardEightOrHigher(DEFAULT_PIN);
+            await this.waitAndTap('NEXT');
+            await this.reEnterPin(pin);
         }
+
+        await this.touchSensorEightAndHigher(pin);
+        await this.waitAndTap('DONE');
+    }
+
+    /**
+     * Re-enter pin and submit screen
+     */
+    private async reEnterPin(pin: number) {
+        await (await this.findAndroidElementByText('Re-enter your PIN')).waitForDisplayed();
+        await this.executeAdbCommand(`input text ${pin} && input keyevent 66`);
+    }
+
+    /**
+     * Set the pin for Android 7 or lower
+     */
+    private async setPinSevenOrLower(pin: number) {
+        await this.waitAndTap('Fingerprint + PIN');
+        await this.waitAndTap('No thanks');
+        await (await this.findAndroidElementByText('Choose your PIN')).waitForDisplayed();
+        await this.executeAdbCommand(
+            `input text ${pin} && input keyevent 66 && input text ${pin} && input keyevent 66`,
+        );
+        await this.waitAndTap('DONE');
+    }
+
+    /**
+     * Touch sensor and enable finger print for Android 7 and lower
+     */
+    private async touchSensorSevenOrLower(touchCode: number) {
+        await this.waitAndTap('NEXT');
+        await (await this.findAndroidElementByText('Put your finger')).waitForDisplayed();
+        await driver.fingerPrint(touchCode);
+        await (await this.findAndroidElementByText('Move your finger')).waitForDisplayed();
+        await driver.fingerPrint(touchCode);
+    }
+
+    /**
+     * Touch sensor and enable finger print for Android 8 and higher
+     */
+    private async touchSensorEightAndHigher(touchCode: number) {
+        // Touch the sensor for the first time to trigger finger print
+        await (await this.findAndroidElementByText('Touch the sensor')).waitForDisplayed();
+        await driver.fingerPrint(touchCode);
+
+        // Add finger print
+        await (await this.findAndroidElementByText('Put your finger')).waitForDisplayed();
+        await driver.fingerPrint(touchCode);
+
+        // Confirm finger print
+        await (await this.findAndroidElementByText('Keep lifting')).waitForDisplayed();
+        await driver.fingerPrint(touchCode);
+    }
+
+    /**
+     * Execute ADB commands on the device
+     */
+    private async executeAdbCommand(adbCommand: string) {
+        await driver.execute('mobile: shell', {
+            command: adbCommand,
+        });
     }
 
     /**
      * Find an Android element based on text
      */
-    findAndroidElementByText(string:string):WebdriverIO.Element {
+    async findAndroidElementByText(string: string) {
         const selector = `android=new UiSelector().textContains("${string}")`;
 
         return $(selector);
@@ -35,96 +109,33 @@ class AndroidSettings {
     /**
      * Wait and click on an element
      */
-    waitAndClick(string: string){
-        this.findAndroidElementByText(string).waitForDisplayed();
-        this.findAndroidElementByText(string).click();
+    async waitAndTap(string: string) {
+        await (await this.findAndroidElementByText(string)).waitForDisplayed();
+        await (await this.findAndroidElementByText(string)).click();
     }
 
     /**
-     * Execute the fingerprint wizard for Android 7 or lower
+     * This is the core methods to enable FingerPrint for Android. It will walk through all steps to enable
+     * FingerPrint on Android 7.1 till the latest one all automatically for you.
      */
-    private fingerPrintWizardSevenOrLower(pin:number) {
-        this.waitAndClick('NEXT');
-        this.setPinSevenOrLower(pin);
-        this.touchSensorSevenOrLower(pin);
-        this.waitAndClick('DONE');
-    }
-
-    /**
-     * Enable the finger print through the wizard
-     */
-    private fingerPrintWizardEightOrHigher(pin: number) {
-        // There is a difference in the order the wizard in Android 10 is executed
-        // @ts-ignore
-        if (parseInt(driver.capabilities.platformVersion) > 9) {
-            this.reEnterPin(pin);
-            this.waitAndClick('NEXT');
+    async enableBiometricLogin() {
+        // Android Oreo and higher (Android 8) added `lock settings` to ADB to set the pin. So we need to take
+        // a different flow Android on lower than OREO
+        if (this.platformVersion < 8) {
+            // Open the settings screen
+            await this.executeAdbCommand(
+                'am start -a android.settings.SECURITY_SETTINGS',
+            );
+            await this.waitAndTap('Fingerprint');
+            await this.fingerPrintWizardSevenOrLower(DEFAULT_PIN);
         } else {
-            this.waitAndClick('NEXT');
-            this.reEnterPin(pin);
+            // Open the settings screen and set screen lock to pin
+            await this.executeAdbCommand(
+                `am start -a android.settings.SECURITY_SETTINGS && locksettings set-pin ${DEFAULT_PIN}`,
+            );
+            await this.waitAndTap('Fingerprint');
+            await this.fingerPrintWizardEightOrHigher(DEFAULT_PIN);
         }
-
-        this.touchSensorEightAndHigher(pin);
-        this.waitAndClick('DONE');
-    }
-
-    /**
-     * Re-enter pin and submit screen
-     */
-    private reEnterPin(pin:number) {
-        this.findAndroidElementByText('Re-enter your PIN').waitForDisplayed();
-        this.executeAdbCommand(`input text ${pin} && input keyevent 66`);
-    }
-
-    /**
-     * Set the pin for Android 7 or lower
-     */
-    private setPinSevenOrLower(pin:number) {
-        this.waitAndClick('Fingerprint + PIN');
-        this.waitAndClick('No thanks');
-        this.findAndroidElementByText('Choose your PIN').waitForDisplayed();
-        this.executeAdbCommand(`input text ${pin} && input keyevent 66 && input text ${pin} && input keyevent 66`);
-        this.waitAndClick('DONE');
-    }
-
-    /**
-     * Touch sensor and enable finger print for Android 7 and lower
-     */
-    private touchSensorSevenOrLower(pin:number) {
-        this.waitAndClick('NEXT');
-        this.findAndroidElementByText('Put your finger').waitForDisplayed();
-        driver.fingerPrint(pin);
-        this.findAndroidElementByText('Move your finger').waitForDisplayed();
-        driver.fingerPrint(pin);
-    }
-
-    /**
-     * Touch sensor and enable finger print for Android 8 and higher
-     */
-    private touchSensorEightAndHigher(pin:number) {
-        // Touch the sensor for the first time to trigger finger print
-        this.findAndroidElementByText('Touch the sensor').waitForDisplayed();
-        driver.fingerPrint(pin);
-
-        // Add finger print
-        this.findAndroidElementByText('Put your finger').waitForDisplayed();
-        driver.fingerPrint(pin);
-
-        // Confirm finger print
-        this.findAndroidElementByText('Keep lifting').waitForDisplayed();
-        driver.fingerPrint(pin);
-    }
-
-    /**
-     * Execute ADB commands on the device
-     */
-    private executeAdbCommand(adbCommand: string) {
-        driver.execute(
-            'mobile: shell',
-            {
-                command: adbCommand,
-            },
-        );
     }
 }
 
