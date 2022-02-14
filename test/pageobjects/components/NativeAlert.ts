@@ -1,6 +1,5 @@
 const SELECTORS = {
     ANDROID: {
-        //ALERT_TITLE: '*//android.widget.TextView[@resource-id="android:id/br.com.zeenow.zeenow:id/modal_error_title"]',
         ALERT_TITLE: 'android=resourceId("br.com.zeenow.zeenow:id/modal_error_title")',
         ALERT_MESSAGE: 'android=resourceId("br.com.zeenow.zeenow:id/modal_error_text")',
         ALERT_BUTTON: 'android=resourceId("br.com.zeenow.zeenow:id/custom_modal_button")',

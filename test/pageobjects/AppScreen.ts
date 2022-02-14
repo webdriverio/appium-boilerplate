@@ -6,7 +6,7 @@ export default class AppScreen {
     }
 
     /**
-     * Wait for the login screen to be visible
+     * Wait for a screen to be visible
      *
      * @param {boolean} isShown
      */
