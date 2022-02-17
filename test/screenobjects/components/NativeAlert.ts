@@ -1,8 +1,11 @@
+import { getVisibleElement } from "../../helpers/Utils";
+
 const SELECTORS = {
     ANDROID: {
         ALERT_TITLE: 'android=resourceId("br.com.zeenow.zeenow:id/modal_error_title")',
         ALERT_MESSAGE: 'android=resourceId("br.com.zeenow.zeenow:id/modal_error_text")',
         ALERT_BUTTON: 'android=resourceId("br.com.zeenow.zeenow:id/custom_modal_button")',
+        ALERT_INPUT: 'android=resourceId("br.com.zeenow.zeenow:id/textinput_error")'
     },
     IOS: {
         ALERT: '-ios predicate string:type == \'XCUIElementTypeAlert\'',
@@ -36,7 +39,7 @@ class NativeAlert {
      *  Use the text of the button, provide a string and it will automatically transform it to uppercase
      *  and click on the button
      */
-    static async topOnButtonWithText (selector: string) {
+    static async tapOnButtonWithText (selector: string) {
         const buttonSelector = driver.isAndroid
             ? SELECTORS.ANDROID.ALERT_BUTTON.replace(/{BUTTON_TEXT}/, selector.toUpperCase())
             : `~${selector}`;
@@ -58,6 +61,21 @@ class NativeAlert {
         }
 
         return `${await $(SELECTORS.ANDROID.ALERT_TITLE).getText()}\n${await $(SELECTORS.ANDROID.ALERT_MESSAGE).getText()}`;
+    }
+
+    /**
+     * Get the alert text for input text components
+     * use n when there's more than 1 text input on screen, default is 0 (for the 1st one)
+     */
+    static async componentText (n=0):Promise<string> {
+
+        if (driver.isIOS) {
+            return driver.getAlertText();
+        }
+
+        let elements = $$(SELECTORS.ANDROID.ALERT_INPUT);
+        return `${await elements[n].getText()}`;
+        //return `${await $(SELECTORS.ANDROID.ALERT_INPUT).getText()}`;
     }
 }
 
