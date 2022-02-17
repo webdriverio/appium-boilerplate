@@ -1,5 +1,3 @@
-import { getVisibleElement } from "../../helpers/Utils";
-
 const SELECTORS = {
     ANDROID: {
         ALERT_TITLE: 'android=resourceId("br.com.zeenow.zeenow:id/modal_error_title")',
