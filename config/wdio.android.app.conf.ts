@@ -29,9 +29,6 @@ config.capabilities = [
         'appium:app': join(process.cwd(), './apps/Android-NativeDemoApp-0.4.0.apk'),
         // @ts-ignore
         'appium:appWaitActivity': 'com.wdiodemoapp.MainActivity',
-        // Read the reset strategies very well, they differ per platform, see
-        // http://appium.io/docs/en/writing-running-appium/other/reset-strategies/
-        'appium:noReset': true,
         'appium:newCommandTimeout': 240,
     },
 ];
