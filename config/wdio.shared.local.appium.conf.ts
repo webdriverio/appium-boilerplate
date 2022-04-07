@@ -15,6 +15,7 @@ config.services = (config.services ? config.services : []).concat([
                 // This is needed to tell Appium that we can execute local ADB commands
                 // and to automatically download the latest version of ChromeDriver
                 relaxedSecurity: true,
+                address: "localhost"
             },
         },
 
