@@ -10,7 +10,7 @@ export const config: WebdriverIO.Config = {
     // ====================
     // WebdriverIO allows it to run your tests in arbitrary locations (e.g. locally or
     // on a remote machine).
-    runner: 'local',
+    runner: "local",
     //
     // ==================
     // Specify Test Files
@@ -24,7 +24,7 @@ export const config: WebdriverIO.Config = {
     /**
      * NOTE: This is just a place holder and will be overwritten by each specific configuration
      */
-    specs:[],
+    specs: [],
     //
     // ============
     // Capabilities
@@ -46,7 +46,7 @@ export const config: WebdriverIO.Config = {
     // Define all options that are relevant for the WebdriverIO instance here
     //
     // Level of logging verbosity: trace | debug | info | warn | error | silent
-    logLevel: 'silent',
+    logLevel: "debug",
     // Set specific log levels per logger
     // loggers:
     // - webdriver, webdriverio
@@ -68,7 +68,7 @@ export const config: WebdriverIO.Config = {
     // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
     // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
     // gets prepended directly.
-    baseUrl: 'http://the-internet.herokuapp.com',
+    baseUrl: "http://the-internet.herokuapp.com",
     // Default timeout for all waitFor* commands.
     /**
      * NOTE: This has been increased for more stable Appium Native app
@@ -97,7 +97,7 @@ export const config: WebdriverIO.Config = {
     //
     // Make sure you have the wdio adapter package for the specific framework installed
     // before running any tests.
-    framework: 'mocha',
+    framework: "mocha",
     // The number of times to retry the entire specfile when it fails as a whole
     // specFileRetries: 1,
     //
@@ -110,10 +110,10 @@ export const config: WebdriverIO.Config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
-    reporters: ['spec'],
+    reporters: ["spec"],
     // Options to be passed to Mocha.
     mochaOpts: {
-        ui: 'bdd',
+        ui: "bdd",
         /**
          * NOTE: This has been increased for more stable Appium Native app
          * tests because they can take a bit longer.
@@ -133,4 +133,3 @@ export const config: WebdriverIO.Config = {
      * NOTE: No Hooks are used in this project, but feel free to add them if you need them.
      */
 };
-
