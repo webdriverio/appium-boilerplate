@@ -1,4 +1,4 @@
-name: Functional Android Web Tests
+name: Functional Android Browser Tests
 
 on: [pull_request]
 
