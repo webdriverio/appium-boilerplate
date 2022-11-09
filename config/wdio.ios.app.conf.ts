@@ -29,6 +29,8 @@ config.capabilities = [
             "./apps/iOS-Simulator-NativeDemoApp-0.4.0.app.zip"
         ),
         "appium:newCommandTimeout": 240,
+        'appium:wdaLaunchTimeout': 300000,
+        'appium:wdaStartupRetries': 4,
     },
 ];
 

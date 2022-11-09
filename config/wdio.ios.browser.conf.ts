@@ -26,6 +26,8 @@ config.capabilities = [
         'appium:orientation': 'PORTRAIT',
         'appium:automationName': 'XCUITest',
         'appium:newCommandTimeout': 240,
+        'appium:wdaLaunchTimeout': 300000,
+        'appium:wdaStartupRetries': 4,
     },
 ];
 
