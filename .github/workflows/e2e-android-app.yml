@@ -1,7 +1,10 @@
 name: Functional Android App Tests
 
-on: [pull_request]
-
+on:
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
   android-app:
