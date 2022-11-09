@@ -14,6 +14,8 @@
         "ios.sauce.simulators.app.eu": "REGION=eu wdio ./config/saucelabs/wdio.ios.simulators.app.conf.ts",
         "ios.sauce.simulators.app.us": "wdio ./config/saucelabs/wdio.ios.simulators.app.conf.ts",
         "ios.browser": "wdio config/wdio.ios.browser.conf.ts",
+        "browser.chrome": "wdio config/wdio.browser.chrome.conf.ts",
+        "browser.safari": "wdio config/wdio.browser.safari.conf.ts",
         "lint": "eslint config tests"
     },
     "repository": {
@@ -47,6 +49,8 @@
         "@wdio/spec-reporter": "^7.19.7",
         "eslint-plugin-wdio": "^7.19.4",
         "ts-node": "^10.8.0",
-        "typescript": "^4.6.4"
+        "typescript": "^4.6.4",
+        "wdio-chromedriver-service": "^8.0.0",
+        "wdio-safaridriver-service": "^2.0.0"
     }
 }

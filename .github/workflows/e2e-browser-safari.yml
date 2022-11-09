@@ -1,0 +1,26 @@
+name: Tests e2e Browser Safari
+
+on: [pull_request]
+
+jobs:
+  e2e-browser-safari:
+    env:
+      CI: true
+      _FORCE_LOGS: 1
+    runs-on: macOS-11
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+      - run: yarn install
+      - run:  yarn browser.safari
+      - name: Save safaridriver output
+        if: ${{ always() }}
+        uses: actions/upload-artifact@master
+        with:
+          name: logs-wdio-safaridriver
+          path: logs/wdio-safaridriver.log
+      - name: Show safaridriver server output
+        if: ${{ always() }}
+        run: cat logs/wdio-safaridriver.log

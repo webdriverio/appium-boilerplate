@@ -1,0 +1,29 @@
+name: Tests e2e Browser Chrome
+
+on: [pull_request]
+
+jobs:
+    e2e-browser-chrome:
+        env:
+            CI: true
+            _FORCE_LOGS: 1
+        runs-on: macOS-11
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  node-version-file: '.nvmrc'
+            - run: yarn install
+            - uses: browser-actions/setup-chrome@latest
+            - run: chromium --version && which chromium
+            - run: which chromedriver
+            - run:  yarn browser.chrome
+            - name: Save chromedriver output
+              if: ${{ always() }}
+              uses: actions/upload-artifact@master
+              with:
+                  name: logs-wdio-chromedriver
+                  path: logs/wdio-chromedriver.log
+            - name: Show chromedriver server output
+              if: ${{ always() }}
+              run: cat logs/wdio-chromedriver.log
