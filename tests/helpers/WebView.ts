@@ -1,3 +1,5 @@
+import { Context } from '@wdio/protocols/build/types'
+
 export const CONTEXT_REF = {
     NATIVE: 'native',
     WEBVIEW: 'webview',
@@ -45,13 +47,13 @@ class WebView {
     async switchToContext (context:string) {
         // The first context will always be the NATIVE_APP,
         // the second one will always be the WebdriverIO web page
-        await driver.switchContext((await this.getCurrentContexts())[context === CONTEXT_REF.NATIVE ? 0 : 1]);
+        await driver.switchContext(String(await this.getCurrentContexts())[context === CONTEXT_REF.NATIVE ? 0 : 1]);
     }
 
     /**
      * Returns an object with the list of all available contexts
      */
-    async getCurrentContexts ():Promise<string[]> {
+    async getCurrentContexts ():Promise<Context[]> {
         return driver.getContexts();
     }
 
