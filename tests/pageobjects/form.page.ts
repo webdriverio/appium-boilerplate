@@ -16,7 +16,9 @@ class FormPage extends Page {
     async login ({ username, password }: {username:string; password: string;}) {
         await this.username.setValue(username);
         await this.password.setValue(password);
-        await browser.hideKeyboard();
+        if (browser.hideKeyboard) {
+            await browser.hideKeyboard();
+        }
         await this.submitButton.click();
     }
 
