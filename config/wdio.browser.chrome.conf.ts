@@ -11,7 +11,6 @@ config.specs = [
 // Capabilities
 // ============
 // For all capabilities please check
-// http://appium.io/docs/en/writing-running-appium/caps/#general-capabilities
 config.capabilities = [
     {
         browserName: 'chrome',
