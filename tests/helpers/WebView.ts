@@ -1,4 +1,4 @@
-import { Context } from '@wdio/protocols/build/types'
+import { Context } from '@wdio/protocols'
 
 export const CONTEXT_REF = {
     NATIVE: 'native',
