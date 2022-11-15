@@ -16,6 +16,7 @@ class FormPage extends Page {
     async login ({ username, password }: {username:string; password: string;}) {
         await this.username.setValue(username);
         await this.password.setValue(password);
+        // Mobile is only for mobile, if you test on a desktop browser it won't exist.
         if (browser.hideKeyboard) {
             await browser.hideKeyboard();
         }
