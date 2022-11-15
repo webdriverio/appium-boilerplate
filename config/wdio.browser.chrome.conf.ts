@@ -10,7 +10,6 @@ config.specs = [
 // ============
 // Capabilities
 // ============
-// For all capabilities please check
 config.capabilities = [
     {
         browserName: 'chrome',
