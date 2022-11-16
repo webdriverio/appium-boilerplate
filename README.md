@@ -31,7 +31,7 @@ This boilerplate is currently based on:
 1. Installing Appium on a local machine [here](./docs/APPIUM.md)
 1. Setting up Android and iOS on a local machine [here](./docs/ANDROID_IOS_SETUP.md)
 1. Making demo app available. Create a `./apps` directory. Download the app files (.app / .apk) with version >= `0.4.0` [here](https://github.com/webdriverio/native-demo-app/releases). Move the files into the directory `apps`.
-1. Running tests `npm run android.app` or `npm run android.app`
+1. Running tests `npm run android.app` or `npm run android.browser`
 
 ## How to implement in your project
 
