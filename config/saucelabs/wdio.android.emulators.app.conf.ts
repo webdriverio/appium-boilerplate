@@ -5,7 +5,7 @@ const buildName = `WebdriverIO Native Demo app, Android Emulators: ${new Date().
 // Specs
 // ============
 config.specs = [
-    './tests/specs/**/app*.spec.ts',
+    '../../tests/specs/**/app*.spec.ts',
 ];
 
 // ============
