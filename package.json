@@ -29,6 +29,9 @@
         "android",
         "ios"
     ],
+    "engines": {
+        "node": "^16.13.0 || >=18.0.0"
+    },
     "author": "Wim Selles <wim@wswebcreation.nl>",
     "license": "MIT",
     "bugs": {
