@@ -21,12 +21,14 @@ Boilerplate project to run Appium tests together with WebdriverIO for:
 
 This boilerplate is currently based on:
 
+- **Node:** `>=18.#.#`
 - **WebdriverIO:** `7.##.#`
 - **Appium:** `1.22.#`
 
 ## Installation
 
 1. Running `git clone https://github.com/webdriverio/appium-boilerplate.git`
+1. Running `npm install -g appium`
 1. Running `npm install`
 1. Installing Appium on a local machine [here](./docs/APPIUM.md)
 1. Setting up Android and iOS on a local machine [here](./docs/ANDROID_IOS_SETUP.md)
