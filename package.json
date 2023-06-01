@@ -53,6 +53,7 @@
         "typescript": "^4.9.5"
     },
     "dependencies": {
-        "@appium/doctor": "^1.16.11"
+        "@appium/doctor": "^1.16.11",
+        "dotenv": "^16.1.3"
     }
 }
