@@ -102,6 +102,6 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () =>  {
 
         // Now wait for the header to be displayed and verify that we are on the correct page
         await $('h1').waitForDisplayed({ timeout: 3000 });
-        await expect(await driver.getTitle()).toEqual('OCR service for Appium Native Apps Service | WebdriverIO');
+        await expect(await driver.getTitle()).toEqual("WebdriverIO · Next-gen browser and mobile automation test framework for Node.js | WebdriverIO");
     });
 });
