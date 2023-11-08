@@ -8,6 +8,7 @@
         "android.sauce.emulators.app.us": "wdio config/saucelabs/wdio.android.emulators.app.conf.ts",
         "android.sauce.rdc.app.eu": "REGION=eu wdio config/saucelabs/wdio.android.rdc.app.conf.ts",
         "android.sauce.rdc.app.us": "wdio config/saucelabs/wdio.android.rdc.app.conf.ts",
+        "android.testingbot.app": "wdio ./config/testingbot/wdio.android.tb.app.conf.ts",
         "android.app": "wdio config/wdio.android.app.conf.ts",
         "android.browser": "wdio config/wdio.android.browser.conf.ts",
         "ios.app": "wdio config/wdio.ios.app.conf.ts",
@@ -48,6 +49,7 @@
         "@wdio/mocha-framework": "^7.19.7",
         "@wdio/sauce-service": "^7.19.7",
         "@wdio/spec-reporter": "^7.19.7",
+        "@wdio/testingbot-service": "^8.22.0",
         "eslint-plugin-wdio": "^7.19.4",
         "ts-node": "^10.8.0",
         "typescript": "^4.6.4"
