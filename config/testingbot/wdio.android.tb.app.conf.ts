@@ -4,11 +4,11 @@ import { config } from '../wdio.shared.conf';
 // Specs
 // ============
 config.specs = [
-    './tests/specs/**/app*.spec.js',
+    './tests/specs/**/app*.spec.ts',
 ];
 config.exclude = [
     // Exclude this one because the test can only be executed on emulators/simulators
-    './tests/specs/**/app.biometric.login.spec.js',
+    './tests/specs/**/app.biometric.login.spec.ts',
 ];
 
 // =============================
