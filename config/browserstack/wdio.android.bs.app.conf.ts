@@ -6,11 +6,11 @@ export const config: WebdriverIO.Config = {
     // Specs
     // ============
     specs: [
-        './tests/specs/**/app*.spec.js',
+        '../tests/specs/**/app*.spec.js',
     ],
     exclude: [
         // Exclude this one because the test can only be executed on emulators/simulators
-        './tests/specs/**/app.biometric.login.spec.js',
+        '../tests/specs/**/app.biometric.login.spec.js',
     ],
 
     // =============================
