@@ -1,10 +1,10 @@
-import TabBar from '../screenobjects/components/TabBar';
-import WebViewScreen from '../screenobjects/WebviewScreen';
-import LoginScreen from '../screenobjects/LoginScreen';
-import FormsScreen from '../screenobjects/FormsScreen';
-import SwipeScreen from '../screenobjects/SwipeScreen';
-import HomeScreen from '../screenobjects/HomeScreen';
-import DragScreen from '../screenobjects/DragScreen';
+import TabBar from '../screenobjects/components/TabBar.js';
+import WebViewScreen from '../screenobjects/WebviewScreen.js';
+import LoginScreen from '../screenobjects/LoginScreen.js';
+import FormsScreen from '../screenobjects/FormsScreen.js';
+import SwipeScreen from '../screenobjects/SwipeScreen.js';
+import HomeScreen from '../screenobjects/HomeScreen.js';
+import DragScreen from '../screenobjects/DragScreen.js';
 
 describe('WebdriverIO and Appium, when using navigation through the tab bar', () => {
     beforeEach(async () => {

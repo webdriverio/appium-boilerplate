@@ -1,16 +1,17 @@
 {
     "compilerOptions": {
-        "outDir": "./.tsbuild/",
         "sourceMap": false,
-        "target": "es2019",
-        "module": "commonjs",
+        "target": "es2020",
+        "module": "NodeNext",
+        "moduleResolution": "Node16",
         "removeComments": true,
         "noImplicitAny": true,
         "strictPropertyInitialization": true,
         "strictNullChecks": true,
         "types": [
             "node",
-            "webdriverio/async",
+            "@wdio/types",
+            "@wdio/globals/types",
             "@wdio/mocha-framework",
             "expect-webdriverio",
             "@wdio/sauce-service",

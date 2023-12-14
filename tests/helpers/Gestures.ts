@@ -1,4 +1,4 @@
-import { RectReturn } from '@wdio/protocols/build/types';
+import { RectReturn } from '@wdio/protocols';
 
 /**
  * To make a Gesture methods more robust for multiple devices and also

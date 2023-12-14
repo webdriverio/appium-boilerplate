@@ -1,4 +1,4 @@
-import config from './wdio.shared.local.appium.conf';
+import config from './wdio.shared.local.appium.conf.js';
 
 // ============
 // Specs

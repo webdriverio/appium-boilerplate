@@ -1,5 +1,5 @@
-import TabBar from '../screenobjects/components/TabBar';
-import DragScreen from '../screenobjects/DragScreen';
+import TabBar from '../screenobjects/components/TabBar.js';
+import DragScreen from '../screenobjects/DragScreen.js';
 
 describe('WebdriverIO and Appium, when using drag and drop', () => {
     beforeEach(async () => {

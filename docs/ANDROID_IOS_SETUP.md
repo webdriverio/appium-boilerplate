@@ -1,8 +1,7 @@
 # Setting up Android and iOS on a local machine
 
 ## Android
-To use this boilerplate on a local machine for Android, emulator(s) need to be available.
-To setup your local machine you should download Android Studio, see for instructions [here](https://developer.android.com/studio/).
+To use this boilerplate on a local machine for Android, emulator(s) need to be available. To setup your local machine you should download Android Studio, see for instructions [here](https://developer.android.com/studio/).
 
 Follow the instructions to download and setup Android studio and configure a your emulators with [this](https://developer.android.com/studio/run/managing-avds) tutorial.
 
@@ -13,13 +12,13 @@ If you were able to create emulators you can use the following options to start 
 
 - From Android Studio itself through:
     - Open `Tools > AVD Manager`
-    
+
     ![Start Android AVD Manager](./assets/start-android-avd-manager.jpg)
-    
+
     - Select your emulator and click on the `play`-button
-    
+
     ![Select emulator](./assets/select-avd.jpg)
-    
+
 - From the command line with the default Android commands, see [this](https://developer.android.com/studio/run/emulator-commandline) link
 - Use a module called `start-android-emulator` which can be found [here](https://github.com/wswebcreation/start-android-emulator)
 
@@ -37,16 +36,15 @@ After installation you'll get the latest supported iOS version already installed
 1. Go to Xcode preferences like below
 
     ![Xcode preferences](./assets/xcode-preferences.jpg)
-    
+
 1. A pop-up will appear like below
 
     ![Xcode preferences pop-up](./assets/xcode-preferences-popup.jpg)
-    
-1. Go to `Components` and download the needed versions like below 
+
+1. Go to `Components` and download the needed versions like below
 
     ![Xcode components](./assets/xcode-components.jpg)
-    
-    
+
 ### Start a simulator
 You can use the following options to manually start a simulator:
 

@@ -1,6 +1,5 @@
 # FAQ
 
-
 ## I get the error `No Chromedriver found that can automate Chrome '##.#.####'`
 When trying to automate an Android webview in an app or the chrome browser it could be that you get the below error.
 
@@ -24,11 +23,11 @@ $ npm run android.app -- --appium.args.chromedriverExecutable="./chromeDriver/ch
 The `appium.args.chromedriverExecutable` needs to refer to the location where the ChromeDriver is downloaded.
 
 ### Manually update chrome
-Execute the following steps to install Chrome on an Android emulator 
+Execute the following steps to install Chrome on an Android emulator
 
 * Download a Chrome APK from [APKMirror](http://www.apkmirror.com/apk/google-inc/chrome/), check which processor is used in the Emulator (ARM or X86, X86 is faster).
 * Open the Emulator
-* Install the `chrome.apk` from the folder where it is saved with the following command `adb install chrome.apk`. 
+* Install the `chrome.apk` from the folder where it is saved with the following command `adb install chrome.apk`.
 
 `````
 [100%] /data/local/tmp/chrome.apk

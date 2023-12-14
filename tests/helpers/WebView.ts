@@ -1,3 +1,5 @@
+import type { Context } from '@wdio/protocols';
+
 export const CONTEXT_REF = {
     NATIVE: 'native',
     WEBVIEW: 'webview',
@@ -28,7 +30,7 @@ class WebView {
                 const currentContexts = await this.getCurrentContexts();
 
                 return currentContexts.length > 1 &&
-                    currentContexts.find(context => context.toLowerCase().includes(CONTEXT_REF.WEBVIEW)) !== 'undefined';
+                    currentContexts.find(context => typeof context === 'string' && context.toLowerCase().includes(CONTEXT_REF.WEBVIEW)) !== 'undefined';
             }, {
                 // Wait a max of 45 seconds. Reason for this high amount is that loading
                 // a webview for iOS might take longer
@@ -45,13 +47,14 @@ class WebView {
     async switchToContext (context:string) {
         // The first context will always be the NATIVE_APP,
         // the second one will always be the WebdriverIO web page
-        await driver.switchContext((await this.getCurrentContexts())[context === CONTEXT_REF.NATIVE ? 0 : 1]);
+        const currentContext = await this.getCurrentContexts();
+        await driver.switchContext(currentContext[context === CONTEXT_REF.NATIVE ? 0 : 1] as string);
     }
 
     /**
      * Returns an object with the list of all available contexts
      */
-    async getCurrentContexts ():Promise<string[]> {
+    async getCurrentContexts ():Promise<Context[]> {
         return driver.getContexts();
     }
 

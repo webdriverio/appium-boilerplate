@@ -1,5 +1,5 @@
-import Gestures from '../../helpers/Gestures';
-import { RectReturn } from '@wdio/protocols/build/types';
+import Gestures from '../../helpers/Gestures.js';
+import type { RectReturn } from '@wdio/protocols';
 
 const SELECTORS = {
     CAROUSEL: '~Carousel',

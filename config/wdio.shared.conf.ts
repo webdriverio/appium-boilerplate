@@ -8,9 +8,6 @@ export const config: WebdriverIO.Config = {
     // ====================
     // Runner Configuration
     // ====================
-    // WebdriverIO allows it to run your tests in arbitrary locations (e.g. locally or
-    // on a remote machine).
-    runner: "local",
     //
     // ==================
     // Specify Test Files
@@ -46,7 +43,7 @@ export const config: WebdriverIO.Config = {
     // Define all options that are relevant for the WebdriverIO instance here
     //
     // Level of logging verbosity: trace | debug | info | warn | error | silent
-    logLevel: "debug",
+    logLevel: 'debug',
     // Set specific log levels per logger
     // loggers:
     // - webdriver, webdriverio
@@ -68,7 +65,7 @@ export const config: WebdriverIO.Config = {
     // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
     // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
     // gets prepended directly.
-    baseUrl: "http://the-internet.herokuapp.com",
+    baseUrl: 'http://the-internet.herokuapp.com',
     // Default timeout for all waitFor* commands.
     /**
      * NOTE: This has been increased for more stable Appium Native app
@@ -97,23 +94,23 @@ export const config: WebdriverIO.Config = {
     //
     // Make sure you have the wdio adapter package for the specific framework installed
     // before running any tests.
-    framework: "mocha",
-    // The number of times to retry the entire specfile when it fails as a whole
+    framework: 'mocha',
+    // The number of times to retry the entire spec file when it fails as a whole
     // specFileRetries: 1,
     //
     // Delay in seconds between the spec file retry attempts
     // specFileRetriesDelay: 0,
     //
-    // Whether or not retried specfiles should be retried immediately or deferred to the end of the queue
+    // Whether or not retried spec files should be retried immediately or deferred to the end of the queue
     // specFileRetriesDeferred: false,
     //
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
-    reporters: ["spec"],
+    reporters: ['spec'],
     // Options to be passed to Mocha.
     mochaOpts: {
-        ui: "bdd",
+        ui: 'bdd',
         /**
          * NOTE: This has been increased for more stable Appium Native app
          * tests because they can take a bit longer.

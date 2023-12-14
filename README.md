@@ -1,11 +1,9 @@
 # Appium Boilerplate
 
-**NOTE:** This boilerplate is for Webdriver V7 where the tests are written with `async`/`await` and TypeScript. If you need a boilerplate for sync mode then check the following:
+**NOTE:** This boilerplate is for Webdriver V8 where the tests are written with `async`/`await` and TypeScript. If you need a boilerplate for older versions, check the following:
 
-- V7 (TypeScript) please click [here](https://github.com/webdriverio/appium-boilerplate/tree/sync-mode)
-- V6 (JavaScript) please click [here](https://github.com/webdriverio/appium-boilerplate/tree/v6)
-- V5 (JavaScript) please click [here](https://github.com/webdriverio/appium-boilerplate/tree/v5)
-- V4 (JavaScript) please click [here](https://github.com/webdriverio/appium-boilerplate/tree/v4)
+- V7 (JavaScript) please click [here](https://github.com/webdriverio/appium-boilerplate/tree/v7)
+- V7 (TypeScript, sync mode) please click [here](https://github.com/webdriverio/appium-boilerplate/tree/sync-mode)
 
 Boilerplate project to run Appium tests together with WebdriverIO for:
 
@@ -21,8 +19,8 @@ Boilerplate project to run Appium tests together with WebdriverIO for:
 
 This boilerplate is currently based on:
 
-- **WebdriverIO:** `7.##.#`
-- **Appium:** `1.22.#`
+- **WebdriverIO:** `8.x`
+- **Appium:** `2.x`
 
 ## Installation
 
@@ -38,8 +36,8 @@ This boilerplate is currently based on:
 Choose one of the following options:
 
 1. Clone the git repo — `git clone https://github.com/webdriverio/appium-boilerplate.git`
-1. Then copy the files to your project directory (all files in `/tests` and the `wdio.conf`-files in the `config`-folder)
-1. Merge project dev dependencies with your projects dev dependencies in your `package.json`
+1. Then copy the files to your project directory (all files in `/tests` and the `wdio.conf` files in the `config` folder)
+1. Merge project dev dependencies with your project dev dependencies in your `package.json`
 1. Merge the scripts to your `package.json` scripts
 1. Run the tests, see [Native App Tests](#native-app-tests) or [Automating Chrome of Safari](#automating-chrome-or-safari).
 
@@ -61,7 +59,7 @@ configured in [`wdio.shared.local.appium.conf.ts`](./config/wdio.shared.local.ap
 The locator strategy for this boilerplate is to use `accessibilityID`'s, see also the
 [WebdriverIO docs](https://webdriver.io/docs/selectors#accessibility-id) or this newsletter on
 [AppiumPro](https://appiumpro.com/editions/20).
-`accessibilityID`'s make it easy to script once and run on iOS and Android because most of the apps already have some `accessibilityID`'s.
+`accessibilityID`'s makes it easy to script once and run on iOS and Android because most of the apps already have some `accessibilityID`'s.
 
 If `accessibilityID`'s can't be used, and for example only XPATH is available, then the following setup could be used to make cross-platform
 selectors
@@ -81,8 +79,8 @@ const SELECTORS = {
 
 ## Native App Tests
 
-All tests can be executed on te devices as configured in [`wdio.android.app.conf.ts`](./config/wdio.android.app.conf.ts) or
-[`wdio.ios.app.conf.ts`](./config/wdio.ios.app.conf.ts). Please check the below tests on what they do or on how to run them separately.
+All tests can be executed on the devices as configured in [`wdio.android.app.conf.ts`](./config/wdio.android.app.conf.ts) or
+[`wdio.ios.app.conf.ts`](./config/wdio.ios.app.conf.ts). Please check the below tests on what they do or how to run them separately.
 
 ```sh
 # For Android local execution
@@ -94,9 +92,8 @@ npm run ios.app
 
 ### Drag And Drop
 
-Drag and Drop an element can be a complex gesture to automate with Appium. The demo app has a simple puzzle that hopefully makes it easier
-and fun to understand how to implement a drag and drop in WebdriverIO. The test can be found [here](./tests/specs/app.drag.and.drop.spec.ts)
-and the drag and drop implementation can be found in [this](./tests/screenobjects/DragScreen.ts)-file.
+Drag-and-drop an element can be a complex gesture to automate with Appium. The demo app has a simple puzzle that hopefully makes it easier and fun to understand how to implement a drag-and-drop in WebdriverIO. The test can be found [here](./tests/specs/app.drag.and.drop.spec.ts) and the drag-and-drop implementation can be found in [this](./tests/screenobjects DragScreen.ts) file.
+
 This file will now only hold the [`touchAction`](https://webdriver.io/docs/api/browser/touchAction/) way of using the drag and drop Gesture.
 The `touchPerform` is the *old* JSONWP way of implementing a gesture and is not W3C compatible. The `touchAction` is the new official W3C
 implementation of a gesture.
@@ -113,7 +110,7 @@ npm run ios.app -- --spec=tests/specs/app.drag.and.drop.spec.ts
 
 ### Form components
 
-The Forms-tab holds some components that might be a challenge during automation:
+The forms tab holds some components that might be a challenge during automation:
 
 - Input fields
 - Switches
@@ -135,15 +132,13 @@ npm run ios.app -- --spec=tests/specs/app.forms.spec.ts
 
 ### Login with Biometric support
 
-The Login screen holds a simple implementation of a Login and SignUp form. This boilerplate holds 2 different test-files for the Login
+The Login screen holds a simple implementation of a Login and SignUp form. This boilerplate holds 2 different test files for the Login
 screen.
 
 - [Default Login/Sign Up](./tests/specs/app.login.spec.ts)
 - [Login through Touch-/FaceID or FingerPrint (Biometric Support)](./tests/specs/app.biometric.login.spec.ts)
 
-The last one can be very interesting because it will give you an idea what you need to do when you need to log in with Touch-/FaceID or
-FingerPrint. The [`app.biometric.login.spec.ts`](./tests/specs/app.biometric.login.spec.ts) will also enable Touch-/FaceID if needed
-automatically for you for **Android Emulators** or **iOS Simulators**. It covers almost all platform versions.
+The last one can be very interesting because it will give you an idea of what you need to do when you need to log in with Touch-/FaceID or FingerPrint. The [`app.biometric.login.spec.ts`](./tests/specs/app.biometric.login.spec.ts) will also enable Touch-/FaceID if needed automatically for you for **Android Emulators** or **iOS Simulators**. It covers almost all platform versions.
 
 > **NOTE:** The methods rely on the fact that the Android Emulator or iOS Simulator have English as the default language. If you have set up
 > your test devices with a different language you might need to change certain selectors and or texts for the selectors.
@@ -162,14 +157,12 @@ npm run ios.app -- --spec=tests/specs/app.biometric.login.spec.ts
 
 ### Navigation
 
-There are 2 types of navigation tests that explained in this boilerplate.
+There are 2 types of navigation tests explained in this boilerplate.
 
 1. [Tab Bar](./tests/specs/app.tab.bar.navigation.spec.ts)
 1. [Deep Links](./tests/specs/app.deep.link.navigation.spec.ts)
 
-The most interesting test here will be the [Deep Links](./tests/specs/app.deep.link.navigation.spec.ts) because this might speed up your own
-tests if your app supports Deep Links. Check the code and the `openDeepLinkUrl()` method in the [`Utils.ts`](./tests/helpers/Utils.ts)-file
-to see how this works.
+The most interesting test here will be the [Deep Links](./tests/specs/app.deep.link.navigation.spec.ts) because this might speed up your tests if your app supports Deep Links. Check the code and the `openDeepLinkUrl()` method in the [`Utils.ts`](./tests/helpers/Utils.ts)-file to see how this works.
 
 > **PRO TIP:** If you are automating iOS apps and you can use Deep Links, then you might want to try adding the capability
 > `autoAcceptAlerts:true` when you start the iOS device. This capability will automatically accept all alerts, also the alert that will
@@ -192,19 +185,15 @@ npm run ios.app -- --spec=tests/specs/app.deep.link.navigation.spec.ts
 
 ### Swiping
 
-Swiping is basically a movement with your finger on the screen that has a starting position on the screen, an x-, and y-coordinate and an
-end position, also an x-, and y-coordinate. The starting position can be seen as the first time you touch the screen, the initial *press*.
-The end position can be seen as the time you release the screen. If you translate this to steps you will get:
+Swiping is a movement with your finger on the screen that has a starting position on the screen, an x-, and y-coordinate and an end position, also an x-, and y-coordinate. The starting position can be seen as the first time you touch the screen, the initial *press*. The end position can be seen as the time you release the screen. If you translate this into steps you will get:
 
-1. Press your finger on the screen on starting position
+1. Press your finger on the screen in the starting position
 1. Move your finger to the end position
-1. Release your finger when you are on the end position
+1. Release your finger when you are in the end position
 
-The [Swipe](./tests/specs/app.swipe.spec.ts)-test will be an example on how to do that. It uses a
-[Gesture](./tests/helpers/Gestures.ts)-helper that might be useful for you in the future.
+The [Swipe](./tests/specs/app.swipe.spec.ts) test will be an example of how to do that. It uses a [Gesture](./tests/helpers/Gestures.ts)-helper that might be useful for you in the future.
 
-If you want to know more about Gestures and how to automate them, then we would advise you to watch
-[this presentation "Swiping your way through Appium by Wim Selles"](https://youtu.be/oAJ7jwMNFVU).
+If you want to know more about Gestures and how to automate them, then we would advise you to watch [this presentation "Swiping your way through Appium by Wim Selles"](https://youtu.be/oAJ7jwMNFVU).
 
 You can run the single test with the following commands
 
@@ -244,7 +233,7 @@ The app has a WebView that will automatically load the WebdriverIO documentation
     ```
 
 You will also find a [WebView](./tests/helpers/WebView.ts)-helper with hopefully useful methods that can help you automate a Hybrid App.
-Keep in the back of your mind that for *simplicity* of the Demo app only one WebView is used. This is also used in the WebView-helper.
+Keep in the back of your mind that for the _simplicity_ of the Demo app, only one WebView is used. This is also used in the WebView-helper.
 
 More information about **Automating Hybrid Applications with Appium** and more complex WebViews can be found in
 [this webinar](https://youtu.be/_mPCRxplBfo) recording.
@@ -271,8 +260,7 @@ For Android be sure that the latest version of Chrome is installed, see also
 [`wdio.shared.local.appium.conf.ts`](./config/wdio.shared.local.appium.conf.ts) uses the `relaxedSecurity: true` argument from Appium which
 will allow Appium to automatically download the latest ChromeDriver.
 
-For this boilerplate the testcases from the [jasmine-boilerplate](https://github.com/webdriverio/jasmine-boilerplate), created by
-[Christian Bromann](https://github.com/christian-bromann), are used.
+For this boilerplate, the test cases from the Jasmine boilerplate, created by [Christian Bromann](https://github.com/christian-bromann), are used.
 
 ## Cloud vendors
 
@@ -283,7 +271,7 @@ If you want to run the Native App tests on Sauce Labs you need to do 2 things:
 - Add the [Sauce Service](#add-sauce-service) to your project
 - Upload the apps to the [Sauce Labs Storage](#upload-apps-to-sauce-storage)
 
-When the above has been executed you can follow the steps in:
+When the above has been executed you can follow the steps:
 
 - [Run app tests on the Sauce Labs Real Device Cloud](#run-app-tests-on-the-sauce-labs-real-device-cloud)
 - [Run app tests on the Sauce Labs Emulators and Simulators](#run-app-tests-on-the-sauce-labs-emulators-and-simulators)
@@ -302,7 +290,7 @@ If you provide `region: 'us'` or `region: 'eu'` it will connect to the US or the
 #### Upload apps to Sauce Storage
 
 If you want to use Android emulators, iOS simulators or Android real devices in the Sauce Labs UI you need to upload the apps to the Sauce
-Storage. You can find a script to upload them to, and the US, and EU DC in [this](./scripts)-folder. You can push the files to the storage
+Storage. You can find a script to upload them to, and the US, and EU DC in [this](./scripts) folder. You can push the files to the storage
 by executing the following steps in a terminal from the root of this project:
 
 ```sh
@@ -335,7 +323,7 @@ Please check the following configs to verify the configurations:
 - [Android Emulators](./config/saucelabs/wdio.android.emulators.app.conf.ts)
 - [iOS Simulators](./config/saucelabs/wdio.ios.simulators.app.conf.ts)
 
-The following scripts that can be used, see the [`package.json`](./package.json), to execute the tests in the cloud:
+The following scripts can be used, see the [`package.json`](./package.json), to execute the tests in the cloud:
 
 ```sh
 # For Android Emulators
@@ -358,16 +346,16 @@ npm run ios.sauce.simulator.app.us
 
 ### BrowserStack
 
-This boilerplate provides a setup for testing with BrowserStack. Please check the [BrowserStack](./config/browserstack)-folder to see the
+This boilerplate provides a setup for testing with BrowserStack. Please check the [BrowserStack](./config/browserstack) folder to see the
 setup for iOS and Android.
 
-Make sure you install the latest version of the `@wdio/browserstack-service` with
+Make sure you install the latest version of the `@wdio/browserstack-service` with:
 
 ```shell
 npm install --save-dev @wdio/browserstack-service
 ```
 
-There are 2 scripts that can be used, see the [`package.json`](./package.json), to execute the tests in the cloud:
+There are 2 scripts that can be used. See the [`package.json`](./package.json) to execute the tests in the cloud:
 
 ```sh
 # For iOS

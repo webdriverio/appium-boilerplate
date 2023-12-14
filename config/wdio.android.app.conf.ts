@@ -1,5 +1,5 @@
-import { join } from 'path';
-import config from './wdio.shared.local.appium.conf';
+import path from 'node:path';
+import config from './wdio.shared.local.appium.conf.js';
 
 // ============
 // Specs
@@ -26,8 +26,7 @@ config.capabilities = [
         'appium:orientation': 'PORTRAIT',
         'appium:automationName': 'UiAutomator2',
         // The path to the app
-        'appium:app': join(process.cwd(), './apps/Android-NativeDemoApp-0.4.0.apk'),
-        // @ts-ignore
+        'appium:app': path.join(process.cwd(), 'apps', 'Android-NativeDemoApp-0.4.0.apk'),
         'appium:appWaitActivity': 'com.wdiodemoapp.MainActivity',
         'appium:newCommandTimeout': 240,
     },

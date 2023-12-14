@@ -1,4 +1,4 @@
-import { DEFAULT_PIN, INCORRECT_PIN } from './Constants';
+import { DEFAULT_PIN, INCORRECT_PIN } from './Constants.js';
 
 class Biometrics {
     private get iosAllowBiometry() {return $('~Don’t Allow');}
