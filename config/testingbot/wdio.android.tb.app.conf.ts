@@ -1,39 +1,41 @@
-import { config } from '../wdio.shared.conf';
+import { config as baseConfig } from '../wdio.shared.conf';
 
-// ============
-// Specs
-// ============
-config.specs = [
-    './tests/specs/**/app*.spec.ts',
-];
-config.exclude = [
-    // Exclude this one because the test can only be executed on emulators/simulators
-    './tests/specs/**/app.biometric.login.spec.ts',
-];
+export const config: WebdriverIO.Config = {
+    ...baseConfig,
 
-// =============================
-// TestingBot specific config
-// =============================
-// User configuration
-config.user = process.env.TESTINGBOT_KEY || 'TESTINGBOT_KEY';
-config.key = process.env.TESTINGBOT_SECRET || 'TESTINGBOT_SECRET';
-// Use testingbot service
-config.services = ['testingbot'];
+    // ============
+    // Specs
+    // ============
+    specs: [
+        './tests/specs/**/app*.spec.ts',
+    ],
+    exclude: [
+        // Exclude this one because the test can only be executed on emulators/simulators
+        './tests/specs/**/app.biometric.login.spec.ts',
+    ],
 
-// ============
-// Capabilities
-// ============
-// For all capabilities please check
-// http://appium.io/docs/en/writing-running-appium/caps/#general-capabilities
-config.capabilities = [
-    {
-        // Set URL of the application under test
-        app: 'https://testingbot.com/appium/sample.apk',
+    // =============================
+    // TestingBot specific config
+    // =============================
+    // User configuration
+    user: process.env.TESTINGBOT_KEY || 'TESTINGBOT_KEY',
+    key: process.env.TESTINGBOT_SECRET || 'TESTINGBOT_SECRET',
+    // Use testingbot service
+    services: ['testingbot'],
 
-        deviceName: 'Pixel 6',
-        platformName: 'Android',
-        version: '12.0',
-    },
-];
+    // ============
+    // Capabilities
+    // ============
+    // For all capabilities please check
+    // http://appium.io/docs/en/writing-running-appium/caps/#general-capabilities
+    capabilities: [
+        {
+            // Set URL of the application under test
+            app: 'https://testingbot.com/appium/sample.apk',
 
-exports.config = config;
+            deviceName: 'Pixel 6',
+            platformName: 'Android',
+            version: '12.0',
+        },
+    ],
+};
