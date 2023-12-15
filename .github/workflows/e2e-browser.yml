@@ -1,6 +1,10 @@
 name: Tests e2e Browser Chrome
 
-on: [pull_request]
+on:
+    push:
+      branches:
+        - main
+    pull_request:
 
 jobs:
     e2e-browser-chrome:

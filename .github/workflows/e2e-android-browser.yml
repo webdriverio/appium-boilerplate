@@ -1,6 +1,10 @@
 name: Functional Android Browser Tests
 
-on: [pull_request]
+on:
+    push:
+      branches:
+        - main
+    pull_request:
 
 jobs:
   e2e-android-browser:
