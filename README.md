@@ -365,6 +365,23 @@ $ npm run ios.browserstack.app
 $ npm run android.browserstack.app
 ```
 
+### TestingBot
+
+This boilerplate provides a setup for testing with TestingBot. Please check the [TestingBot](./config/testingbot)-folder to see the
+setup for Android.
+
+Make sure you install the latest version of the `@wdio/testingbot-service` with
+
+```shell
+npm install --save-dev @wdio/testingbot-service
+```
+
+You can use the script from [`package.json`](./package.json), to execute the tests in the TestingBot cloud:
+
+```sh
+$ npm run android.testingbot.app
+```
+
 ## FAQ
 
 See [FAQ](./docs/FAQ.md)
