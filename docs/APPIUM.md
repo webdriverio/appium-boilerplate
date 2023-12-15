@@ -1,7 +1,6 @@
 # Installing Appium on a local machine
 
-> There are several documents and instructions on the internet to install Appium on your local machine.
-This is just one of the many ;-)
+> There are several documents and instructions on the internet to install Appium on your local machine. This is just one of the many ;-)
 
 To setup the local test environment the following needs to be installed:
 
@@ -59,8 +58,7 @@ If the npm install was successful you should be able to run this command `appium
 ➜
 ```
 
-> Always make sure to check the Appium site if there is a new version. New Appium version are released mostly when Android/iOS release new versions.
-Bugfixes can also be released. Just check the [changelog](https://github.com/appium/appium/blob/master/CHANGELOG.md) for a clear overview
+> Always make sure to check the Appium site if there is a new version. New Appium version are released mostly when Android/iOS release new versions. Bugfixes can also be released. Just check the [changelog](https://github.com/appium/appium/blob/master/CHANGELOG.md) for a clear overview
 
 ## Appium desktop
 Appium Desktop is an open source app which gives us the ability of the Appium automation server in a UI. It is a combination of a few Appium-related tools:
@@ -86,7 +84,6 @@ When Appium Destkop is started make sure the _Automatic Server_-tab is enabled. 
 ```
 
 And the following settings for iOS (also check [here](../config/wdio.ios.app.conf.ts))
-
 
 ```js
 {

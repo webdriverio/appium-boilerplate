@@ -30,7 +30,7 @@ export async function openDeepLinkUrl(url:string) {
     const simulatorRegex = new RegExp('(.*-.*){2,}');
 
     // Check if we are a simulator
-    if ('udid' in driver.capabilities && simulatorRegex.test( driver.capabilities.udid as string )){
+    if ('appium:udid' in driver.capabilities && simulatorRegex.test(driver.capabilities['appium:udid'] as string)){
         await driver.url(`${ prefix }${ url }`);
     } else {
         // Else we are a real device and we need to take some extra steps

@@ -1,5 +1,5 @@
-import AppScreen from './AppScreen';
-import Gestures from '../helpers/Gestures';
+import AppScreen from './AppScreen.js';
+import Gestures from '../helpers/Gestures.js';
 
 class LoginScreen extends AppScreen {
     constructor () {

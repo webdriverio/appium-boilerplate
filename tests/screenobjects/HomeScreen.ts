@@ -1,4 +1,4 @@
-import AppScreen from './AppScreen';
+import AppScreen from './AppScreen.js';
 
 class HomeScreen extends AppScreen {
     constructor () {

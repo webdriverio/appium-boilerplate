@@ -1,4 +1,4 @@
-import { DEFAULT_PIN } from '../helpers/Constants';
+import { DEFAULT_PIN } from '../helpers/Constants.js';
 
 class AndroidSettings {
     /**
@@ -6,8 +6,8 @@ class AndroidSettings {
      */
     private get platformVersion(): number {
         return parseInt(
-            (('platformVersion' in driver.capabilities &&
-                driver.capabilities.platformVersion) as string) || '8',
+            (('appium:platformVersion' in driver.capabilities &&
+                driver.capabilities['appium:platformVersion']) as string) || '8',
             10,
         );
     }

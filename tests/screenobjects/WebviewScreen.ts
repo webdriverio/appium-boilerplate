@@ -1,4 +1,4 @@
-import WebView from '../helpers/WebView';
+import WebView from '../helpers/WebView.js';
 
 class WebViewScreen extends WebView {
     /**

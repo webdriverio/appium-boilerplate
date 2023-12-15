@@ -1,52 +1,52 @@
-import config from './wdio.shared.sauce.conf';
+import { config as baseConfig } from './wdio.shared.sauce.conf.js';
 
-// ============
-// Specs
-// ============
-config.specs = [
-    './tests/specs/**/app*.spec.ts',
-];
-config.exclude = [
-    // Exclude this one because the test can only be executed on emulators/simulators
-    './tests/specs/**/app.biometric.login.spec.ts',
-];
+export const config: WebdriverIO.Config = {
+    ...baseConfig,
 
-// ============
-// Capabilities
-// ============
-// For all capabilities please check
-// http://appium.io/docs/en/writing-running-appium/caps/#general-capabilities
+    // ============
+    // Specs
+    // ============
+    specs: [
+        '../tests/specs/**/app*.spec.ts',
+    ],
+    exclude: [
+        // Exclude this one because the test can only be executed on emulators/simulators
+        '../tests/specs/**/app.biometric.login.spec.ts',
+    ],
 
-config.capabilities = [
-    {
-        // For more information about the supported Sauce Labs capabilities see:
-        // https://wiki.saucelabs.com/display/DOCS/Appium+Capabilities+for+Real+Device+Testing
-        // Sauce Labs RDC is not yet W3C compatible, that's why we use ts-ignore
-        // @ts-ignore
-        deviceName: 'Samsung Galaxy S[8912].*',
-        platformName: 'Android',
-        automationName: 'UiAutomator2',
-        phoneOnly: true,
-        orientation: 'PORTRAIT',
-        // Keep the device connected between tests so we don't need to wait for the cleaning process
-        cacheId: 'jsy1v49pn10',
-        newCommandTimeout: 240,
-        idleTimeout: 180,
-        maxInstances: 5,
-        // The path to the app that has been uploaded to the Sauce Storage,
-        // see https://wiki.saucelabs.com/display/DOCS/Application+Storage for more information
-        app: 'storage:filename=wdio-demo-app-android.apk',
-        appWaitActivity: 'com.wdiodemoapp.MainActivity',
-        // Always default the language to a language you prefer so you know the app language is always as expected
-        language: 'en',
-        locale: 'en',
-        // Add a name to the test
-        name: 'wdio-demo-app-test',
-        build: `WebdriverIO Native Demo app, Android Real Devices: ${new Date().getTime()}`
-    },
-];
+    // ============
+    // Capabilities
+    // ============
+    // For all capabilities please check
+    // http://appium.io/docs/en/writing-running-appium/caps/#general-capabilities
+    capabilities: [
+        {
+            maxInstances: 5,
+            platformName: 'Android',
+            // For more information about the supported Sauce Labs capabilities see:
+            // https://wiki.saucelabs.com/display/DOCS/Appium+Capabilities+for+Real+Device+Testing
+            // Sauce Labs RDC is not yet W3C compatible, that's why we use ts-ignore
+            // @ts-ignore
+            'appium:deviceName': 'Samsung Galaxy S[8912].*',
+            'appium:automationName': 'UiAutomator2',
+            'appium:orientation': 'PORTRAIT',
+            'sauce:options': {
+                // Keep the device connected between tests so we don't need to wait for the cleaning process
+                cacheId: 'jsy1v49pn10',
+                idleTimeout: 180,
+                // Add a name to the test
+                name: 'wdio-demo-app-test',
+                build: `WebdriverIO Native Demo app, Android Real Devices: ${new Date().getTime()}`
+            },
 
-// This port was defined in the `wdio.shared.conf.ts`
-delete config.port;
-
-exports.config = config;
+            'appium:newCommandTimeout': 240,
+            // The path to the app that has been uploaded to the Sauce Storage,
+            // see https://wiki.saucelabs.com/display/DOCS/Application+Storage for more information
+            'appium:app': 'storage:filename=wdio-demo-app-android.apk',
+            'appium:appWaitActivity': 'com.wdiodemoapp.MainActivity',
+            // Always default the language to a language you prefer so you know the app language is always as expected
+            'appium:language': 'en',
+            'appium:locale': 'en',
+        },
+    ],
+};

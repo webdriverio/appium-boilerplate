@@ -1,7 +1,7 @@
-import TabBar from '../screenobjects/components/TabBar';
-import SwipeScreen from '../screenobjects/SwipeScreen';
-import Carousel from '../screenobjects/components/Carousel';
-import Gestures from '../helpers/Gestures';
+import TabBar from '../screenobjects/components/TabBar.js';
+import SwipeScreen from '../screenobjects/SwipeScreen.js';
+import Carousel from '../screenobjects/components/Carousel.js';
+import Gestures from '../helpers/Gestures.js';
 
 describe('WebdriverIO and Appium, when using swiping', () => {
     beforeEach(async () => {

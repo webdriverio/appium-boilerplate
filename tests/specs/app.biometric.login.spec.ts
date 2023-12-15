@@ -1,8 +1,8 @@
-import TabBar from '../screenobjects/components/TabBar';
-import LoginScreen from '../screenobjects/LoginScreen';
-import Biometrics from '../helpers/Biometrics';
-import NativeAlert from '../screenobjects/components/NativeAlert';
-import AndroidSettings from '../screenobjects/AndroidSettings';
+import TabBar from '../screenobjects/components/TabBar.js';
+import LoginScreen from '../screenobjects/LoginScreen.js';
+import Biometrics from '../helpers/Biometrics.js';
+import NativeAlert from '../screenobjects/components/NativeAlert.js';
+import AndroidSettings from '../screenobjects/AndroidSettings.js';
 
 /**
  * IMPORTANT!
@@ -20,6 +20,7 @@ describe('WebdriverIO and Appium, when interacting with a biometric button,', ()
             // iOS us pretty straightforward, just enabled it
             await driver.toggleEnrollTouchId(true);
             // restart the app
+            // @ts-expect-error command deprecated
             await driver.reset();
 
             // Wait for the app again and go to the login screen
@@ -28,6 +29,7 @@ describe('WebdriverIO and Appium, when interacting with a biometric button,', ()
             // Android is more complex, see this method
             await AndroidSettings.enableBiometricLogin();
             // restart the app
+            // @ts-expect-error command deprecated
             await driver.reset();
 
             // Wait for the app again and go to the login screen

@@ -1,11 +1,12 @@
-import TabBar from '../screenobjects/components/TabBar';
-import WebViewScreen from '../screenobjects/WebviewScreen';
-import { timeDifference } from '../helpers/Utils';
+import TabBar from '../screenobjects/components/TabBar.js';
+import WebViewScreen from '../screenobjects/WebviewScreen.js';
+import { timeDifference } from '../helpers/Utils.js';
 
 describe('WebdriverIO and Appium, when interacting with a webview through XPATH', () => {
     let start:number;
 
     beforeEach(async () => {
+        // @ts-expect-error command deprecated
         await browser.reset();
         await TabBar.waitForTabBarShown();
         await TabBar.openWebView();

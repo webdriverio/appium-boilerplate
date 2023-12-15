@@ -1,8 +1,8 @@
-import TabBar from '../screenobjects/components/TabBar';
-import WebViewScreen from '../screenobjects/WebviewScreen';
-import SwipeScreen from '../screenobjects/SwipeScreen';
-import { CONTEXT_REF } from '../helpers/WebView';
-import Carousel from '../screenobjects/components/Carousel';
+import TabBar from '../screenobjects/components/TabBar.js';
+import WebViewScreen from '../screenobjects/WebviewScreen.js';
+import SwipeScreen from '../screenobjects/SwipeScreen.js';
+import { CONTEXT_REF } from '../helpers/WebView.js';
+import Carousel from '../screenobjects/components/Carousel.js';
 
 describe('WebdriverIO and Appium, when interacting with a WebView,', () =>  {
     beforeEach(async () =>  {
