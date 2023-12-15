@@ -1,0 +1,16 @@
+name: Tests e2e Browser Chrome
+
+on: [pull_request]
+
+jobs:
+    e2e-browser-chrome:
+        env:
+            CI: true
+        runs-on: macos-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  node-version-file: '.nvmrc'
+            - run: npm install
+            - run: npm run browser

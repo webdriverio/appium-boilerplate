@@ -33,6 +33,7 @@
         "android.sauce.rdc.app.us": "wdio run config/saucelabs/wdio.android.rdc.app.conf.ts",
         "android.app": "wdio run config/wdio.android.app.conf.ts",
         "android.browser": "wdio run config/wdio.android.browser.conf.ts",
+        "browser": "wdio run config/wdio.browser.conf.ts",
         "ios.app": "wdio run config/wdio.ios.app.conf.ts",
         "ios.sauce.simulators.app.eu": "REGION=eu wdio ./config/saucelabs/wdio.ios.simulators.app.conf.ts",
         "ios.sauce.simulators.app.us": "wdio run ./config/saucelabs/wdio.ios.simulators.app.conf.ts",

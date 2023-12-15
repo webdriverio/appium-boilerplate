@@ -16,7 +16,7 @@ jobs:
             APPIUM_TEST_SERVER_HOST: 127.0.0.1
             APPIUM_STARTUP_TIMEOUT_SEC: 30
             _FORCE_LOGS: 1
-        runs-on: macOS-11
+        runs-on: macos-latest
         steps:
             - uses: actions/checkout@v3
             - uses: futureware-tech/simulator-action@v2
