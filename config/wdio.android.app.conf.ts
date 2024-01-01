@@ -1,4 +1,4 @@
-import path from 'node:path';
+import { join } from 'node:path';
 import { config as baseConfig } from './wdio.shared.local.appium.conf.js';
 
 export const config: WebdriverIO.Config = {
@@ -24,12 +24,17 @@ export const config: WebdriverIO.Config = {
             // For W3C the appium capabilities need to have an extension prefix
             // http://appium.io/docs/en/writing-running-appium/caps/
             // This is `appium:` for all Appium Capabilities which can be found here
-            'appium:deviceName': 'Pixel_3_10.0',
-            'appium:platformVersion': '10.0',
+            'appium:deviceName': 'Pixel_7_Pro_Android_14_API_34',
+            'appium:platformVersion': '14.0',
             'appium:orientation': 'PORTRAIT',
             'appium:automationName': 'UiAutomator2',
             // The path to the app
-            'appium:app': path.join(process.cwd(), 'apps', 'Android-NativeDemoApp-0.4.0.apk'),
+            'appium:app': join(
+                process.cwd(),
+                'apps',
+                // Change this name according to the app version you downloaded
+                'android.wdio.native.app.v1.0.8.apk',
+            ),
             'appium:appWaitActivity': 'com.wdiodemoapp.MainActivity',
             'appium:newCommandTimeout': 240,
         },

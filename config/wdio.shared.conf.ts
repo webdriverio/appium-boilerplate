@@ -1,9 +1,11 @@
+import type { Options } from '@wdio/types';
+
 /**
  * All not needed configurations, for this boilerplate, are removed.
  * If you want to know which configuration options you have then you can
  * check https://webdriver.io/docs/configurationfile
  */
-export const config: WebdriverIO.Config = {
+export const config: Options.Testrunner = {
     //
     // ====================
     // Runner Configuration
