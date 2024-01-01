@@ -11,8 +11,10 @@ Boilerplate project to run Appium tests together with WebdriverIO for:
 - iOS/Android Hybrid Apps
 - Android Chrome and iOS Safari browser ([check here](./README.md#automating-chrome-or-safari))
 
+> [!IMPORTANT]
 > This boilerplate uses the WebdriverIO native demo app which can be found [here](https://github.com/webdriverio/native-demo-app).
-> **Note:**
+
+> [!NOTE]
 > This boilerplate only handles local execution on 1 em/simulator at a time, not parallel execution. For more info about that Google on setting up a grid with Appium.
 
 ## Based on
@@ -24,19 +26,38 @@ This boilerplate is currently based on:
 
 ## Installation
 
-1. Running `git clone https://github.com/webdriverio/appium-boilerplate.git`
-1. Running `npm install`
-1. Installing Appium on a local machine [here](./docs/APPIUM.md)
-1. Setting up Android and iOS on a local machine [here](./docs/ANDROID_IOS_SETUP.md)
-1. Making demo app available. Create a `./apps` directory. Download the app files (.app / .apk) with version >= `0.4.0` [here](https://github.com/webdriverio/native-demo-app/releases). Move the files into the directory `apps`.
-1. Running tests `npm run android.app` or `npm run android.browser`
+1. Clone this project by running
+
+```sh
+git clone https://github.com/webdriverio/appium-boilerplate.git
+```
+
+2. Install all dependencies
+
+```sh
+npm install
+```
+
+> [!TIP]
+> Use the [appium-installer](https://github.com/AppiumTestDistribution/appium-installer) package to setup Appium on your local machine. This will also help you configure Android Emulators/ iOS Simulators.
+
+> [!NOTE]
+> When running test in a cloud
+
+3. Create a `./apps` directory at the root of this project. Download the app files (`.zip` / `.apk`) with version >= `1.0.0`, which can be found [here](https://github.com/webdriverio/native-demo-app/releases), into the `./apps` folder.
+
+4. Running tests locally
+    - **Android App:** `npm run android.app`
+    - **Android Browser:**  `npm run android.browser`
+    - **iOS App:** `npm run ios.app`
+    - **iOS Browser:**  `npm run ios.browser`
 
 ## How to implement in your project
 
 Choose one of the following options:
 
 1. Clone the git repo — `git clone https://github.com/webdriverio/appium-boilerplate.git`
-1. Then copy the files to your project directory (all files in `/tests` and the `wdio.conf` files in the `config` folder)
+1. Copy the files to your project directory (all files in `/tests` and the `wdio.conf` files in the `config` folder)
 1. Merge project dev dependencies with your project dev dependencies in your `package.json`
 1. Merge the scripts to your `package.json` scripts
 1. Run the tests, see [Native App Tests](#native-app-tests) or [Automating Chrome of Safari](#automating-chrome-or-safari).
@@ -72,10 +93,8 @@ const SELECTORS = {
 };
 ```
 
-> **NOTE:** If you look into the screen/page-objects you might see that a lot of selectors are made private, meaning you can use the
-> elements in the spec-file itself. This has been done on purpose because one of the *best practices* is to remove all interactions from
-> your spec files and implement the interactions in the page objects. This will make it easier to maintain for the future and easier to
-> refactor if new interaction methods will be added or names will be adjusted.
+> [!NOTE]
+> If you look into the screen/page-objects you might see that a lot of selectors are made private, meaning you can use the elements in the spec-file itself. This has been done on purpose because one of the *best practices* is to remove all interactions from your spec files and implement the interactions in the page objects. This will make it easier to maintain for the future and easier to refactor if new interaction methods will be added or names will be adjusted.
 
 ## Native App Tests
 
@@ -164,12 +183,10 @@ There are 2 types of navigation tests explained in this boilerplate.
 
 The most interesting test here will be the [Deep Links](./tests/specs/app.deep.link.navigation.spec.ts) because this might speed up your tests if your app supports Deep Links. Check the code and the `openDeepLinkUrl()` method in the [`Utils.ts`](./tests/helpers/Utils.ts)-file to see how this works.
 
-> **PRO TIP:** If you are automating iOS apps and you can use Deep Links, then you might want to try adding the capability
-> `autoAcceptAlerts:true` when you start the iOS device. This capability will automatically accept all alerts, also the alert that will
-> appear when you want to open your deep link in Safari.
+> [!TIP]]
+> If you are automating iOS apps and you can use Deep Links, then you might want to try adding the capability `autoAcceptAlerts:true` when you start the iOS device. This capability will automatically accept all alerts, also the alert that will appear when you want to open your deep link in Safari.
 >
-> If you ware going to use this capability, then don't forget to remove the last few lines in the
-> [`openDeepLinkUrl()`](./tests/helpers/Utils.ts)-method, see the comments in the method
+> If you ware going to use this capability, then don't forget to remove the last few lines in the [`openDeepLinkUrl()`](./tests/helpers/Utils.ts)-method, see the comments in the method
 
 You can run the single test with the following commands
 
