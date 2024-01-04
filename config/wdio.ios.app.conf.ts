@@ -34,6 +34,8 @@ export const config: WebdriverIO.Config = {
                 'ios.simulator.wdio.native.app.v1.0.8.zip'
             ),
             'appium:newCommandTimeout': 240,
+            // This is needed to wait for the webview context to become available
+            'appium:webviewConnectTimeout': 5000,
         }
     ]
 };
