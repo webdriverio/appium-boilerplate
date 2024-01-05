@@ -1,123 +1,157 @@
-import { RectReturn } from '@wdio/protocols';
-
-/**
- * To make a Gesture methods more robust for multiple devices and also
- * multiple screen sizes the advice is to work with percentages instead of
- * actual coordinates. The percentages will calculate the position on the
- * screen based on the SCREEN_SIZE which will be determined once if needed
- * multiple times.
- */
-
-let SCREEN_SIZE:RectReturn;
 interface XY {
     x:number;
     y:number;
 }
 
-/**
- * The values in the below object are percentages of the screen
- */
-const SWIPE_DIRECTION = {
-    down: {
-        start: { x: 50, y: 15 },
-        end: { x: 50, y: 85 },
-    },
-    left: {
-        start: { x: 95, y: 50 },
-        end: { x: 5, y: 50 },
-    },
-    right: {
-        start: { x: 5, y: 50 },
-        end: { x: 95, y: 50 },
-    },
-    up: {
-        start: { x: 50, y: 85 },
-        end: { x: 50, y: 15 },
-    },
-};
+export const DIRECTIONS = {
+    // Starting Point: You place your finger towards the top of the screen.
+    // Movement: You slide your finger downwards towards the bottom of the screen.
+    // Action: This also varies by context:
+    //  - On the home screen or in applications, it typically scrolls the content upwards.
+    //  - From the top edge, it often opens the notifications panel or quick settings.
+    //  - In browsers or reading apps, it can be used to scroll through content.
+    DOWN: 'down',
+    // Starting Point: You place your finger on the right side of the screen.
+    // Movement: You slide your finger horizontally to the left.
+    // Action: The response to this gesture depends on the application:
+    //  - It can move to the next item in a carousel or a set of images.
+    //  - In a navigation context, it might go back to the previous page or close the current view.
+    //  - On the home screen, it usually switches to the next virtual desktop or screen.
+    LEFT: 'left',
+    // Starting Point: You place your finger on the left side of the screen.
+    // Movement: You slide your finger horizontally to the right.
+    // Action: Similar to swiping left, but in the opposite direction:
+    //  - It often moves to the previous item in a carousel or gallery.
+    //  - Can be used to open side menus or navigation drawers in apps.
+    //  - On the home screen, it typically switches to the previous virtual desktop.
+    RIGHT: 'right',
+    // Starting Point: You place your finger towards the bottom of the screen.
+    // Movement: You slide your finger upwards towards the top of the screen.
+    // Action: Depending on the context, different actions can occur:
+    //  - On the home screen or in a list, this usually scrolls the content downwards.
+    //  - In a full-screen app, it might open additional options or the app drawer.
+    //  - On certain interfaces, it could trigger a 'refresh' action or open a search bar.
+    UP: 'up',
+} as const;
+type SwipeDirectionType = typeof DIRECTIONS[keyof typeof DIRECTIONS];
 
 class Gestures {
     /**
      * Check if an element is visible and if not wipe up a portion of the screen to
      * check if it visible after x amount of scrolls
      */
-    static async checkIfDisplayedWithSwipeUp (element:WebdriverIO.Element, maxScrolls:number, amount = 0){
+    static async checkIfDisplayedWithSwipe (
+        {
+            scrollContainer,
+            searchableElement,
+            maxScrolls,
+            amount=0,
+            direction=DIRECTIONS.DOWN,
+            // Never scroll from the exact top or bottom of the screen, you might trigger the notification bar or other OS/App features
+            percentage=0.99,
+        }:
+        {
+            scrollContainer:WebdriverIO.Element,
+            searchableElement:WebdriverIO.Element,
+            maxScrolls:number,
+            amount?: number,
+            direction?: SwipeDirectionType,
+            percentage?: number,
+        }
+    ){
         // If the element is not displayed and we haven't scrolled the max amount of scrolls
         // then scroll and execute the method again
-        if (!await element.isDisplayed() && amount <= maxScrolls) {
-            await this.swipeUp(0.85);
-            await this.checkIfDisplayedWithSwipeUp(element, maxScrolls, amount + 1);
+        if (!await searchableElement.isDisplayed() && amount <= maxScrolls) {
+            // 1. Determine the percentage of the scrollable container to be scrolled
+            // The scroll percentage is the percentage of the scrollable container that should be scrolled
+            let scrollPercentage;
+            if (isNaN(percentage)){
+                console.log('\nThe percentage to scroll should be a number.\n');
+                // Never scroll from the exact top or bottom of the screen, you might trigger the notification bar or other OS/App features
+                scrollPercentage = 0.99;
+            } else if (percentage > 1) {
+                console.log('\nThe percentage to scroll should be a number between 0 and 1.\n');
+                // Never scroll from the exact top or bottom of the screen, you might trigger the notification bar or other OS/App features
+                scrollPercentage = 0.99;
+            } else {
+                scrollPercentage = 1-percentage;
+            }
+
+            // 2. Determine the swipe coordinates
+            //    When we get the element rect we get the position of the element on the screen based on the
+            //    - x (position from the left of the screen)
+            //    - y (position from the top of the screen)
+            //    - width (width of the element)
+            //    - height (height of the element)
+            //    We can use this to calculate the position of the swipe by determining the
+            //    - top
+            //    - right
+            //    - bottom
+            //    - left
+            //    of the element. These positions will contain the x and y coordinates on where to put the finger
+            const { x, y, width, height } = await driver.getElementRect(scrollContainer.elementId);
+            // It's always advisable to swipe from the center of the element.
+            const scrollRectangles = {
+                // The x is the center of the element,
+                // The y is the y of the element + the height of the element * the scroll percentage
+                top: { x: Math.round(x + width / 2), y: Math.round(y + height * scrollPercentage) },
+                // The x is the x of the element + the width of the element, minus the width of the element * the scroll percentage
+                // The y is the center of the element,
+                right: { x: Math.round(x + width - width * scrollPercentage), y: Math.round(y + height / 2) },
+                // The x is the center of the element,
+                // The y is the y of the element, plus the height, minus the height of the element * the scroll percentage
+                bottom: { x: Math.round(x + width / 2), y: Math.round(y + height - height * scrollPercentage) },
+                // The x is the x of the element, plus the width of the element * the scroll percentage
+                // The y is the center of the element,
+                left: { x: Math.round(x + width * scrollPercentage), y: Math.round(y + height / 2) },
+            };
+
+            // 3. Swipe in the given direction
+            if (direction === DIRECTIONS.DOWN) {
+                await this.swipe({
+                    from: scrollRectangles.top,
+                    to: scrollRectangles.bottom,
+                });
+            } else if (direction === DIRECTIONS.LEFT) {
+                await this.swipe({
+                    from: scrollRectangles.right,
+                    to: scrollRectangles.left,
+                });
+            } else if (direction === DIRECTIONS.RIGHT) {
+                await this.swipe({
+                    from: scrollRectangles.left,
+                    to: scrollRectangles.right,
+                });
+            } else if (direction === DIRECTIONS.UP) {
+                await this.swipe({
+                    from: scrollRectangles.bottom,
+                    to: scrollRectangles.top,
+                });
+            } else {
+                console.log('\nThe direction to scroll should be one of the following: down, left, right or up.\n');
+            }
+
+            // 4. Check if the element is visible or swipe again
+            await this.checkIfDisplayedWithSwipe({
+                scrollContainer,
+                searchableElement,
+                maxScrolls,
+                amount:amount + 1,
+                direction,
+                percentage,
+            });
         } else if (amount > maxScrolls) {
             // If the element is still not visible after the max amount of scroll let it fail
-            throw new Error(`The element '${element}' could not be found or is not visible.`);
+            throw new Error(`The element '${searchableElement}' could not be found or is not visible.`);
         }
 
         // The element was found, proceed with the next action
     }
 
     /**
-     * Swipe down based on a percentage
-     */
-    static async swipeDown (percentage = 1) {
-        await this.swipeOnPercentage(
-            this.calculateXY(SWIPE_DIRECTION.down.start, percentage),
-            this.calculateXY(SWIPE_DIRECTION.down.end, percentage),
-        );
-    }
-
-    /**
-     * Swipe Up based on a percentage
-     */
-    static async swipeUp (percentage = 1) {
-        await this.swipeOnPercentage(
-            this.calculateXY(SWIPE_DIRECTION.up.start, percentage),
-            this.calculateXY(SWIPE_DIRECTION.up.end, percentage),
-        );
-    }
-
-    /**
-     * Swipe left based on a percentage
-     */
-    static async swipeLeft (percentage = 1) {
-        await this.swipeOnPercentage(
-            this.calculateXY(SWIPE_DIRECTION.left.start, percentage),
-            this.calculateXY(SWIPE_DIRECTION.left.end, percentage),
-        );
-    }
-
-    /**
-     * Swipe right based on a percentage
-     */
-    static async swipeRight (percentage = 1) {
-        await this.swipeOnPercentage(
-            this.calculateXY(SWIPE_DIRECTION.right.start, percentage),
-            this.calculateXY(SWIPE_DIRECTION.right.end, percentage),
-        );
-    }
-
-    /**
-     * Swipe from coordinates (from) to the new coordinates (to). The given coordinates are
-     * percentages of the screen.
-     */
-    static async swipeOnPercentage (from: XY, to: XY) {
-        // Get the screen size and store it so it can be re-used.
-        // This will save a lot of webdriver calls if this methods is used multiple times.
-        SCREEN_SIZE = SCREEN_SIZE || await driver.getWindowRect();
-        // Get the start position on the screen for the swipe
-        const pressOptions = this.getDeviceScreenCoordinates(SCREEN_SIZE, from);
-        // Get the move to position on the screen for the swipe
-        const moveToScreenCoordinates = this.getDeviceScreenCoordinates(SCREEN_SIZE, to);
-
-        await this.swipe(
-            pressOptions,
-            moveToScreenCoordinates,
-        );
-    }
-
-    /**
      * Swipe from coordinates (from) to the new coordinates (to). The given coordinates are in pixels.
      */
-    static async swipe (from: XY, to: XY) {
+    static async swipe ({ from, to }:{from: XY, to: XY}) {
         await driver.performActions([
             {
                 // a. Create the event
@@ -143,26 +177,6 @@ class Gestures {
         ]);
         // Add a pause, just to make sure the swipe is done
         await driver.pause(1000);
-    }
-
-    /**
-     * Get the screen coordinates based on a device his screen size
-     */
-    private static getDeviceScreenCoordinates (screenSize:RectReturn, coordinates: XY): XY {
-        return {
-            x: Math.round(screenSize.width * (coordinates.x / 100)),
-            y: Math.round(screenSize.height * (coordinates.y / 100)),
-        };
-    }
-
-    /**
-     * Calculate the x y coordinates based on a percentage
-     */
-    private static calculateXY ({ x, y }:XY, percentage:number):XY {
-        return {
-            x: x * percentage,
-            y: y * percentage,
-        };
     }
 }
 

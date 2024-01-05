@@ -1,15 +1,20 @@
 import Gestures from '../../helpers/Gestures.js';
 import type { RectReturn } from '@wdio/protocols';
 
-const SELECTORS = {
-    CAROUSEL: '~Carousel',
-    CARD: '~card',
-};
-
 let CAROUSEL_RECTANGLES: RectReturn;
 
 class Carousel extends Gestures {
-    private get cards () {return $$(SELECTORS.CARD);}
+    get carousel () {return $('~Carousel');}
+    get openSourceCard () {return $(this.locatorStrategy('__CAROUSEL_ITEM_0_READY__'));}
+    get communityCard () {return $(this.locatorStrategy('__CAROUSEL_ITEM_1_READY__'));}
+    get jsFoundationCard () {return $(this.locatorStrategy('__CAROUSEL_ITEM_2_READY__'));}
+    get supportVideosCard () {return $(this.locatorStrategy('__CAROUSEL_ITEM_3_READY__'));}
+    get extendableCard () {return $(this.locatorStrategy('__CAROUSEL_ITEM_4_READY__'));}
+    get compatibleCard () {return $(this.locatorStrategy('__CAROUSEL_ITEM_5_READY__'));}
+
+    private locatorStrategy (selector: string): string {
+        return driver.isIOS ? `~${selector}` : `//*[@resource-id="${selector}"]`;
+    }
 
     /**
      * Wait for the carousel to be (un)visible
@@ -17,57 +22,20 @@ class Carousel extends Gestures {
      * @param {boolean} isShown
      */
     async waitForIsDisplayed (isShown = true) {
-        await $(SELECTORS.CAROUSEL).waitForDisplayed({
+        await this.carousel.waitForDisplayed({
             reverse: !isShown,
         });
     }
 
     /**
-     * Get the text of the active cart.
-     *
-     * Carousel only has a max of 3 elements when 3 or more cards are provided
-     * When the first or last card is active then 2 elements are present
-     *
-     * if first card is active
-     *    the first of 2 elements is the active card
-     * else if last card is active
-     *    the last of 2 elements is the active card
-     * else
-     *    there are 3 elements and the active card is the middle one
-     *
-     * Use 'first' to indicate the first card, else use a different word to
-     * indicate the other card like for example 'active'.
+     * There are 6 cards in the carousel, but only 1 is fully, and 1 is partially visible.
+     * We can validate which card is active by checking if it is fully visible.
+     * This can be done by checking if the card has position x=0.
      */
-    async getNthCardText (nthCard:string):Promise<string> {
-        await this.waitForIsDisplayed();
-        await driver.waitUntil(
-            async () => await this.cards.length > 0,
-            {
-                timeoutMsg: 'Expected to have more than 0 cards',
-            },
-        );
+    async isCardActive (card: WebdriverIO.Element) {
+        const cardRectangles = await driver.getElementRect(card.elementId);
 
-        const cardNumber = (nthCard === 'first' || await this.cards.length === 1) ? 0 : 1;
-        /**
-         * IMPORTANT:
-         * iOS gives back the text of all child elements when you call `element.getText()` on the parent element.
-         * Android DOES NOT have the text of the child elements on the parent, we need to get them ourselves.
-         */
-        let cardText = '';
-
-        if (driver.isAndroid) {
-            const cards = await (await this.cards)[cardNumber].$$('*//android.widget.TextView');
-
-            for (const el of cards) {
-                cardText = `${cardText} ${await el.getText()}`;
-            }
-        } else {
-            cardText =  (await(await this.cards)[cardNumber].getText()).trim();
-        }
-
-        return cardText
-            // Replace all possible breaks, tabs and so on with a single space
-            .replace(/(?:\r\n|\r|\n)/g, ' ');
+        return cardRectangles.x === 0;
     }
 
     /**
@@ -81,14 +49,14 @@ class Carousel extends Gestures {
         const y = Math.round(carouselRectangles.y + (carouselRectangles.height / 2));
 
         // Execute the gesture by providing a starting position and an end position
-        await Gestures.swipe(
+        await Gestures.swipe({
             // Here we start on the right of the carousel. To make sure that we don't touch the outer most right
             // part of the screen we take 10% of the x-position. The y-position has already been determined.
-            { x: Math.round(carouselRectangles.width - (carouselRectangles.width * 0.10)), y },
+            from: { x: Math.round(carouselRectangles.width - (carouselRectangles.width * 0.10)), y },
             // Here we end on the left of the carousel. To make sure that we don't touch the outer most left
             // part of the screen we add 10% to the x-position. The y-position has already been determined.
-            { x: Math.round(carouselRectangles.x + (carouselRectangles.width * 0.10)), y },
-        );
+            to: { x: Math.round(carouselRectangles.x + (carouselRectangles.width * 0.10)), y },
+        });
     }
 
     /**
@@ -102,14 +70,14 @@ class Carousel extends Gestures {
         const y = Math.round(carouselRectangles.y + (carouselRectangles.height / 2));
 
         // Execute the gesture by providing a starting position and an end position
-        await Gestures.swipe(
+        await Gestures.swipe({
             // Here we start on the left of the carousel. To make sure that we don't touch the outer most left
             // part of the screen we add 10% to the x-position. The y-position has already been determined.
-            { x: Math.round(carouselRectangles.x + (carouselRectangles.width * 0.10)), y },
+            from: { x: Math.round(carouselRectangles.x + (carouselRectangles.width * 0.10)), y },
             // Here we end on the right of the carousel. To make sure that we don't touch the outer most right
             // part of the screen we take 10% of the x-position. The y-position has already been determined.
-            { x: Math.round(carouselRectangles.width - (carouselRectangles.width * 0.10)), y },
-        );
+            to: { x: Math.round(carouselRectangles.width - (carouselRectangles.width * 0.10)), y },
+        });
     }
 
     /**
@@ -117,9 +85,9 @@ class Carousel extends Gestures {
      */
     async getCarouselRectangles (): Promise<RectReturn> {
         // Get the rectangles of the carousel and store it in a global that will be used for a next call.
-        // We dont want ask for the rectangles of the carousel if we already know them.
+        // We don't want ask for the rectangles of the carousel if we already know them.
         // This will save unneeded webdriver calls.
-        CAROUSEL_RECTANGLES = CAROUSEL_RECTANGLES || await driver.getElementRect(await $(SELECTORS.CAROUSEL).elementId);
+        CAROUSEL_RECTANGLES = CAROUSEL_RECTANGLES || await driver.getElementRect((await this.carousel).elementId);
 
         return CAROUSEL_RECTANGLES;
     }
