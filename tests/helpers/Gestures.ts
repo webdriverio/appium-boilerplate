@@ -170,7 +170,12 @@ class Gestures {
             // d. Pause for a little bit
             .pause(100)
             // e. Finger moves to end position
-            .move(to.x, to.y)
+            // IMPORTANT. The default duration, if you don't provide it, is 100ms. This means that the movement will be so fast that it:
+            // - might not be registered
+            // - might not have the correct result on longer movements.
+            // Short durations will move elements on the screen over longer move coordinates very fast.
+            // Play with the duration to make the swipe go slower / faster
+            .move({ duration: 1000, x: to.x, y: to.y })
             // f. Finger gets up, off the screen
             .up() // this can also be written as .up({ button:0 }) which allows you to add more options
             // g. Perform the action
