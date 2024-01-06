@@ -108,22 +108,22 @@ class Gestures {
 
             // 3. Swipe in the given direction
             if (direction === DIRECTIONS.DOWN) {
-                await this.swipe({
+                await this.executeGesture({
                     from: scrollRectangles.top,
                     to: scrollRectangles.bottom,
                 });
             } else if (direction === DIRECTIONS.LEFT) {
-                await this.swipe({
+                await this.executeGesture({
                     from: scrollRectangles.right,
                     to: scrollRectangles.left,
                 });
             } else if (direction === DIRECTIONS.RIGHT) {
-                await this.swipe({
+                await this.executeGesture({
                     from: scrollRectangles.left,
                     to: scrollRectangles.right,
                 });
             } else if (direction === DIRECTIONS.UP) {
-                await this.swipe({
+                await this.executeGesture({
                     from: scrollRectangles.bottom,
                     to: scrollRectangles.top,
                 });
@@ -149,32 +149,59 @@ class Gestures {
     }
 
     /**
-     * Swipe from coordinates (from) to the new coordinates (to). The given coordinates are in pixels.
+     * Execute a gesture on the screen from coordinates (from) to the new coordinates (to). The given coordinates are in pixels.
+     *
+     * There are two ways to execute a gesture:
+     * 1. The "clean and easy" way
+     * 2. The "verbose" way
+     *
+     * The "clean and easy" way is the recommended way to execute a gesture. It is easier to read and understand.
+     * The "verbose" way is the way the Appium server expects the gesture to be send to the server and this is also how the "clean" way is translated to.
      */
-    static async swipe ({ from, to }:{from: XY, to: XY}) {
-        await driver.performActions([
-            {
-                // a. Create the event
-                type: 'pointer',
-                id: 'finger1',
-                parameters: { pointerType: 'touch' },
-                actions: [
-                    // b. Move finger into start position
-                    { type: 'pointerMove', duration: 0, x: from.x, y: from.y },
-                    // c. Finger comes down into contact with screen
-                    { type: 'pointerDown', button: 0 },
-                    // d. Pause for a little bit
-                    { type: 'pause', duration: 100 },
-                    // e. Finger moves to end position
-                    //    We move our finger from the center of the element to the
-                    //    starting position of the element.
-                    //    Play with the duration to make the swipe go slower / faster
-                    { type: 'pointerMove', duration: 1000, x: to.x, y: to.y },
-                    // f. Finger gets up, off the screen
-                    { type: 'pointerUp', button: 0 },
-                ],
-            },
-        ]);
+    static async executeGesture ({ from, to }:{from: XY, to: XY}) {
+        // The "clean" way
+        await driver
+            // a. Create the event
+            .action('pointer')
+            // b. Move finger into start position
+            .move(from.x, from.y) // This can also be written as .move({ x:from.x, y:from.y }) which allows you to add more options
+            // c. Finger comes down into contact with screen
+            .down() // This can also be written as .down({ button:0 }) which allows you to add more options
+            // d. Pause for a little bit
+            .pause(100)
+            // e. Finger moves to end position
+            .move(to.x, to.y)
+            // f. Finger gets up, off the screen
+            .up() // this can also be written as .up({ button:0 }) which allows you to add more options
+            // g. Perform the action
+            .perform();
+
+        // The "verbose" way. The advantage of this way is that you can add more options to control the action in comparison to the "clean and easy" way.
+        // More information about this can be found here: https://github.com/jlipps/simple-wd-spec?tab=readme-ov-file#perform-actions
+        // await driver.performActions([
+        //     {
+        //         // a. Create the event
+        //         type: 'pointer',
+        //         id: 'finger1',
+        //         parameters: { pointerType: 'touch' },
+        //         actions: [
+        //             // b. Move finger into start position
+        //             { type: 'pointerMove', duration: 0, x: from.x, y: from.y },
+        //             // c. Finger comes down into contact with screen
+        //             { type: 'pointerDown', button: 0 },
+        //             // d. Pause for a little bit
+        //             { type: 'pause', duration: 100 },
+        //             // e. Finger moves to end position
+        //             //    We move our finger from the center of the element to the
+        //             //    starting position of the element.
+        //             //    Play with the duration to make the swipe go slower / faster
+        //             { type: 'pointerMove', duration: 1000, x: to.x, y: to.y },
+        //             // f. Finger gets up, off the screen
+        //             { type: 'pointerUp', button: 0 },
+        //         ],
+        //     },
+        // ]);
+
         // Add a pause, just to make sure the swipe is done
         await driver.pause(1000);
     }
