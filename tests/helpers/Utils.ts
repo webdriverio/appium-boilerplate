@@ -27,13 +27,10 @@ export async function openDeepLinkUrl(url:string) {
     // - https://blog.diawi.com/2018/10/15/2018-apple-devices-and-their-new-udid-format/
     // - https://www.theiphonewiki.com/wiki/UDID
     // iOS sims have more than 1 `-` in the UDID and the UDID is being
-    const simulatorRegex = new RegExp('(.*-.*){2,}');
+    const realDeviceRegex = /^[a-f0-9]{25}|[a-f0-9]{40}$/i;
 
-    // Check if we are a simulator
-    if ('appium:udid' in driver.capabilities && simulatorRegex.test(driver.capabilities['appium:udid'] as string)){
-        await driver.url(`${ prefix }${ url }`);
-    } else {
-        // Else we are a real device and we need to take some extra steps
+    // Check if we are a real device
+    if ('appium:udid' in driver.capabilities && realDeviceRegex.test(driver.capabilities['appium:udid'] as string)){
         // Launch Safari to open the deep link
         await driver.execute('mobile: launchApp', { bundleId: 'com.apple.mobilesafari' });
 
@@ -55,6 +52,9 @@ export async function openDeepLinkUrl(url:string) {
 
         // Submit the url and add a break
         await urlField.setValue(`${ prefix }${ url }\uE007`);
+    } else {
+        // Else we ne are a simulator
+        await driver.url(`${ prefix }${ url }`);
     }
 
     /**
