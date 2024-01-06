@@ -39,6 +39,18 @@ class Carousel extends Gestures {
     }
 
     /**
+     * Get the carousel position and size
+     */
+    async getCarouselRectangles (): Promise<RectReturn> {
+        // Get the rectangles of the carousel and store it in a global that will be used for a next call.
+        // We don't want ask for the rectangles of the carousel if we already know them.
+        // This will save unneeded webdriver calls.
+        CAROUSEL_RECTANGLES = CAROUSEL_RECTANGLES || await driver.getElementRect((await this.carousel).elementId);
+
+        return CAROUSEL_RECTANGLES;
+    }
+
+    /**
      * Swipe the carousel to the LEFT (from right to left)
      */
     async swipeLeft () {
@@ -49,6 +61,7 @@ class Carousel extends Gestures {
         const y = Math.round(carouselRectangles.y + (carouselRectangles.height / 2));
 
         // Execute the gesture by providing a starting position and an end position
+        // Check the Gestures class for more information about the swipe method
         await Gestures.swipe({
             // Here we start on the right of the carousel. To make sure that we don't touch the outer most right
             // part of the screen we take 10% of the x-position. The y-position has already been determined.
@@ -70,6 +83,7 @@ class Carousel extends Gestures {
         const y = Math.round(carouselRectangles.y + (carouselRectangles.height / 2));
 
         // Execute the gesture by providing a starting position and an end position
+        // Check the Gestures class for more information about the swipe method
         await Gestures.swipe({
             // Here we start on the left of the carousel. To make sure that we don't touch the outer most left
             // part of the screen we add 10% to the x-position. The y-position has already been determined.
@@ -78,18 +92,6 @@ class Carousel extends Gestures {
             // part of the screen we take 10% of the x-position. The y-position has already been determined.
             to: { x: Math.round(carouselRectangles.width - (carouselRectangles.width * 0.10)), y },
         });
-    }
-
-    /**
-     * Get the carousel position and size
-     */
-    async getCarouselRectangles (): Promise<RectReturn> {
-        // Get the rectangles of the carousel and store it in a global that will be used for a next call.
-        // We don't want ask for the rectangles of the carousel if we already know them.
-        // This will save unneeded webdriver calls.
-        CAROUSEL_RECTANGLES = CAROUSEL_RECTANGLES || await driver.getElementRect((await this.carousel).elementId);
-
-        return CAROUSEL_RECTANGLES;
     }
 }
 
