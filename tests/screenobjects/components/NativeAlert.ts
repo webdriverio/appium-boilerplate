@@ -54,7 +54,7 @@ class NativeAlert {
      */
     static async text ():Promise<string> {
         if (driver.isIOS) {
-            return driver.getAlertText();
+            return $(SELECTORS.IOS.ALERT).getText();
         }
 
         return `${await $(SELECTORS.ANDROID.ALERT_TITLE).getText()}\n${await $(SELECTORS.ANDROID.ALERT_MESSAGE).getText()}`;

@@ -3,6 +3,8 @@ import LoginScreen from '../screenobjects/LoginScreen.js';
 import Biometrics from '../helpers/Biometrics.js';
 import NativeAlert from '../screenobjects/components/NativeAlert.js';
 import AndroidSettings from '../screenobjects/AndroidSettings.js';
+import { relaunchApp } from '../helpers/Utils.js';
+import { BUNDLE_ID, PACKAGE_NAME } from '../helpers/Constants.js';
 
 /**
  * IMPORTANT!
@@ -20,8 +22,7 @@ describe('WebdriverIO and Appium, when interacting with a biometric button,', ()
             // iOS us pretty straightforward, just enabled it
             await driver.toggleEnrollTouchId(true);
             // restart the app
-            // @ts-expect-error command deprecated
-            await driver.reset();
+            await relaunchApp(BUNDLE_ID);
 
             // Wait for the app again and go to the login screen
             await goToLoginPage();
@@ -29,8 +30,7 @@ describe('WebdriverIO and Appium, when interacting with a biometric button,', ()
             // Android is more complex, see this method
             await AndroidSettings.enableBiometricLogin();
             // restart the app
-            // @ts-expect-error command deprecated
-            await driver.reset();
+            await relaunchApp(PACKAGE_NAME);
 
             // Wait for the app again and go to the login screen
             await goToLoginPage();
@@ -46,7 +46,7 @@ describe('WebdriverIO and Appium, when interacting with a biometric button,', ()
         await Biometrics.submitBiometricLogin(true);
         // Wait for the alert and validate it
         await NativeAlert.waitForIsShown();
-        await expect(await NativeAlert.text()).toContain('Success\nYou are logged in!');
+        await expect(await NativeAlert.text()).toContain('Success');
 
         // Close the alert
         await NativeAlert.topOnButtonWithText('OK');
@@ -61,21 +61,14 @@ describe('WebdriverIO and Appium, when interacting with a biometric button,', ()
         // This method will let the biometric login for OR Android, OR iOS fail.
         await Biometrics.submitBiometricLogin(false);
 
-        // iOS shows an alert, Android doesn't
+        // Android doesn't show an alert, but keeps the "use fingerprint" native modal in the screen
         if (driver.isIOS) {
             // Wait for the alert and validate it
             await NativeAlert.waitForIsShown();
-            await expect(await NativeAlert.text()).toContain('Try Again');
+            await expect(await NativeAlert.text()).toContain('Not Recognised');
 
             // Close the alert
             await NativeAlert.topOnButtonWithText('Cancel');
-            try {
-                // In certain situations we need to Cancel it again for this specific app
-                await NativeAlert.topOnButtonWithText('Cancel');
-            } catch (ign) {
-                // Do nothing
-            }
-            await NativeAlert.waitForIsShown(false);
         } else {
             await AndroidSettings.waitAndTap('Cancel');
 

@@ -2,7 +2,7 @@ import { DEFAULT_PIN, INCORRECT_PIN } from './Constants.js';
 
 class Biometrics {
     private get iosAllowBiometry() {return $('~Don’t Allow');}
-    private get allowBiometry() {return $('~OK');}
+    private get allowBiometry() {return $('~Allow');}
     private get androidBiometryAlert() {
         const selector = 'android=new UiSelector().textContains("Please log in")';
 
