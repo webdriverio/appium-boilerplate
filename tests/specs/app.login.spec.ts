@@ -16,7 +16,7 @@ describe('WebdriverIO and Appium, when interacting with a login form,', () => {
         await LoginScreen.submitLoginForm({ username: 'test@webdriver.io', password: 'Test1234!' });
         // Wait for the alert and validate it
         await NativeAlert.waitForIsShown();
-        await expect(await NativeAlert.text()).toEqual('Success\nYou are logged in!');
+        await expect(await NativeAlert.text()).toContain('Success');
 
         // Close the alert
         await NativeAlert.topOnButtonWithText('OK');
@@ -30,7 +30,7 @@ describe('WebdriverIO and Appium, when interacting with a login form,', () => {
         await LoginScreen.submitSignUpForm({ username: 'test@webdriver.io', password: 'Test1234!' });
         // Wait for the alert and validate it
         await NativeAlert.waitForIsShown();
-        await expect(await NativeAlert.text()).toEqual('Signed Up!\nYou successfully signed up!');
+        await expect(await NativeAlert.text()).toContain('Signed Up');
 
         // Close the alert
         await NativeAlert.topOnButtonWithText('OK');

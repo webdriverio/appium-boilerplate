@@ -1,15 +1,20 @@
 import AppScreen from './AppScreen.js';
 
+const SELECTORS = {
+    SCREEN: '~Forms-screen',
+};
+
 class FormsScreen extends AppScreen {
     constructor () {
-        super('~Forms-screen');
+        super(SELECTORS.SCREEN);
     }
 
+    get screen () {return $(SELECTORS.SCREEN);}
     get input () {return $('~text-input');}
     get inputTextResult () {return $('~input-text-result');}
-    private get switch () {return $('~switch');}
-    private get switchText () {return $('~switch-text');}
-    private get dropDown () {return $('~Dropdown');}
+    get switch () {return $('~switch');}
+    get switchText () {return $('~switch-text');}
+    get dropDown () {return $('~Dropdown');}
     get activeButton () {return $('~button-Active');}
     get inActiveButton () {return $('~button-Inactive');}
 

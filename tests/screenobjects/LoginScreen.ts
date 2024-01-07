@@ -1,11 +1,16 @@
 import AppScreen from './AppScreen.js';
 import Gestures from '../helpers/Gestures.js';
 
+const SELECTORS = {
+    SCREEN: '~Login-screen',
+};
+
 class LoginScreen extends AppScreen {
     constructor () {
-        super('~Login-screen');
+        super(SELECTORS.SCREEN);
     }
 
+    get screen () {return $(SELECTORS.SCREEN);}
     private get loginContainerButton () {return $('~button-login-container');}
     private get signUpContainerButton () {return $('~button-sign-up-container');}
     private get loginButton () {return $('~button-LOGIN');}
@@ -50,7 +55,11 @@ class LoginScreen extends AppScreen {
             await $('~Login-screen').click();
         }
         // On smaller screens there could be a possibility that the button is not shown
-        await Gestures.checkIfDisplayedWithSwipeUp(await this.loginButton, 2);
+        await Gestures.checkIfDisplayedWithSwipe({
+            scrollContainer: await this.screen,
+            searchableElement: await this.loginButton,
+            maxScrolls: 2,
+        });
         await this.loginButton.click();
     }
 
@@ -74,7 +83,11 @@ class LoginScreen extends AppScreen {
             await $('~Login-screen').click();
         }
         // On smaller screens there could be a possibility that the button is not shown
-        await Gestures.checkIfDisplayedWithSwipeUp(await this.signUpButton, 2);
+        await Gestures.checkIfDisplayedWithSwipe({
+            scrollContainer: await this.screen,
+            searchableElement: await this.signUpButton,
+            maxScrolls: 2,
+        });
         await this.signUpButton.click();
     }
 }
