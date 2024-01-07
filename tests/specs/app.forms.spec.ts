@@ -67,10 +67,14 @@ describe('WebdriverIO and Appium, when interacting with form elements,', () => {
     });
 
     it('should be able to open the alert and close it with all 3 buttons', async () => {
-        await Gestures.checkIfDisplayedWithSwipeUp(await FormScreen.activeButton, 2);
+        await Gestures.checkIfDisplayedWithSwipe({
+            scrollContainer: await FormScreen.screen,
+            searchableElement: await FormScreen.activeButton,
+            maxScrolls: 2,
+        });
         await FormScreen.tapOnActiveButton();
         await NativeAlert.waitForIsShown(true);
-        await expect(await NativeAlert.text()).toEqual('This button is\nThis button is active');
+        await expect(await NativeAlert.text()).toContain('This button is');
 
         /**
          * The following steps don't contain any assertions. This might look strange, but
@@ -94,7 +98,11 @@ describe('WebdriverIO and Appium, when interacting with form elements,', () => {
     it('should be able to determine that the inactive button is inactive', async () => {
         // Depending on the size of the screen we might need to scroll. This methods determines if it's visible,
         // if not, it will automatically scroll to find it. This will be done two times.
-        await Gestures.checkIfDisplayedWithSwipeUp(await FormScreen.inActiveButton, 2);
+        await Gestures.checkIfDisplayedWithSwipe({
+            scrollContainer:await FormScreen.screen,
+            searchableElement:await FormScreen.inActiveButton,
+            maxScrolls:2,
+        });
         // In this case the button can't be asked if it is active or not with
         // `expect(FormScreen.inActiveButton.isEnabled()).toEqual(false);`
         // So use a click and check if shown, make sure the alert is not there

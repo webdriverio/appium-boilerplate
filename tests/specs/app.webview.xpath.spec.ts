@@ -6,8 +6,6 @@ describe('WebdriverIO and Appium, when interacting with a webview through XPATH'
     let start:number;
 
     beforeEach(async () => {
-        // @ts-expect-error command deprecated
-        await browser.reset();
         await TabBar.waitForTabBarShown();
         await TabBar.openWebView();
         start = Date.now();
@@ -28,7 +26,7 @@ describe('WebdriverIO and Appium, when interacting with a webview through XPATH'
     });
 
     it('should be able to verify that the WebView is shown by switching to the WebView', async () => {
-        await WebViewScreen.waitForWebViewContextLoaded();
+        await WebViewScreen.waitForWebsiteLoaded();
         const end = Date.now();
         timeDifference('Test time for switching to the WebView', start, end);
     });

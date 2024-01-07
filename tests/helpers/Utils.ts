@@ -7,6 +7,18 @@ export function timeDifference (string: string, start:number, end:number) {
 }
 
 /**
+ * iOS sims and real devices can be distinguished by their UDID. Based on these sources there is a diff in the UDIDS
+ * - https://blog.diawi.com/2018/10/15/2018-apple-devices-and-their-new-udid-format/
+ * - https://www.theiphonewiki.com/wiki/UDID
+ * iOS sims have more than 1 `-` in the UDID and the UDID is being
+ */
+export function isIosRealDevice(){
+    const realDeviceRegex = /^[a-f0-9]{25}|[a-f0-9]{40}$/i;
+
+    return 'appium:udid' in driver.capabilities && realDeviceRegex.test(driver.capabilities['appium:udid'] as string);
+}
+
+/**
  * Create a cross platform solution for opening a deep link
  */
 export async function openDeepLinkUrl(url:string) {
@@ -23,17 +35,9 @@ export async function openDeepLinkUrl(url:string) {
     // We can use `driver.url` on iOS simulators, but not on iOS real devices. The reason is that iOS real devices
     // open Siri when you call `driver.url('')` to use a deep link. This means that real devices need to have a different implementation
     // then iOS sims
-    // iOS sims and real devices can be distinguished by their UDID. Based on these sources there is a diff in the UDIDS
-    // - https://blog.diawi.com/2018/10/15/2018-apple-devices-and-their-new-udid-format/
-    // - https://www.theiphonewiki.com/wiki/UDID
-    // iOS sims have more than 1 `-` in the UDID and the UDID is being
-    const simulatorRegex = new RegExp('(.*-.*){2,}');
 
-    // Check if we are a simulator
-    if ('appium:udid' in driver.capabilities && simulatorRegex.test(driver.capabilities['appium:udid'] as string)){
-        await driver.url(`${ prefix }${ url }`);
-    } else {
-        // Else we are a real device and we need to take some extra steps
+    // Check if we are a real device
+    if (isIosRealDevice()){
         // Launch Safari to open the deep link
         await driver.execute('mobile: launchApp', { bundleId: 'com.apple.mobilesafari' });
 
@@ -55,6 +59,9 @@ export async function openDeepLinkUrl(url:string) {
 
         // Submit the url and add a break
         await urlField.setValue(`${ prefix }${ url }\uE007`);
+    } else {
+        // Else we ne are a simulator
+        await driver.url(`${ prefix }${ url }`);
     }
 
     /**
@@ -75,3 +82,15 @@ export async function openDeepLinkUrl(url:string) {
     }
 }
 
+/**
+ * relaunch the app by closing it and starting it again
+ */
+export async function relaunchApp(identifier:string) {
+    const appIdentifier = { [driver.isAndroid ? 'appId' : 'bundleId']: identifier };
+    const terminateCommand = 'mobile: terminateApp';
+    const launchCommand = `mobile: ${driver.isAndroid ? 'activateApp' : 'launchApp'}`;
+
+    await driver.execute(terminateCommand, appIdentifier);
+    await driver.execute(launchCommand, appIdentifier);
+
+}

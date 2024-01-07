@@ -1,15 +1,20 @@
 import AppScreen from './AppScreen.js';
 
+const SELECTORS = {
+    SCREEN: '~Forms-screen',
+};
+
 class FormsScreen extends AppScreen {
     constructor () {
-        super('~Forms-screen');
+        super(SELECTORS.SCREEN);
     }
 
+    get screen () {return $(SELECTORS.SCREEN);}
     get input () {return $('~text-input');}
     get inputTextResult () {return $('~input-text-result');}
-    private get switch () {return $('~switch');}
-    private get switchText () {return $('~switch-text');}
-    private get dropDown () {return $('~Dropdown');}
+    get switch () {return $('~switch');}
+    get switchText () {return $('~switch-text');}
+    get dropDown () {return $('~Dropdown');}
     get activeButton () {return $('~button-Active');}
     get inActiveButton () {return $('~button-Inactive');}
 
@@ -35,12 +40,10 @@ class FormsScreen extends AppScreen {
 
     /**
      * Return if the switch is active or not active for iOS / Android
-     * For Android the switch is `ON|OFF`, for iOS '1|0'
+     * For Android the switch is `"true"|"false"`, for iOS '1|0'
      */
     async isSwitchActive ():Promise<boolean> {
-        const active = driver.isAndroid ? 'ON' : '1';
-
-        return (await this.switch.getText()).includes(active);
+        return driver.isAndroid ? (await this.switch.getAttribute('checked')) === 'true' : (await this.switch.getText()) === '1';
     }
 
     /**
