@@ -1,6 +1,7 @@
 name: Functional Android App Tests
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
