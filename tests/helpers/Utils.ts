@@ -86,6 +86,11 @@ export async function openDeepLinkUrl(url:string) {
  * relaunch the app by closing it and starting it again
  */
 export async function relaunchApp(identifier:string) {
-    await driver.execute('mobile: terminateApp', { bundleId: identifier });
-    await driver.execute('mobile: launchApp', { bundleId: identifier });
+    const appIdentifier = { [driver.isAndroid ? 'appId' : 'bundleId']: identifier };
+    const terminateCommand = 'mobile: terminateApp';
+    const launchCommand = `mobile: ${driver.isAndroid ? 'activateApp' : 'launchApp'}`;
+
+    await driver.execute(terminateCommand, appIdentifier);
+    await driver.execute(launchCommand, appIdentifier);
+
 }

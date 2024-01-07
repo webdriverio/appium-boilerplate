@@ -11,7 +11,7 @@ import { BUNDLE_ID, PACKAGE_NAME } from '../helpers/Constants.js';
  * To verify if Touch/FaceID for iOS and FingerPrint for Android work we need to verify if they are enabled. This can be done by verifying
  * if the biometrics button is shown. If not shown we need to enabled it.
  * For iOS it's pretty straightforward, but for Android is more complex. There is a helper (Android Settings) that will handle all steps for
- * you for Android 7.1 till the latest version of Android.
+ * you for Android 9.0 (2018) till the latest version of Android.
  */
 describe('WebdriverIO and Appium, when interacting with a biometric button,', () => {
     beforeEach(async () => {
@@ -71,16 +71,8 @@ describe('WebdriverIO and Appium, when interacting with a biometric button,', ()
             await NativeAlert.topOnButtonWithText('Cancel');
         } else {
             await AndroidSettings.waitAndTap('Cancel');
-
-            // When FingerPrint in this app is cancelled on Android 9 and higher it will show the
-            // FingerPrint modal again. This means it needs to be cancelled again.
-            // @ts-ignore
-            if (parseInt(driver.capabilities.platformVersion) > 8){
-                // This will show the face ID alert again. Let it fail again to make the alert go away.
-                await Biometrics.submitBiometricLogin(false);
-                await AndroidSettings.waitAndTap('Cancel');
-            }
-            await (await AndroidSettings.findAndroidElementByText('Cancel')).waitForDisplayed({ reverse:true });
+            // @TODO: This takes very long, need to fix this
+            await (await AndroidSettings.findAndroidElementByMatchingText('Cancel')).waitForDisplayed({ reverse:true });
             await NativeAlert.waitForIsShown(false);
         }
     });

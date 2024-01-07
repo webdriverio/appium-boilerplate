@@ -4,9 +4,9 @@ class Biometrics {
     private get iosAllowBiometry() {return $('~Don’t Allow');}
     private get allowBiometry() {return $('~Allow');}
     private get androidBiometryAlert() {
-        const selector = 'android=new UiSelector().textContains("Please log in")';
+        const regex = '(Please log in|Login with.*)';
 
-        return $(selector);
+        return $(`android=new UiSelector().textMatches("${regex}")`);
     }
 
     /**
@@ -36,7 +36,7 @@ class Biometrics {
     async allowIosBiometricUsage() {
         // When Touch/FaceID is used for the first time it could be that an alert is shown which needs to be accepted
         try {
-            await this.iosAllowBiometry.waitForDisplayed({ timeout: 3000 });
+            await this.iosAllowBiometry.waitForDisplayed({ timeout: 3 * 1000 });
             await this.allowBiometry.click();
         } catch (e) {
             // This means that allow using touch/facID has already been accepted and thus the alert is not shown
@@ -47,7 +47,7 @@ class Biometrics {
      * Submit Android biometric login
      */
     async submitAndroidBiometricLogin(fingerprintId:number) {
-        await this.androidBiometryAlert.waitForDisplayed();
+        await this.androidBiometryAlert.waitForDisplayed({ timeout: 10 *1000 });
 
         await driver.fingerPrint(fingerprintId);
     }
