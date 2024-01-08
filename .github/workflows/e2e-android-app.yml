@@ -25,7 +25,7 @@ jobs:
       - name: 🧩 Install Dependencies
         run: npm ci
 
-      - name: 📦 Download apps
+      - name: 📦 Download app
         run: |
             mkdir apps
             wget https://github.com/webdriverio/native-demo-app/releases/download/v1.0.8/android.wdio.native.app.v1.0.8.apk -P apps
@@ -36,6 +36,8 @@ jobs:
             java-version: '11'
             distribution: 'temurin'
 
+        # Using cache due to ANR issues
+        # https://github.com/ReactiveCircus/android-emulator-runner/issues/129
       - name: 🧳 Cache AVD snapshot
         uses: actions/cache@v3
         id: avd-cache
@@ -43,10 +45,11 @@ jobs:
             path: |
                 ~/.android/avd/*
                 ~/.android/adb*
-            key: api-34-appium-boilerplate
+            key: avd-30-aosp-atd
 
         # https://github.com/marketplace/actions/android-emulator-runner#configurations
       - name: 📱 Create AVD and generate snapshot for caching
+        if: steps.avd-cache.outputs.cache-hit != 'true'
         uses: reactivecircus/android-emulator-runner@v2
         with:
             # Use the slimmer aosp_atd images for working
@@ -57,11 +60,12 @@ jobs:
             # https://github.com/ReactiveCircus/android-emulator-runner/issues/129
             # https://github.com/upleveled/hotline-bling-codealong/pull/26#issuecomment-1094659722
             target: aosp_atd
-            api-level: 34
+            api-level: 30
             arch: x86_64
             channel: canary
             profile: pixel
-            avd-name: Pixel_7_Pro_Android_14_API_34
+            avd-name: gha_pixel
+            cores: 4
             force-avd-creation: false
             emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
             disable-animations: false
@@ -71,14 +75,15 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
             target: aosp_atd
-            api-level: 34
+            api-level: 30
             arch: x86_64
             channel: canary
             profile: pixel
-            avd-name: Pixel_7_Pro_Android_14_API_34
+            avd-name: gha_pixel
+            cores: 4
             script: npm run android.app
 
-      - name: Save server output
+      - name: 💾 Save server output
         if: failure()
         uses: actions/upload-artifact@v4
         with:

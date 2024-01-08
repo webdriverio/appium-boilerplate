@@ -2,6 +2,8 @@ import { join } from 'node:path';
 import { writeFileSync } from 'node:fs';
 import { config as baseConfig } from './wdio.shared.local.appium.conf.js';
 
+const isGhActions = process.env.GITHUB_ACTION;
+
 export const config: WebdriverIO.Config = {
     ...baseConfig,
 
@@ -28,10 +30,10 @@ export const config: WebdriverIO.Config = {
 
             //
             // NOTE: Change this name according to the Emulator you have created on your local machine
-            'appium:deviceName': 'Pixel_7_Pro_Android_14_API_34',
+            'appium:deviceName': isGhActions ? 'gha_pixel' : 'Pixel_7_Pro_Android_14_API_34',
             //
             // NOTE: Change this version according to the Emulator you have created on your local machine
-            'appium:platformVersion': '14.0',
+            'appium:platformVersion': isGhActions ? '11.0':'14.0',
             'appium:orientation': 'PORTRAIT',
             'appium:automationName': 'UiAutomator2',
             // The path to the app
@@ -46,13 +48,11 @@ export const config: WebdriverIO.Config = {
             'appium:newCommandTimeout': 240,
         },
     ],
-    beforeSuite: async () =>{
-        await driver.execute('mobile: startMediaProjectionRecording');
+    afterTest: async (test, _context, { error }) => {
+        if (error){
+            const fileName = test.file.split('/').pop()?.replace('.spec.ts', '');
+            await driver.saveScreenshot(`./logs/${fileName}.png`);
+        }
+
     },
-    afterSuite: async (suite) => {
-        const fileName = suite.file.split('/').pop()?.replace('.spec.ts', '');
-        let recordingAsBase64Str = await driver.execute('mobile: stopMediaProjectionRecording') as string;
-        let videoBinary = Buffer.from(recordingAsBase64Str, 'base64');
-        writeFileSync(`./logs/${fileName}.mp4`, videoBinary);
-    }
 };
