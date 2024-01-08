@@ -1,6 +1,8 @@
 import { join } from 'node:path';
 import { config as baseConfig } from './wdio.shared.local.appium.conf.js';
 
+const isGhActions = process.env.GITHUB_ACTION;
+
 export const config: WebdriverIO.Config = {
     ...baseConfig,
 
@@ -25,7 +27,7 @@ export const config: WebdriverIO.Config = {
 
             //
             // NOTE: Change this name according to the Simulator you have created on your local machine
-            'appium:deviceName': 'iPhone 15',
+            'appium:deviceName': isGhActions ? 'iPhone 14' : 'iPhone 15',
             //
             // NOTE: Change this version according to the Simulator Version you have created on your local machine
             'appium:platformVersion': '17.2',
