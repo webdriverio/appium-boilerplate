@@ -42,7 +42,7 @@ jobs:
         with:
             avd-name: Pixel_7_Pro_Android_14_API_34
             api-level: 34
-            profile: Pixel 6 Pro
+            profile: Pixel XL
             script: npm run android.app
             arch: x86_64
             target: google_apis
