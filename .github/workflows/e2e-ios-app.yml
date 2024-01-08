@@ -37,7 +37,7 @@ jobs:
         - name: 📱 Create Simulator
           uses: futureware-tech/simulator-action@v3
           with:
-            model: 'iPhone 15'
+            model: 'iPhone 14'
             os: 'iOS'
             os_version: '17.2'
 
