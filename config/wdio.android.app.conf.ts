@@ -1,5 +1,4 @@
 import { join } from 'node:path';
-import { writeFileSync } from 'node:fs';
 import { config as baseConfig } from './wdio.shared.local.appium.conf.js';
 
 const isGhActions = process.env.GITHUB_ACTION;
@@ -48,11 +47,4 @@ export const config: WebdriverIO.Config = {
             'appium:newCommandTimeout': 240,
         },
     ],
-    afterTest: async (test, _context, { error }) => {
-        if (error){
-            const fileName = test.file.split('/').pop()?.replace('.spec.ts', '');
-            await driver.saveScreenshot(`./logs/${fileName}.png`);
-        }
-
-    },
 };
