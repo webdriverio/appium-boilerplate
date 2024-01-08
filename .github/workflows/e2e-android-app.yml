@@ -49,7 +49,12 @@ jobs:
 
       - name: Save server output
         if: ${{ always() }}
-        uses: actions/upload-artifact@master
+        # uses: actions/upload-artifact@master
+        # with:
+        #     name: appium-api
+        #     path: appium.log
+        uses: actions/upload-artifact@v4
         with:
-            name: appium-api
-            path: appium.log
+            name: android-runner-output
+            path: |
+                logs/

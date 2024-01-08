@@ -1,4 +1,5 @@
 import { join } from 'node:path';
+import { writeFileSync } from 'node:fs';
 import { config as baseConfig } from './wdio.shared.local.appium.conf.js';
 
 export const config: WebdriverIO.Config = {
@@ -44,5 +45,14 @@ export const config: WebdriverIO.Config = {
             'appium:appWaitActivity': 'com.wdiodemoapp.MainActivity',
             'appium:newCommandTimeout': 240,
         },
-    ]
+    ],
+    beforeSuite: async () =>{
+        await driver.execute('mobile: startMediaProjectionRecording');
+    },
+    afterSuite: async (suite) => {
+        const fileName = suite.file.split('/').pop()?.replace('.spec.ts', '');
+        let recordingAsBase64Str = await driver.execute('mobile: stopMediaProjectionRecording') as string;
+        let videoBinary = Buffer.from(recordingAsBase64Str, 'base64');
+        writeFileSync(`./logs/${fileName}.mp4`, videoBinary);
+    }
 };

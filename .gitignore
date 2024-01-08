@@ -16,3 +16,4 @@ apps/
 *.log
 chromeDriver
 .tmp
+*.mp4
