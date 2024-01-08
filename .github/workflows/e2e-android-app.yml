@@ -33,19 +33,19 @@ jobs:
       - name: ☕ Setup Java and Android SDK
         uses: actions/setup-java@v4
         with:
-            distribution: 'zulu'
-            java-version: '17.x'
+            java-version: '11'
+            distribution: 'temurin'
 
         # https://github.com/marketplace/actions/android-emulator-runner#configurations
-      - name: 📱 Setup Android Emulator
+      - name: 📱 📲  Setup Android Emulator and Run Tests on Android Emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
             avd-name: Pixel_7_Pro_Android_14_API_34
             api-level: 34
-            script: yarn android.app
-
-      - name: 📲 Run Tests on Android Emulator
-        run: npm run android.app
+            profile: Pixel 7 Pro
+            script: npm run android.app
+            arch: x86_64
+            target: google_apis
 
       - name: Save server output
         if: ${{ always() }}
