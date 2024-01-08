@@ -36,23 +36,50 @@ jobs:
             java-version: '11'
             distribution: 'temurin'
 
+      - name: 🧳 Cache AVD snapshot
+        uses: actions/cache@v3
+        id: avd-cache
+        with:
+            path: |
+                ~/.android/avd/*
+                ~/.android/adb*
+            key: api-34-appium-boilerplate
+
         # https://github.com/marketplace/actions/android-emulator-runner#configurations
-      - name: 📱 📲  Setup Android Emulator and Run Tests on Android Emulator
+      - name: 📱 Create AVD and generate snapshot for caching
         uses: reactivecircus/android-emulator-runner@v2
         with:
-            avd-name: Pixel_7_Pro_Android_14_API_34
+            # Use the slimmer aosp_atd images for working
+            # around "System UI isn't responding" ANR
+            # (Application Not Responding) error
+            #
+            # https://android-developers.googleblog.com/2021/10/whats-new-in-scalable-automated-testing.html#:~:text=Slimmer%20Emulator%20System%20Images
+            # https://github.com/ReactiveCircus/android-emulator-runner/issues/129
+            # https://github.com/upleveled/hotline-bling-codealong/pull/26#issuecomment-1094659722
+            target: aosp_atd
             api-level: 34
-            # profile: Pixel XL
-            script: npm run android.app
             arch: x86_64
-            target: google_apis
+            channel: canary
+            profile: pixel
+            avd-name: Pixel_7_Pro_Android_14_API_34
+            force-avd-creation: false
+            emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+            disable-animations: false
+            script: echo "Generated AVD snapshot for caching"
+
+      - name: 📲 Start Android Emulator and Run Tests on Android Emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+            target: aosp_atd
+            api-level: 34
+            arch: x86_64
+            channel: canary
+            profile: pixel
+            avd-name: Pixel_7_Pro_Android_14_API_34
+            script: npm run android.app
 
       - name: Save server output
-        if: ${{ always() }}
-        # uses: actions/upload-artifact@master
-        # with:
-        #     name: appium-api
-        #     path: appium.log
+        if: failure()
         uses: actions/upload-artifact@v4
         with:
             name: android-runner-output
