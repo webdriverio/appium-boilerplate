@@ -52,7 +52,7 @@ describe('WebdriverIO and Appium, when using swiping', () => {
             searchableElement: await SwipeScreen.logo,
             maxScrolls: 5,
             direction: DIRECTIONS.UP,
-            percentage: 0.95,
+            percentage: 0.99,
         });
         await expect(SwipeScreen.logo).toBeDisplayed();
     });

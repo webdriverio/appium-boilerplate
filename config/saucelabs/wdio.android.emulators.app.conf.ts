@@ -9,7 +9,7 @@ export const config: WebdriverIO.Config = {
     // Specs
     // ============
     specs: [
-        '../tests/specs/**/app*.spec.ts',
+        '../../tests/specs/**/app*.spec.ts',
     ],
 
     // ============
@@ -24,16 +24,14 @@ export const config: WebdriverIO.Config = {
         {
             // The defaults you need to have in your config
             platformName: 'Android',
-            'appium:deviceName': 'Google Pixel 8 Pro GoogleAPI Emulator',
-            'appium:platformVersion': '14.0',
+            'appium:deviceName': 'Google Pixel 7 Pro GoogleAPI Emulator',
+            'appium:platformVersion': '13.0',
+            'appium:automationName': 'UiAutomator2',
             'appium:orientation': 'PORTRAIT',
             // The path to the app
             'appium:app': 'storage:filename=wdio-demo-app-android.apk',
             'appium:appWaitActivity': 'com.wdiodemoapp.MainActivity',
             'appium:newCommandTimeout': 240,
-            // Always default the language to a language you prefer so you know the app language is always as expected
-            'appium:language': 'en',
-            'appium:locale': 'en',
             // Sauce Labs specific options
             'sauce:options':{
                 // Group builds by build name
@@ -43,4 +41,5 @@ export const config: WebdriverIO.Config = {
             },
         },
     ],
+    maxInstances: 25,
 };

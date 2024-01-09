@@ -33,7 +33,4 @@ export const config: WebdriverIO.Config = {
 
     // Retry count for spec file failures
     specFileRetries: 2,
-
-    // Store the logs into the `logs/` directory
-    outputDir: './logs',
 };

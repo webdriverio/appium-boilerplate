@@ -7,47 +7,43 @@ on:
       - main
   pull_request:
 
-
 jobs:
-    iOS-app:
-      runs-on: macos-13
-      steps:
-        - name: ⬇️ Checkout Repository
-          uses: actions/checkout@v3
+  ios-app:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout Repository
+        uses: actions/checkout@v3
 
-        - name: 🟢 Setup Node.js
-          uses: actions/setup-node@v3
-          with:
-              node-version-file: '.nvmrc'
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+            node-version-file: '.nvmrc'
 
-        - name: 🧩 Install Dependencies
-          run: npm ci
+      - name: 🧩 Install Dependencies
+        run: |
+          npm ci
 
-        - name: 📦 Download app
-          run: |
-              mkdir apps
-              wget https://github.com/webdriverio/native-demo-app/releases/download/v1.0.8/ios.simulator.wdio.native.app.v1.0.8.zip -P apps
+      - name: 📦 Download app
+        run: |
+            mkdir -p apps
+            wget https://github.com/webdriverio/native-demo-app/releases/download/v1.0.8/ios.simulator.wdio.native.app.v1.0.8.zip -P apps
 
-        # - name: ☕ Setup Java and Android SDK
-        #   uses: actions/setup-java@v4
-        #   with:
-        #       java-version: '11'
-        #       distribution: 'temurin'
+      - name: 📬 Upload App to Sauce Labs
+        run: |
+            curl -v \
+                -F "payload=@./apps/ios.simulator.wdio.native.app.v1.0.8.zip" \
+                -F name=wdio-demo-app-ios.zip \
+                -u "${{ secrets.SAUCE_USERNAME }}:${{ secrets.SAUCE_ACCESS_KEY }}" \
+                'https://api.eu-central-1.saucelabs.com/v1/storage/upload'
 
-        - name: 📱 Create Simulator
-          uses: futureware-tech/simulator-action@v3
-          with:
-            model: 'iPhone 14'
-            os: 'iOS'
-            os_version: '17.2'
+      - name: 📲 Run Tests on an iOS Simulator
+        run: npm run ios.sauce.simulators.app.eu
 
-        - name: 📲 Run Tests on iOS Simulator
-          run: npm run ios.app
-
-        - name: 💾 Save server output
-          if: failure()
-          uses: actions/upload-artifact@v4
-          with:
-              name: android-runner-output
-              path: |
-                  logs/
+    # Not needed now we are running on Sauce Labs
+    #   - name: 💾 Save server output
+    #     if: failure()
+    #     uses: actions/upload-artifact@v4
+    #     with:
+    #         name: iOS-runner-output
+    #         path: |
+    #             logs/
