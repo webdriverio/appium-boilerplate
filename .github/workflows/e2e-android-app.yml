@@ -43,6 +43,12 @@ jobs:
           --form 'name="wdio-demo-app-android.apk"' \
           --form 'description="Android WDIO Demo App"')
 
+          # Extract the file ID from the response
+          file_id=$(echo "$response" | jq -r '.item.id')
+
+          # Print the file_id value
+          echo "File ID to be deleted: $file_id"
+
       - name: 📲 Run Tests on Android Emulator
         run: npm run android.sauce.emulators.app.eu
 
