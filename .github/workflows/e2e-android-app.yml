@@ -23,65 +23,28 @@ jobs:
             node-version-file: '.nvmrc'
 
       - name: 🧩 Install Dependencies
-        run: npm ci
+        run: |
+          npm ci
 
       - name: 📦 Download app
         run: |
             mkdir apps
             wget https://github.com/webdriverio/native-demo-app/releases/download/v1.0.8/android.wdio.native.app.v1.0.8.apk -P apps
 
-      - name: ☕ Setup Java and Android SDK
-        uses: actions/setup-java@v4
-        with:
-            java-version: '11'
-            distribution: 'temurin'
+      - name: 📬 Upload App to Sauce Labs
+        run: |
+          SAUCE_USERNAME=$SAUCE_USERNAME
+          SAUCE_ACCESS_KEY=$SAUCE_ACCESS_KEY
+          APP_FILE_PATH=$(pwd)/apps/android.wdio.native.app.v1.0.8.apk
 
-        # Using cache due to ANR issues
-        # https://github.com/ReactiveCircus/android-emulator-runner/issues/129
-      - name: 🧳 Cache AVD snapshot
-        uses: actions/cache@v3
-        id: avd-cache
-        with:
-            path: |
-                ~/.android/avd/*
-                ~/.android/adb*
-            key: avd-30-aosp-atd
+          response=$(curl -u "$SAUCE_USERNAME:$SAUCE_ACCESS_KEY" --location \
+          --request POST 'https://api.eu-central-1.saucelabs.com/v1/storage/upload' \
+          --form "payload=@$APP_FILE_PATH" \
+          --form 'name="wdio-demo-app-android.apk"' \
+          --form 'description="Android WDIO Demo App"')
 
-        # https://github.com/marketplace/actions/android-emulator-runner#configurations
-      - name: 📱 Create AVD and generate snapshot for caching
-        if: steps.avd-cache.outputs.cache-hit != 'true'
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-            # Use the slimmer aosp_atd images for working
-            # around "System UI isn't responding" ANR
-            # (Application Not Responding) error
-            #
-            # https://android-developers.googleblog.com/2021/10/whats-new-in-scalable-automated-testing.html#:~:text=Slimmer%20Emulator%20System%20Images
-            # https://github.com/ReactiveCircus/android-emulator-runner/issues/129
-            # https://github.com/upleveled/hotline-bling-codealong/pull/26#issuecomment-1094659722
-            target: aosp_atd
-            api-level: 30
-            arch: x86_64
-            channel: canary
-            profile: pixel
-            avd-name: gha_pixel
-            cores: 4
-            force-avd-creation: false
-            emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-            disable-animations: false
-            script: echo "Generated AVD snapshot for caching"
-
-      - name: 📲 Start Android Emulator and Run Tests on Android Emulator
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-            target: aosp_atd
-            api-level: 30
-            arch: x86_64
-            channel: canary
-            profile: pixel
-            avd-name: gha_pixel
-            cores: 4
-            script: npm run android.app
+      - name: 📲 Run Tests on Android Emulator
+        run: npm run android.sauce.emulators.app.eu
 
       - name: 💾 Save server output
         if: failure()

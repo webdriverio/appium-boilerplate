@@ -1,5 +1,4 @@
 import type { Options } from '@wdio/types';
-const isGhActions = process.env.GITHUB_ACTION;
 
 /**
  * All not needed configurations, for this boilerplate, are removed.
@@ -133,11 +132,4 @@ export const config: Options.Testrunner = {
     /**
      * NOTE: No Hooks are used in this project, but feel free to add them if you need them.
      */
-    afterTest: async (test, _context, { error }) => {
-        if (isGhActions && error){
-            const fileName = test.file.split('/').pop()?.replace('.spec.ts', '');
-            await driver.saveScreenshot(`./logs/${fileName}.png`);
-        }
-
-    },
 };

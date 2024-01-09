@@ -30,4 +30,10 @@ export const config: WebdriverIO.Config = {
 
     // Increase for real device support
     connectionRetryTimeout: 180000,
+
+    // Retry count for spec file failures
+    specFileRetries: 2,
+
+    // Store the logs into the `logs/` directory
+    outputDir: './logs',
 };

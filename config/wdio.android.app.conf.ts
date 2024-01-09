@@ -1,8 +1,6 @@
 import { join } from 'node:path';
 import { config as baseConfig } from './wdio.shared.local.appium.conf.js';
 
-const isGhActions = process.env.GITHUB_ACTION;
-
 export const config: WebdriverIO.Config = {
     ...baseConfig,
 
@@ -17,22 +15,21 @@ export const config: WebdriverIO.Config = {
     // Capabilities
     // ============
     // For all capabilities please check
-    // http://appium.io/docs/en/writing-running-appium/caps/#general-capabilities
+    // https://github.com/appium/appium-uiautomator2-driver
     capabilities: [
         {
             // The defaults you need to have in your config
             platformName: 'Android',
             maxInstances: 1,
             // For W3C the appium capabilities need to have an extension prefix
-            // http://appium.io/docs/en/writing-running-appium/caps/
             // This is `appium:` for all Appium Capabilities which can be found here
 
             //
             // NOTE: Change this name according to the Emulator you have created on your local machine
-            'appium:deviceName': isGhActions ? 'gha_pixel' : 'Pixel_7_Pro_Android_14_API_34',
+            'appium:deviceName': 'Pixel_7_Pro_Android_14_API_34',
             //
             // NOTE: Change this version according to the Emulator you have created on your local machine
-            'appium:platformVersion': isGhActions ? '11.0':'14.0',
+            'appium:platformVersion': '14.0',
             'appium:orientation': 'PORTRAIT',
             'appium:automationName': 'UiAutomator2',
             // The path to the app
