@@ -23,7 +23,7 @@ type AndroidInternalContexts = Array<{
         'WebKit-Version': string;
         webSocketDebuggerUrl: string;
     };
-    pages: [{
+    pages?: [{
         description: string;
         devtoolsFrontendUrl: string;
         faviconUrl: string;
@@ -114,7 +114,8 @@ class WebView {
                             return (context as IosContext).bundleId === appIdentifier && (context as ContextInterface)?.url !== 'about:blank';
                         }
 
-                        return (context as AndroidContext).packageName === appIdentifier;
+                        // Also check that the matching page is not empty
+                        return (context as AndroidContext).packageName === appIdentifier && (context as AndroidContext)?.androidWebviewData?.empty === false;
                     });
             }, {
                 // Wait a max of 45 seconds. Reason for this high amount is that loading
@@ -246,14 +247,46 @@ class WebView {
     * Instead of using the method `driver.getContexts` we are going to use our
     * own implementation to get back more data
     */
-    async getCurrentContexts(): Promise<CrossPlatformContexts> {
+    async getCurrentContexts(elapsedTime: number = 0): Promise<CrossPlatformContexts> {
         // We will use the `driver.execute('mobile: getContexts')` method to get back the context data,
         // this will make it easier to determine which webview/page inside a webview we need to use
         // - Android: https://github.com/appium/appium-uiautomator2-driver#mobile-getcontexts
         // - iOS: https://appium.github.io/appium-xcuitest-driver/5.12/reference/commands/appium-xcuitest-driver/#mobile-getcontexts
         const contexts = await driver.execute('mobile: getContexts') as IosContexts | AndroidInternalContexts;
 
-        return driver.isIOS ? contexts as IosContexts : await this.parsedAndroidContexts(contexts as AndroidInternalContexts);
+        // The logic for iOS is clear, we can just return the contexts which will be an array of objects with more data (see the type) instead of only strings
+        if (driver.isIOS) {
+            return contexts as IosContexts;
+        }
+
+        // For Android we need to wait for the webview to contain pages, so we need to do a few checks
+        // 1. Get the package name of the app we are testing
+        const packageName = await driver.getCurrentPackage();
+        // 2. Parse the Android context data in a more readable format
+        const parsedAndroidContexts = await this.parsedAndroidContexts(contexts as AndroidInternalContexts, packageName);
+        // 3. Check if there is a webview that belongs to the app we are testing
+        const androidContext = parsedAndroidContexts.find((context) => context.packageName === packageName);
+        // 4. There are cases that no packageName is returned, so we need to check for that
+        const isPackageNameMissing = !androidContext?.packageName;
+        // 5. There are also cases that the androidWebviewData is not returned, so we need to check for that
+        const isAndroidWebviewDataMissing = androidContext && !('androidWebviewData' in androidContext);
+        // 6. There are also cases that the androidWebviewData is returned, but the empty property is not returned, so we need to check for that
+        const isAndroidWebviewDataEmpty = androidContext && androidContext.androidWebviewData?.empty;
+
+        if (isPackageNameMissing || isAndroidWebviewDataMissing || isAndroidWebviewDataEmpty) {
+            // 6. We will check for 15 seconds, with an interval of 100 ms, if the webview contains the correct data
+            if (elapsedTime < 15 * 1000) {
+                return new Promise(resolve =>
+                    setTimeout(() => resolve(this.getCurrentContexts(elapsedTime + 100)), 100)
+                );
+            }
+
+            // We didn't find the correct webview, so we will throw an error
+            throw new Error(`The packageName '${packageName}' matches, but no webview with pages was loaded in this response: '${JSON.stringify(contexts)}'`);
+        }
+
+        // If we are here, we know that the webview is loaded and we can return the parsedAndroidContexts data
+        return parsedAndroidContexts;
     }
 
     /**
@@ -320,12 +353,11 @@ class WebView {
     * - `faviconUrl` (if present):
     *   This is the URL of the favicon (the small icon associated with the page, often displayed in browser tabs).
     */
-    async parsedAndroidContexts(contexts: AndroidInternalContexts): Promise<AndroidContexts> {
+    async parsedAndroidContexts(contexts: AndroidInternalContexts, packageName:string): Promise<AndroidContexts> {
         // Android can give back multiple apps that support WebViews, so an array of WebView apps.
         // We want to get the webview of the current app, so we need to have the package name of the app, we can then
         // search for it and filter all other apps out.
-        const currentPackageName = await driver.getCurrentPackage();
-        const currentWebviewName = `WEBVIEW_${currentPackageName}`;
+        const currentWebviewName = `WEBVIEW_${packageName}`;
 
         const currentContext = contexts
             .find((webview) => webview.webviewName === currentWebviewName);
@@ -359,7 +391,7 @@ class WebView {
                     id: page.id,
                     title: page.title,
                     url: page.url,
-                    packageName: currentPackageName,
+                    packageName,
                     webviewName: currentWebviewName,
                     androidWebviewData:{
                         attached,
