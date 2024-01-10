@@ -65,7 +65,8 @@ describe('WebdriverIO and Appium, when interacting with a biometric button,', ()
         if (driver.isIOS) {
             // Wait for the alert and validate it
             await NativeAlert.waitForIsShown();
-            await expect(await NativeAlert.text()).toContain('Not Recognised');
+            // There's the English and US version of the "Not Recognized|Not Recognised"" text, so we just check for "Not Recogni
+            await expect(await NativeAlert.text()).toContain('Not Recogni');
 
             // Close the alert
             await NativeAlert.topOnButtonWithText('Cancel');

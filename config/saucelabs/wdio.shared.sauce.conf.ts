@@ -33,4 +33,7 @@ export const config: WebdriverIO.Config = {
 
     // Retry count for spec file failures
     specFileRetries: 2,
+
+    // reduce logs
+    logLevel: 'silent',
 };

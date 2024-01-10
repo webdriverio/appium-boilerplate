@@ -108,9 +108,14 @@ class WebView {
                 const appIdentifier = driver.isIOS ? BUNDLE_ID : await driver.getCurrentPackage();
 
                 return currentContexts.length > 1 &&
-                    currentContexts.find(context => (
-                        (driver.isIOS ? (context as IosContext).bundleId : (context as AndroidContext).packageName) === appIdentifier
-                    ) !== undefined);
+                    currentContexts.find(context => {
+                        if (driver.isIOS){
+                            // Also check if the url is not blank for iOS, meaning nothing is loaded. This is the "first state" for iOS
+                            return (context as IosContext).bundleId === appIdentifier && (context as ContextInterface)?.url !== 'about:blank';
+                        }
+
+                        return (context as AndroidContext).packageName === appIdentifier;
+                    });
             }, {
                 // Wait a max of 45 seconds. Reason for this high amount is that loading
                 // a webview for iOS might take longer
