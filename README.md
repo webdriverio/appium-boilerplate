@@ -8,6 +8,7 @@
 Boilerplate project to run Appium tests together with WebdriverIO for:
 
 - iOS/Android Native Apps
+
 - iOS/Android Hybrid Apps
 - Android Chrome and iOS Safari browser ([check here](./README.md#automating-chrome-or-safari))
 
