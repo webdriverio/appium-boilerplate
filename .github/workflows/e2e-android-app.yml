@@ -15,8 +15,8 @@ jobs:
     # If the PR is coming from a fork (pull_request_target), ensure it's opened by "dependabot[bot]".
     # Otherwise, clone it normally.
     if: |
-        (github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]') ||
-        (github.event_name != 'pull_request_target' && github.actor != 'dependabot[bot]')
+        github.event_name == 'pull_request' ||
+        (github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]')
     steps:
       - name: ⬇️ Checkout Repository
         if: ${{ github.event_name != 'pull_request_target' }}
@@ -37,12 +37,23 @@ jobs:
         run: |
           npm ci
 
+      - name: Check for excluded dependencies
+        id: check-deps
+        if: github.actor == 'dependabot[bot]'
+        run: |
+            if echo "${{ github.event.pull_request.title }}" | grep -Eq "appium|appium-uiautomator2-driver|appium-xcuitest-driver"; then
+              echo "Skipping tests due to dependency update"
+              echo "::set-output name=skip::true"
+            fi
+
       - name: 📦 Download app
+        if: steps.check-deps.outputs.skip != 'true'
         run: |
             mkdir -p apps
             wget https://github.com/webdriverio/native-demo-app/releases/download/v1.0.8/android.wdio.native.app.v1.0.8.apk -P apps
 
       - name: 📬 Upload App to Sauce Labs
+        if: steps.check-deps.outputs.skip != 'true'
         run: |
             curl -v \
                 -F "payload=@./apps/android.wdio.native.app.v1.0.8.apk" \
@@ -51,6 +62,7 @@ jobs:
                 'https://api.eu-central-1.saucelabs.com/v1/storage/upload'
 
       - name: 📲 Run Tests on an Android Emulator
+        if: steps.check-deps.outputs.skip != 'true'
         env:
             SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
             SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
