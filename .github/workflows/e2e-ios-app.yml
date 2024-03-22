@@ -11,22 +11,11 @@ on:
 jobs:
   ios-app:
     runs-on: ubuntu-latest
-    # Src: https://hugo.alliau.me/posts/2021-05-04-migration-to-github-native-dependabot-solutions-for-auto-merge-and-action-secrets.html#share-your-secrets-with-dependabot
-    # If the PR is coming from a fork (pull_request_target), ensure it's opened by "dependabot[bot]".
-    # Otherwise, clone it normally.
-    if: |
-        (github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]') ||
-        (github.event_name != 'pull_request_target' && github.actor != 'dependabot[bot]')
+    # Only run the job if the PR is not created by the dependabot, the dependabot is only used in combination with Android
+    if: github.actor != 'dependabot[bot]' && github.event_name == 'pull_request'
     steps:
       - name: ⬇️ Checkout Repository
-        if: ${{ github.event_name != 'pull_request_target' }}
         uses: actions/checkout@v4
-
-      - name: ⬇️ Checkout PR Repository
-        if: ${{ github.event_name == 'pull_request_target' }}
-        uses: actions/checkout@v4
-        with:
-            ref: ${{ github.event.pull_request.head.sha }}
 
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@v4
@@ -34,8 +23,7 @@ jobs:
             node-version-file: '.nvmrc'
 
       - name: 🧩 Install Dependencies
-        run: |
-          npm ci
+        run: npm ci
 
       - name: 📦 Download app
         run: |
@@ -55,12 +43,3 @@ jobs:
             SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
             SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
         run: npm run ios.sauce.simulators.app.eu
-
-    # Not needed now we are running on Sauce Labs
-    #   - name: 💾 Save server output
-    #     if: failure()
-    #     uses: actions/upload-artifact@v4
-    #     with:
-    #         name: iOS-runner-output
-    #         path: |
-    #             logs/
