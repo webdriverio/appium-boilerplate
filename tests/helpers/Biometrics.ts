@@ -2,8 +2,10 @@ import NativeAlert from '../screenobjects/components/NativeAlert.js';
 import { DEFAULT_PIN, INCORRECT_PIN } from './Constants.js';
 
 class Biometrics {
-    private get iosAllowBiometry() {return $('~Don’t Allow');}
-    private get allowBiometry() {return $('-ios class chain:**/XCUIElementTypeButton[`name == "Allow" OR name=="OK"`]');}
+    // Due to the iOS driver issue we need to wait for the alert in a different way
+    // meaning that we will not use them for now
+    // private get iosAllowBiometry() {return $('~Don’t Allow');}
+    // private get allowBiometry() {return $('-ios class chain:**/XCUIElementTypeButton[`name == "Allow" OR name=="OK"`]');}
     private get androidBiometryAlert() {
         const regex = '(Please log in|Login with.*)';
 
@@ -72,7 +74,7 @@ class Biometrics {
         //
         // We will use the first option and will use a helper to interact with the alert
         try {
-            await NativeAlert.acceptIOSAlertPermissionDialog({ buttonText: 'Allow', timeout: 3 * 1000 });
+            await NativeAlert.acceptIOSAlertPermissionDialog({ buttonText: 'Allow|OK', timeout: 3 * 1000 });
         } catch (e) {
             // This means that allow using touch/facID has already been accepted and thus the alert is not shown
         }

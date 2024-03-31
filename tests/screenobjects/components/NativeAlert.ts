@@ -50,6 +50,8 @@ class NativeAlert {
 
     /**
      * Wait for the alert/permission to exist based on it's label, or the amount of buttons
+     * The buttonText can be a string of a regex so we can check on for example "Allow|OK" which can be different
+     * between iOS versions
      */
     static async waitForIOSAlertPermissionDialog({ buttonAmount, buttonText, timeout = 3000 }:IOSAlertPermissionDialog){
         if (!buttonText && buttonAmount === undefined) {
@@ -64,21 +66,30 @@ class NativeAlert {
         // And then return
         // If that fails, meaning there are buttons, we will not reach the catch and continue the normal flow which will then throw an error
         // because the button amount is bigger than 0 which should not be the case
-        if (buttonAmount !== undefined && buttonAmount === 0){
-            await driver.pause(1000);
-            try {
-                await this.getIOSAlertPermissionDialogButtons();
-            } catch (e) {
-                // ignore the error
-                return;
-            }
+
+        try {
+            // Check if the alert is shown
+            await driver.waitUntil(async () => {
+                try {
+                    // If there is no alert then this will throw an error
+                    const buttons = await this.getIOSAlertPermissionDialogButtons();
+
+                    if (buttons.length >= (buttonAmount as number)){
+                        return true;
+                    }
+
+                    const regex = new RegExp(buttonText as string, 'i');
+
+                    return buttons.some(button => regex.test(button));
+                } catch (e) {
+                    // This means that the alert is not shown/available yet. We now need to check if this is as expected
+                    // because we are waiting for the alert to "disappear"
+                    return buttonAmount !== undefined && buttonAmount === 0;
+                }
+            }, { timeout });
+        } catch (e) {
+            // This means that the alert is not shown
         }
-
-        await driver.waitUntil(async () => {
-            const buttons = await this.getIOSAlertPermissionDialogButtons();
-
-            return buttonText ? buttons.includes(buttonText) : buttons.length >= (buttonAmount as number);
-        }, { timeout });
     }
 
     /**
@@ -86,7 +97,7 @@ class NativeAlert {
      */
     static async acceptIOSAlertPermissionDialog({ buttonText, timeout = 3000 }:IOSAlertPermissionDialog){
         await this.waitForIOSAlertPermissionDialog({ buttonText, timeout });
-        await driver.execute('mobile: alert', { action: 'accept', buttonLabel: buttonText });
+        await driver.execute('mobile: alert', { action: 'accept' });
     }
 
     /**
