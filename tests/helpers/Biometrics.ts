@@ -35,7 +35,7 @@ class Biometrics {
      * Allow biometric usage on iOS if it isn't already accepted
      */
     async allowIosBiometricUsage() {
-        // IMPORTANT: The code above is not working as expected
+        // IMPORTANT: The code below is not working as expected
         // // When Touch/FaceID is used for the first time it could be that an alert is shown which needs to be accepted
         // try {
         //     await this.iosAllowBiometry.waitForDisplayed({ timeout: 3 * 1000 });
