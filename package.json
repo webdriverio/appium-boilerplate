@@ -42,8 +42,8 @@
         "lint": "eslint config tests"
     },
     "devDependencies": {
-        "@typescript-eslint/eslint-plugin": "^7.3.1",
-        "@typescript-eslint/parser": "^7.3.1",
+        "@typescript-eslint/eslint-plugin": "^7.4.0",
+        "@typescript-eslint/parser": "^7.4.0",
         "@wdio/appium-service": "^8.35.1",
         "@wdio/browserstack-service": "^8.35.1",
         "@wdio/cli": "^8.35.1",
@@ -55,7 +55,7 @@
         "@wdio/testingbot-service": "^8.35.1",
         "appium": "^2.5.1",
         "appium-uiautomator2-driver": "^3.0.4",
-        "appium-xcuitest-driver": "7.5.2",
+        "appium-xcuitest-driver": "7.9.0",
         "eslint-plugin-wdio": "^8.24.12",
         "ts-node": "^10.9.2",
         "typescript": "^5.4.3"

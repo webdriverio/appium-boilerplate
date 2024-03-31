@@ -9,7 +9,17 @@ const SELECTORS = {
     },
 };
 
+type IOSAlertPermissionDialog = {buttonAmount?:number, buttonText?:string, timeout?:number}
+
 class NativeAlert {
+    // IMPORTANT:
+    // The Alerts/Permissions for iOS have issues. As of `appium-xcuitest-driver` V6 the normal `getAlert`-methods are not working. This is still
+    // an issue in the latest driver (7.8.2). The issue is that the alert is only shown in the scope outside of the app, take for
+    // example the home screen (com.apple.springboard)
+    // See:
+    // - https://github.com/appium/appium-xcuitest-driver/issues/2311
+    // - https://github.com/appium/appium-xcuitest-driver/issues/2349
+
     /**
      * Wait for the alert to exist.
      *
@@ -20,10 +30,63 @@ class NativeAlert {
             ? SELECTORS.ANDROID.ALERT_TITLE
             : SELECTORS.IOS.ALERT;
 
+        // Due to the iOS driver issue we need to wait for the alert in a different way
+        if (driver.isIOS){
+            return this.waitForIOSAlertPermissionDialog({ timeout: 11000, buttonAmount: isShown ? 1 : 0 });
+        }
+
         return $(selector).waitForExist({
             timeout: 11000,
             reverse: !isShown,
         });
+    }
+
+    /**
+     * Get the buttons of the iOS alert/permission
+     */
+    static async getIOSAlertPermissionDialogButtons(){
+        return (await driver.execute('mobile: alert', { action: 'getButtons' })) as string[];
+    }
+
+    /**
+     * Wait for the alert/permission to exist based on it's label, or the amount of buttons
+     */
+    static async waitForIOSAlertPermissionDialog({ buttonAmount, buttonText, timeout = 3000 }:IOSAlertPermissionDialog){
+        if (!buttonText && buttonAmount === undefined) {
+            throw new Error('Provide either buttonText or the amount of expected buttons to wait for!');
+        }
+
+        // If the amount of buttons is 0, then we need to wait for the alert to disappear. Normally we can wait for the alert not to exist
+        // but due to the error for iOS we need to:
+        // - wait for the alert to exist (even though we know it's not there), we will use 1 second for it
+        // - get the buttons, which will throw an error if the alert is not there like
+        //   `no such alert: An attempt was made to operate on a modal dialog when one was not open`
+        // And then return
+        // If that fails, meaning there are buttons, we will not reach the catch and continue the normal flow which will then throw an error
+        // because the button amount is bigger than 0 which should not be the case
+        if (buttonAmount !== undefined && buttonAmount === 0){
+            await driver.pause(1000);
+            try {
+                await this.getIOSAlertPermissionDialogButtons();
+            } catch (e) {
+                // ignore the error
+                return;
+            }
+        }
+
+        await driver.waitUntil(async () => {
+            const buttons = await this.getIOSAlertPermissionDialogButtons();
+
+            return buttonText ? buttons.includes(buttonText) : buttons.length >= (buttonAmount as number);
+        }, { timeout });
+    }
+
+    /**
+     * Accept the alert/permission based on it's label
+     */
+    static async acceptIOSAlertPermissionDialog({ buttonText, timeout = 3000 }:IOSAlertPermissionDialog){
+        await this.waitForIOSAlertPermissionDialog({ buttonText, timeout });
+        await driver.execute('mobile: alert', { action: 'accept', buttonLabel: buttonText });
     }
 
     /**
@@ -40,6 +103,10 @@ class NativeAlert {
         const buttonSelector = driver.isAndroid
             ? SELECTORS.ANDROID.ALERT_BUTTON.replace(/{BUTTON_TEXT}/, selector.toUpperCase())
             : `~${selector}`;
+
+        if (driver.isIOS) {
+            await this.acceptIOSAlertPermissionDialog({ buttonText: selector, timeout: 3000 });
+        }
         await $(buttonSelector).click();
     }
 

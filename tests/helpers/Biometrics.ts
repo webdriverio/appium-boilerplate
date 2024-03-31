@@ -1,3 +1,4 @@
+import NativeAlert from '../screenobjects/components/NativeAlert.js';
 import { DEFAULT_PIN, INCORRECT_PIN } from './Constants.js';
 
 class Biometrics {
@@ -34,10 +35,44 @@ class Biometrics {
      * Allow biometric usage on iOS if it isn't already accepted
      */
     async allowIosBiometricUsage() {
-        // When Touch/FaceID is used for the first time it could be that an alert is shown which needs to be accepted
+        // IMPORTANT: The code above is not working as expected
+        // // When Touch/FaceID is used for the first time it could be that an alert is shown which needs to be accepted
+        // try {
+        //     await this.iosAllowBiometry.waitForDisplayed({ timeout: 3 * 1000 });
+        //     await this.allowBiometry.click();
+        // } catch (e) {
+        //     // This means that allow using touch/facID has already been accepted and thus the alert is not shown
+        // }
+        //
+        // This is related to a bug in the appium-xcuitest-driver. The issue is that the alert is only shown in the scope outside
+        // of the app, take for example the home screen (com.apple.springboard)
+        // See:
+        // - https://github.com/appium/appium-xcuitest-driver/issues/2311
+        // - https://github.com/appium/appium-xcuitest-driver/issues/2349
+        // there are two ways to solve this issue:
+        // 1. Use the mobile: alert command to accept the alert
+        // try {
+        //     await driver.waitUntil(async () => {
+        //         const buttons = (await driver.execute('mobile: alert', { action: 'getButtons' })) as string[];
+        //         return buttons.includes('Allow');
+        //     }, { timeout: 3 * 1000 });
+        //     await driver.execute('mobile: alert', { action: 'accept' });
+        // } catch (e) {
+        //     // This means that allow using touch/facID has already been accepted and thus the alert is not shown
+        // }
+        // 2. Use the mobile: launchApp command to go back to the app and accept the alert and go back to the app
+        // try {
+        //     await driver.execute('mobile: launchApp', { bundleId: 'com.apple.springboard' });
+        //     await this.iosAllowBiometry.waitForDisplayed({ timeout: 3 * 1000 });
+        //     await this.allowBiometry.click();
+        //     await driver.execute('mobile: launchApp', { bundleId: BUNDLE_ID });
+        // } catch (e) {
+        //     // This means that allow using touch/facID has already been accepted and thus the alert is not shown
+        // }
+        //
+        // We will use the first option and will use a helper to interact with the alert
         try {
-            await this.iosAllowBiometry.waitForDisplayed({ timeout: 3 * 1000 });
-            await this.allowBiometry.click();
+            await NativeAlert.acceptIOSAlertPermissionDialog({ buttonText: 'Allow', timeout: 3 * 1000 });
         } catch (e) {
             // This means that allow using touch/facID has already been accepted and thus the alert is not shown
         }
