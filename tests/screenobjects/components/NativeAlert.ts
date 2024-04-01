@@ -66,18 +66,16 @@ class NativeAlert {
         // And then return
         // If that fails, meaning there are buttons, we will not reach the catch and continue the normal flow which will then throw an error
         // because the button amount is bigger than 0 which should not be the case
-
         try {
+            let buttons = [];
             // Check if the alert is shown
             await driver.waitUntil(async () => {
                 try {
                     // If there is no alert then this will throw an error
-                    const buttons = await this.getIOSAlertPermissionDialogButtons();
-
-                    if (buttons.length >= (buttonAmount as number)){
-                        return true;
+                    buttons = await this.getIOSAlertPermissionDialogButtons();
+                    if (buttons.length > (buttonAmount as number)){
+                        return false;
                     }
-
                     const regex = new RegExp(buttonText as string, 'i');
 
                     return buttons.some(button => regex.test(button));
@@ -89,6 +87,10 @@ class NativeAlert {
             }, { timeout });
         } catch (e) {
             // This means that the alert is not shown
+            console.log('Alert is not shown = ', e);
+            if (buttonAmount !== undefined && buttonAmount === 0){
+                throw new Error('Alert/Permission is still shown');
+            }
         }
     }
 
@@ -114,9 +116,8 @@ class NativeAlert {
         const buttonSelector = driver.isAndroid
             ? SELECTORS.ANDROID.ALERT_BUTTON.replace(/{BUTTON_TEXT}/, selector.toUpperCase())
             : `~${selector}`;
-
         if (driver.isIOS) {
-            await this.acceptIOSAlertPermissionDialog({ buttonText: selector, timeout: 3000 });
+            return this.acceptIOSAlertPermissionDialog({ buttonText: selector, timeout: 3000 });
         }
         await $(buttonSelector).click();
     }

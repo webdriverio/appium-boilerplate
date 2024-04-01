@@ -48,6 +48,12 @@ describe('WebdriverIO and Appium, when interacting with a biometric button,', ()
         await NativeAlert.waitForIsShown();
         await expect(await NativeAlert.text()).toContain('Success');
 
+        if (driver.isIOS){
+            // Before we can close the alert we need to wait for the native "Face ID" modal to disappear
+            // This modal can not be detected by Appium, so we need to wait for it to disappear
+            await driver.pause(750);
+        }
+
         // Close the alert
         await NativeAlert.topOnButtonWithText('OK');
         await NativeAlert.waitForIsShown(false);
