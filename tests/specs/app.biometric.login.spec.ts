@@ -3,7 +3,7 @@ import LoginScreen from '../screenobjects/LoginScreen.js';
 import Biometrics from '../helpers/Biometrics.js';
 import NativeAlert from '../screenobjects/components/NativeAlert.js';
 import AndroidSettings from '../screenobjects/AndroidSettings.js';
-import { relaunchApp } from '../helpers/Utils.js';
+import { executeInHomeScreenContext, relaunchApp } from '../helpers/Utils.js';
 import { BUNDLE_ID, PACKAGE_NAME } from '../helpers/Constants.js';
 
 /**
@@ -69,23 +69,20 @@ describe('WebdriverIO and Appium, when interacting with a biometric button,', ()
 
         // Android doesn't show an alert, but keeps the "use fingerprint" native modal in the screen
         if (driver.isIOS) {
-            // IMPORTANT:
-            // Due to the iOS driver issue, see:
-            // -tests/screenobjects/components/NativeAlert.ts
-            // -tests/helpers/Biometrics.ts
-            // we can't interact with this specific alert and there is no alternative way. We commented out the code below and added
-            // a wait for demo purposes.
-            //
-            // // Wait for the alert and validate it
-            // await NativeAlert.waitForIsShown();
-            // // There's the English and US version of the "Not Recognized|Not Recognised"" text, so we just check for "Not Recogni
-            // await expect(await NativeAlert.text()).toContain('Not Recogni');
+            // NOTE:
+            // With `appium-xcuitest-driver` V6 and higher this alert can't by default be detected by Appium. To work around this
+            // we switch to the home screen context and accept the alert there.
+            // This is a workaround for the issue described here:
+            await executeInHomeScreenContext(async () => {
+                // Wait for the alert and validate it
+                await NativeAlert.waitForIsShown();
+                // There's the English and US version of the "Not Recognized|Not Recognised"" text, so we just check for "Not Recogni
+                await expect(await NativeAlert.text()).toContain('Not Recogni');
 
-            // // Close the alert
-            // await NativeAlert.topOnButtonWithText('Cancel');
-
-            // Wait, this is not a good practice and is only used for demo purposes
-            await driver.pause(5000);
+                // Close the alert
+                await NativeAlert.topOnButtonWithText('Cancel');
+                await NativeAlert.waitForIsShown(false);
+            });
         } else {
             await AndroidSettings.waitAndTap('Cancel');
             // @TODO: This takes very long, need to fix this
