@@ -48,6 +48,12 @@ describe('WebdriverIO and Appium, when interacting with a biometric button,', ()
         await NativeAlert.waitForIsShown();
         await expect(await NativeAlert.text()).toContain('Success');
 
+        if (driver.isIOS){
+            // Before we can close the alert we need to wait for the native "Face ID" modal to disappear
+            // This modal can not be detected by Appium, so we need to wait for it to disappear
+            await driver.pause(750);
+        }
+
         // Close the alert
         await NativeAlert.topOnButtonWithText('OK');
         await NativeAlert.waitForIsShown(false);
@@ -63,13 +69,23 @@ describe('WebdriverIO and Appium, when interacting with a biometric button,', ()
 
         // Android doesn't show an alert, but keeps the "use fingerprint" native modal in the screen
         if (driver.isIOS) {
-            // Wait for the alert and validate it
-            await NativeAlert.waitForIsShown();
-            // There's the English and US version of the "Not Recognized|Not Recognised"" text, so we just check for "Not Recogni
-            await expect(await NativeAlert.text()).toContain('Not Recogni');
+            // IMPORTANT:
+            // Due to the iOS driver issue, see:
+            // -tests/screenobjects/components/NativeAlert.ts
+            // -tests/helpers/Biometrics.ts
+            // we can't interact with this specific alert and there is no alternative way. We commented out the code below and added
+            // a wait for demo purposes.
+            //
+            // // Wait for the alert and validate it
+            // await NativeAlert.waitForIsShown();
+            // // There's the English and US version of the "Not Recognized|Not Recognised"" text, so we just check for "Not Recogni
+            // await expect(await NativeAlert.text()).toContain('Not Recogni');
 
-            // Close the alert
-            await NativeAlert.topOnButtonWithText('Cancel');
+            // // Close the alert
+            // await NativeAlert.topOnButtonWithText('Cancel');
+
+            // Wait, this is not a good practice and is only used for demo purposes
+            await driver.pause(5000);
         } else {
             await AndroidSettings.waitAndTap('Cancel');
             // @TODO: This takes very long, need to fix this
