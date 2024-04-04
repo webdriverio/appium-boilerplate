@@ -5,7 +5,7 @@ about: Ask questions.
 ---
 
 **Describe your question with as much detail as possible**
-A clear and concise question that doesn't require too much conversation. Need more help? [Find me on Gitter](https://gitter.im/wswebcreation)
+A clear and concise question that doesn't require too much conversation. Need more help? [Find us on Discord](https://discord.webdriver.io)
 
 
 **If it's about a specific piece of code, try and include some of it to support your question.**
