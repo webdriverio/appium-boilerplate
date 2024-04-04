@@ -46,7 +46,7 @@ npm install
 
 3. Create a `./apps` directory at the root of this project. Download the app files (`.zip` / `.apk`) with version >= `1.0.0`, which can be found [here](https://github.com/webdriverio/native-demo-app/releases), into the `./apps` folder.
 
-4. Adjust the configuration file(s) for [Android](./config//wdio.android.app.conf.ts) and [iOS](./config/wdio.ios.app.conf.ts) regarding the device configuration you've created on your local machine.
+4. Adjust the configuration file(s) for [Android](./config/wdio.android.app.conf.ts) and [iOS](./config/wdio.ios.app.conf.ts) regarding the device configuration you've created on your local machine.
 
 5. Running tests locally
     - **Android App:** `npm run android.app`
@@ -179,7 +179,7 @@ The most interesting test here will be the [Deep Links](./tests/specs/app.deep.l
 > [!TIP]
 > If you are automating iOS apps and you can use Deep Links, then you might want to try adding the capability `autoAcceptAlerts:true` when you start the iOS device. This capability will automatically accept all alerts, also the alert that will appear when you want to open your deep link in Safari.
 >
-> If you ware going to use this capability, then don't forget to remove the last few lines in the [`openDeepLinkUrl()`](./tests/helpers/Utils.ts)-method, see the comments in the method
+> If you were going to use this capability, then don't forget to remove the last few lines in the [`openDeepLinkUrl()`](./tests/helpers/Utils.ts)-method, see the comments in the method
 
 You can run the single test with the following commands
 
