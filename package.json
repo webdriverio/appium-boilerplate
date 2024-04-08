@@ -55,7 +55,7 @@
         "@wdio/testingbot-service": "^8.35.1",
         "appium": "^2.5.1",
         "appium-uiautomator2-driver": "^3.0.4",
-        "appium-xcuitest-driver": "7.9.1",
+        "appium-xcuitest-driver": "7.11.1",
         "eslint-plugin-wdio": "^8.24.12",
         "ts-node": "^10.9.2",
         "typescript": "^5.4.3"
