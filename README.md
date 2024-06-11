@@ -53,6 +53,7 @@ npm install
     - **Android Browser:**  `npm run android.browser`
     - **iOS App:** `npm run ios.app`
     - **iOS Browser:**  `npm run ios.browser`
+    - **Android App with cucumber:** `npm run android.app.cucumber`
 
 ## How to implement in your project
 
