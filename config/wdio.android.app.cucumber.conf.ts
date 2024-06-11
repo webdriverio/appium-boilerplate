@@ -4,6 +4,9 @@ import path from "path";
 import url from 'node:url'
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
+// We need to remove the `mochaOpts` from the `baseConfig` to have all
+// Mocha references removed
+const { mochaOpts, ...cleanBaseConfig } = baseConfig
 
 export const config: WebdriverIO.Config = {
     ... cleanBaseConfig,
