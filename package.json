@@ -43,7 +43,7 @@
         "lint": "eslint config tests"
     },
     "devDependencies": {
-        "@typescript-eslint/eslint-plugin": "^7.8.0",
+        "@typescript-eslint/eslint-plugin": "^8.0.0",
         "@typescript-eslint/parser": "^7.8.0",
         "@wdio/appium-service": "^8.36.1",
         "@wdio/browserstack-service": "^8.36.1",
