@@ -1,10 +1,10 @@
-import TabBar from '../screenobjects/components/TabBar.js';
-import WebViewScreen from '../screenobjects/WebviewScreen.js';
-import SwipeScreen from '../screenobjects/SwipeScreen.js';
-import { CONTEXT_REF } from '../helpers/WebView.js';
+import TabBar from "../screenobjects/components/TabBar.js";
+import WebViewScreen from "../screenobjects/WebviewScreen.js";
+import SwipeScreen from "../screenobjects/SwipeScreen.js";
+import { CONTEXT_REF } from "../helpers/WebView.js";
 
-describe('WebdriverIO and Appium, when interacting with a WebView,', () =>  {
-    beforeEach(async () =>  {
+describe("WebdriverIO and Appium, when interacting with a WebView,", () => {
+    beforeEach(async () => {
         // Wait for the tab bar to be show
         await TabBar.waitForTabBarShown();
         // Open the webview page
@@ -17,33 +17,32 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () =>  {
         await WebViewScreen.waitForWebsiteLoaded();
     });
 
-    it('should be able search for the url method and open it', async () =>  {
+    it("should be able search for the url method and open it", async () => {
         // To be able to use the site in the webview of the app we first need to
         // change the context from native to webview
         // This is a custom method, check the source in `./helpers/WebView.js`
         await WebViewScreen.switchToContext({
             context: CONTEXT_REF.WEBVIEW,
             // This is extra data to make sure we have the correct webview
-            title: 'WebdriverIO',
-            url: 'webdriver.io',
+            title: "WebdriverIO",
+            url: "webdriver.io",
         });
         // Now the site can be accessed like you would automate a normal website
         // keep in mind the responsiveness
 
         // Open the search options
-        await $('.DocSearch').click();
+        await $(".DocSearch").click();
         // Search for url
-        await $('.DocSearch-Input').setValue('url');
-        // There might be a history, so make sure the first result is in the `browser` category
-        await driver.waitUntil(async ()=>
-            await (await $$('.DocSearch-Hit-source'))[0].getText() === 'browser'
+        await $(".DocSearch-Input").setValue("url");
+        await driver.waitUntil(async () =>
+            (await $(".DocSearch-HitsFooter").getText()).includes("See all")
         );
         // Let's take the first result
-        await $('#docsearch-item-0 a').click();
+        await $("#docsearch-item-0 a").click();
 
         // Now wait for the header to be displayed and verify that we are on the correct page
-        await $('h1').waitForDisplayed({ timeout: 3000 });
-        await expect(await driver.getTitle()).toEqual('url | WebdriverIO');
+        await $("h1").waitForDisplayed({ timeout: 3000 });
+        await expect(await driver.getTitle()).toEqual("url | WebdriverIO");
 
         /**
          * IMPORTANT!!
@@ -53,25 +52,27 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () =>  {
          *  because you should never rely on the state of a different test,
          *  but here it is excepted ;-)
          */
-        await WebViewScreen.switchToContext({ context:CONTEXT_REF.NATIVE_APP });
+        await WebViewScreen.switchToContext({
+            context: CONTEXT_REF.NATIVE_APP,
+        });
     });
 
-    it('should be able to switch between webview, native and webview', async () =>  {
+    it("should be able to switch between webview, native and webview", async () => {
         // To be able to use the site in the webview of the app we first need to
         // change the context from native to webview
         // This is a custom method, check the source in `./helpers/WebView.js`
         await WebViewScreen.switchToContext({
             context: CONTEXT_REF.WEBVIEW,
             // This is extra data to make sure we have the correct webview
-            title: 'WebdriverIO',
-            url: 'webdriver.io',
+            title: "WebdriverIO",
+            url: "webdriver.io",
         });
         // Open the search options
-        await $('.DocSearch').click();
+        await $(".DocSearch").click();
         // Wait for the search box to be there
         // We don't put an expect here because the wait for will fail if the element is not there.
         // This means this is already an "indirect" expectation
-        await $('.DocSearch-Input').waitForDisplayed();
+        await $(".DocSearch-Input").waitForDisplayed();
         await driver.pause(5000);
         // Hide the keyboard if shown
         if (await driver.isKeyboardShown()) {
@@ -86,12 +87,14 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () =>  {
              *
              * That's why we click on the footer
              */
-            await $('.DocSearch-Footer').click();
+            await $(".DocSearch-Footer").click();
         }
 
         // Now open the swipe screen and do some action there
         // This can only be done if webdriver.io is told to go to the native context
-        await WebViewScreen.switchToContext({ context: CONTEXT_REF.NATIVE_APP });
+        await WebViewScreen.switchToContext({
+            context: CONTEXT_REF.NATIVE_APP,
+        });
         await TabBar.openSwipe();
         await SwipeScreen.waitForIsShown();
 
@@ -101,16 +104,17 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () =>  {
         // change the context from native to webview
         await WebViewScreen.switchToContext({ context: CONTEXT_REF.WEBVIEW });
         // Search for the OCR service
-        await $('.DocSearch-Input').setValue('ocr service for appium native apps');
-        // There might be a history, so make sure the first result is in the `Services` category
-        await driver.waitUntil(async ()=>
-            await (await $$('.DocSearch-Hit-source'))[0].getText() === 'Services'
+        await $(".DocSearch-Input").setValue(
+            "ocr service for appium native apps"
+        );
+        await driver.waitUntil(async () =>
+            (await $(".DocSearch-HitsFooter").getText()).includes("See all")
         );
         // Let's take the first result
-        await $('#docsearch-item-0 a').click();
+        await $("#docsearch-item-0 a").click();
 
         // Now wait for the header to be displayed and verify that we are on the correct page
-        await $('header h1').waitForDisplayed({ timeout: 3000 });
-        await expect(await $('header h1').getText()).toContain('OCR service for Appium Native Apps Service');
+        await $("header h1").waitForDisplayed({ timeout: 3000 });
+        await expect(await $("header h1").getText()).toContain("OCR Testing");
     });
 });
