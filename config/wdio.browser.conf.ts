@@ -1,4 +1,4 @@
-import { config as baseConfig } from './wdio.shared.conf.js';
+import { config as baseConfig } from "./wdio.shared.conf.js";
 
 export const config: WebdriverIO.Config = {
     ...baseConfig,
@@ -6,7 +6,7 @@ export const config: WebdriverIO.Config = {
     // ============
     // Specs
     // ============
-    specs: ['../tests/specs/**/browser*.spec.ts'],
+    specs: ["../tests/specs/**/browser*.spec.ts"],
 
     // ============
     // Capabilities
@@ -15,17 +15,17 @@ export const config: WebdriverIO.Config = {
     // http://appium.io/docs/en/writing-running-appium/caps/#general-capabilities
     capabilities: [
         {
-            browserName: 'chrome',
+            browserName: "chrome",
         },
         {
-            browserName: 'firefox',
+            browserName: "firefox",
         },
         {
-            browserName: 'edge',
+            browserName: "edge",
         },
         {
-            maxInstances: 1,
-            browserName: 'safari',
-        }
-    ]
+            "wdio:maxInstances": 1,
+            browserName: "safari",
+        },
+    ],
 };
