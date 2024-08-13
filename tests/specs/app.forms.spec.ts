@@ -1,20 +1,20 @@
-import Gestures from '../helpers/Gestures.js';
-import TabBar from '../screenobjects/components/TabBar.js';
-import FormScreen from '../screenobjects/FormsScreen.js';
-import Picker from '../screenobjects/components/Picker.js';
-import NativeAlert from '../screenobjects/components/NativeAlert.js';
+import Gestures from "../helpers/Gestures.js";
+import TabBar from "../screenobjects/components/TabBar.js";
+import FormScreen from "../screenobjects/FormsScreen.js";
+import Picker from "../screenobjects/components/Picker.js";
+import NativeAlert from "../screenobjects/components/NativeAlert.js";
 
-describe('WebdriverIO and Appium, when interacting with form elements,', () => {
+describe("WebdriverIO and Appium, when interacting with form elements,", () => {
     beforeEach(async () => {
         await TabBar.waitForTabBarShown();
         await TabBar.openForms();
         await FormScreen.waitForIsShown(true);
     });
 
-    it('should be able type in the input and validate the text', async () => {
-        const text = 'Hello, this is a demo app';
+    it("should be able type in the input and validate the text", async () => {
+        const text = "Hello, this is a demo app";
         await FormScreen.input.setValue(text);
-        await expect(FormScreen.inputTextResult).toHaveTextContaining(text);
+        await expect(await FormScreen.inputTextResult).toContain(text);
 
         /**
          * IMPORTANT!!
@@ -38,7 +38,7 @@ describe('WebdriverIO and Appium, when interacting with form elements,', () => {
         }
     });
 
-    it('should be able turn on and off the switch', async () => {
+    it("should be able turn on and off the switch", async () => {
         await expect(await FormScreen.isSwitchActive()).toEqual(false);
 
         await FormScreen.tapOnSwitch();
@@ -48,10 +48,10 @@ describe('WebdriverIO and Appium, when interacting with form elements,', () => {
         await expect(await FormScreen.isSwitchActive()).toEqual(false);
     });
 
-    it('should be able select a value from the select element', async () => {
-        const valueOne = 'This app is awesome';
-        const valueTwo = 'webdriver.io is awesome';
-        const valueThree = 'Appium is awesome';
+    it("should be able select a value from the select element", async () => {
+        const valueOne = "This app is awesome";
+        const valueTwo = "webdriver.io is awesome";
+        const valueThree = "Appium is awesome";
 
         await FormScreen.tapOnDropDown();
         await Picker.selectValue(valueOne);
@@ -66,7 +66,7 @@ describe('WebdriverIO and Appium, when interacting with form elements,', () => {
         await expect(await FormScreen.getDropDownText()).toContain(valueThree);
     });
 
-    it('should be able to open the alert and close it with all 3 buttons', async () => {
+    it("should be able to open the alert and close it with all 3 buttons", async () => {
         await Gestures.checkIfDisplayedWithSwipe({
             scrollContainer: await FormScreen.screen,
             searchableElement: await FormScreen.activeButton,
@@ -74,7 +74,7 @@ describe('WebdriverIO and Appium, when interacting with form elements,', () => {
         });
         await FormScreen.tapOnActiveButton();
         await NativeAlert.waitForIsShown(true);
-        await expect(await NativeAlert.text()).toContain('This button is');
+        await expect(await NativeAlert.text()).toContain("This button is");
 
         /**
          * The following steps don't contain any assertions. This might look strange, but
@@ -83,25 +83,25 @@ describe('WebdriverIO and Appium, when interacting with form elements,', () => {
          * as assertions so we don't need to do double assertions per action (wait for the element
          * to be there, and when it's there, expect that it's there)
          */
-        await NativeAlert.topOnButtonWithText('Ask me later');
+        await NativeAlert.topOnButtonWithText("Ask me later");
         await NativeAlert.waitForIsShown(false);
         await FormScreen.tapOnActiveButton();
         await NativeAlert.waitForIsShown(true);
-        await NativeAlert.topOnButtonWithText('Cancel');
+        await NativeAlert.topOnButtonWithText("Cancel");
         await NativeAlert.waitForIsShown(false);
         await FormScreen.tapOnActiveButton();
         await NativeAlert.waitForIsShown(true);
-        await NativeAlert.topOnButtonWithText('OK');
+        await NativeAlert.topOnButtonWithText("OK");
         await NativeAlert.waitForIsShown(false);
     });
 
-    it('should be able to determine that the inactive button is inactive', async () => {
+    it("should be able to determine that the inactive button is inactive", async () => {
         // Depending on the size of the screen we might need to scroll. This methods determines if it's visible,
         // if not, it will automatically scroll to find it. This will be done two times.
         await Gestures.checkIfDisplayedWithSwipe({
-            scrollContainer:await FormScreen.screen,
-            searchableElement:await FormScreen.inActiveButton,
-            maxScrolls:2,
+            scrollContainer: await FormScreen.screen,
+            searchableElement: await FormScreen.inActiveButton,
+            maxScrolls: 2,
         });
         // In this case the button can't be asked if it is active or not with
         // `expect(FormScreen.inActiveButton.isEnabled()).toEqual(false);`
