@@ -45,7 +45,7 @@
     "devDependencies": {
         "@typescript-eslint/eslint-plugin": "^7.8.0",
         "@typescript-eslint/parser": "^7.8.0",
-        "@wdio/appium-service": "^8.36.1",
+        "@wdio/appium-service": "^9.0.4",
         "@wdio/browserstack-service": "^8.36.1",
         "@wdio/cli": "^8.36.1",
         "@wdio/cucumber-framework": "^8.38.2",
