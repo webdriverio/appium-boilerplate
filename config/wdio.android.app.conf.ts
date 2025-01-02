@@ -7,7 +7,7 @@ export const config: WebdriverIO.Config = {
     // ============
     // Specs
     // ============
-    specs: ["../tests/specs/**/app*.spec.ts"],
+    specs: ["../tests/specs/**/app.login.spec.ts"],//app*
 
     // ============
     // Capabilities
@@ -24,10 +24,10 @@ export const config: WebdriverIO.Config = {
 
             //
             // NOTE: Change this name according to the Emulator you have created on your local machine
-            "appium:deviceName": "Pixel_8_Pro_Android_15_API_35",
+            "appium:deviceName": "Pixel_8_API_35",
             //
             // NOTE: Change this version according to the Emulator you have created on your local machine
-            "appium:platformVersion": "15.0",
+            "appium:platformVersion": "13.0",
             "appium:orientation": "PORTRAIT",
             "appium:automationName": "UiAutomator2",
             // The path to the app

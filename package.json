@@ -1,17 +1,6 @@
 {
-    "name": "appium-boilerplate",
-    "version": "5.3.1",
-    "author": "Wim Selles <wim@wswebcreation.nl>",
-    "license": "MIT",
-    "description": "Boilerplate project to run WebdriverIO tests with Appium to test native applications on iOS and Android",
-    "homepage": "https://github.com/webdriverio/appium-boilerplate#readme",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/webdriverio/appium-boilerplate.git"
-    },
-    "bugs": {
-        "url": "https://github.com/webdriverio/appium-boilerplate/issues"
-    },
+    "name": "appium-templte",
+
     "engines": {
         "node": "^16.13.0 || >=18.0.0"
     },
@@ -26,20 +15,8 @@
     ],
     "type": "module",
     "scripts": {
-        "android.browserstack.app": "wdio run ./config/browserstack/wdio.android.bs.app.conf.ts",
-        "android.sauce.emulators.app.eu": "REGION=eu  wdio config/saucelabs/wdio.android.emulators.app.conf.ts",
-        "android.sauce.emulators.app.us": "wdio run config/saucelabs/wdio.android.emulators.app.conf.ts",
-        "android.sauce.rdc.app.eu": "REGION=eu wdio config/saucelabs/wdio.android.rdc.app.conf.ts",
-        "android.sauce.rdc.app.us": "wdio run config/saucelabs/wdio.android.rdc.app.conf.ts",
-        "android.testingbot.app": "wdio ./config/testingbot/wdio.android.tb.app.conf.ts",
         "android.app": "wdio run config/wdio.android.app.conf.ts",
-        "android.app.cucumber": "wdio run config/wdio.android.app.cucumber.conf.ts",
-        "android.browser": "wdio run config/wdio.android.browser.conf.ts",
-        "browser": "wdio run config/wdio.browser.conf.ts",
         "ios.app": "wdio run config/wdio.ios.app.conf.ts",
-        "ios.sauce.simulators.app.eu": "REGION=eu wdio ./config/saucelabs/wdio.ios.simulators.app.conf.ts",
-        "ios.sauce.simulators.app.us": "wdio run ./config/saucelabs/wdio.ios.simulators.app.conf.ts",
-        "ios.browser": "wdio run config/wdio.ios.browser.conf.ts",
         "lint": "eslint config tests"
     },
     "devDependencies": {
