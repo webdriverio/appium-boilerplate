@@ -1,4 +1,3 @@
-import Gestures from "../helpers/Gestures.js";
 import TabBar from "../screenobjects/components/TabBar.js";
 import FormScreen from "../screenobjects/FormsScreen.js";
 import Picker from "../screenobjects/components/Picker.js";
@@ -69,10 +68,10 @@ describe("WebdriverIO and Appium, when interacting with form elements,", () => {
     });
 
     it("should be able to open the alert and close it with all 3 buttons", async () => {
-        await Gestures.checkIfDisplayedWithSwipe({
-            scrollContainer: await FormScreen.screen,
-            searchableElement: await FormScreen.activeButton,
+        // This uses the "new" `scrollIntoView` method that now also supports native apps
+        await FormScreen.activeButton.scrollIntoView({
             maxScrolls: 2,
+            scrollableElement: await FormScreen.screen,
         });
         await FormScreen.tapOnActiveButton();
         await NativeAlert.waitForIsShown(true);
@@ -100,10 +99,10 @@ describe("WebdriverIO and Appium, when interacting with form elements,", () => {
     it("should be able to determine that the inactive button is inactive", async () => {
         // Depending on the size of the screen we might need to scroll. This methods determines if it's visible,
         // if not, it will automatically scroll to find it. This will be done two times.
-        await Gestures.checkIfDisplayedWithSwipe({
-            scrollContainer: await FormScreen.screen,
-            searchableElement: await FormScreen.inActiveButton,
+        // This uses the "new" `scrollIntoView` method that now also supports native apps
+        await FormScreen.inActiveButton.scrollIntoView({
             maxScrolls: 2,
+            scrollableElement: await FormScreen.screen,
         });
         // In this case the button can't be asked if it is active or not with
         // `expect(FormScreen.inActiveButton.isEnabled()).toEqual(false);`

@@ -1,5 +1,4 @@
 import AppScreen from './AppScreen.js';
-import Gestures from '../helpers/Gestures.js';
 
 const SELECTORS = {
     SCREEN: '~Login-screen',
@@ -55,10 +54,9 @@ class LoginScreen extends AppScreen {
             await $('~Login-screen').click();
         }
         // On smaller screens there could be a possibility that the button is not shown
-        await Gestures.checkIfDisplayedWithSwipe({
-            scrollContainer: await this.screen,
-            searchableElement: await this.loginButton,
-            maxScrolls: 2,
+        // This uses the "new" `scrollIntoView` method that now also supports native apps
+        await this.loginButton.scrollIntoView({
+            scrollableElement: await this.screen,
         });
         await this.loginButton.click();
     }
@@ -83,11 +81,8 @@ class LoginScreen extends AppScreen {
             await $('~Login-screen').click();
         }
         // On smaller screens there could be a possibility that the button is not shown
-        await Gestures.checkIfDisplayedWithSwipe({
-            scrollContainer: await this.screen,
-            searchableElement: await this.signUpButton,
-            maxScrolls: 2,
-        });
+        // This uses the "new" `scrollIntoView` method that now also supports native apps
+        await this.signUpButton.scrollIntoView({scrollableElement: await this.screen});
         await this.signUpButton.click();
     }
 }
