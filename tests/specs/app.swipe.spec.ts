@@ -45,17 +45,22 @@ describe('WebdriverIO and Appium, when using swiping', () => {
         await expect(await Carousel.isCardActive(await Carousel.openSourceCard)).toBeTruthy();
     });
 
-    it('should be able to swipe vertical by finding the surprise', async ()=>{
-        // Swipe vertical and try to find the element. You can only swipe a max of 5 times
-        await Gestures.checkIfDisplayedWithSwipe({
-            scrollContainer: await SwipeScreen.screen,
-            searchableElement: await SwipeScreen.logo,
-            maxScrolls: 5,
-            direction: DIRECTIONS.UP,
-            percentage: 0.99,
+    // There's an issue in the Android app with the carousel. You can't swipe up the screen when you starting point is on the carousel.
+    // For now we skip this test for Android
+
+    if (!driver.isAndroid) {
+        it('should be able to swipe vertical by finding the surprise', async () => {
+            // Swipe vertical and try to find the element. You can only swipe a max of 5 times
+            await Gestures.checkIfDisplayedWithSwipe({
+                scrollContainer: await SwipeScreen.screen,
+                searchableElement: await SwipeScreen.logo,
+                maxScrolls: 5,
+                direction: DIRECTIONS.UP,
+                percentage: 0.99,
+            });
+            await expect(SwipeScreen.logo).toBeDisplayed();
         });
-        await expect(SwipeScreen.logo).toBeDisplayed();
-    });
+    }
 
     // You will find native a native swipe example below, but it is commented out because even though it looks "simple",
     // there are more details you need to know about:
