@@ -38,7 +38,7 @@ describe("WebdriverIO and Appium, when interacting with a WebView,", () => {
             (await $(".DocSearch-HitsFooter").getText()).includes("See all")
         );
         // Let's take the first result
-        await $("#docsearch-item-0 a").click();
+        await $("#docsearch-hits0-item-0 a").click();
 
         // Now wait for the header to be displayed and verify that we are on the correct page
         await $("h1").waitForDisplayed({ timeout: 3000 });
@@ -111,7 +111,7 @@ describe("WebdriverIO and Appium, when interacting with a WebView,", () => {
             (await $(".DocSearch-HitsFooter").getText()).includes("See all")
         );
         // Let's take the first result
-        await $("#docsearch-item-0 a").click();
+        await $("#docsearch-hits0-item-0 a").click();
 
         // Now wait for the header to be displayed and verify that we are on the correct page
         await $("header h1").waitForDisplayed({ timeout: 3000 });

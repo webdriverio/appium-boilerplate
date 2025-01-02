@@ -136,7 +136,7 @@ class AndroidSettings {
             // Android 14 might have notifications that might block searching the right element, so we need to close them
             await this.closeSettingsScreenLockNotifications();
             await this.waitAndTap('Device unlock');
-            await this.waitAndTap('.*Fingerprint Unlock');
+            await this.waitAndTap('.*Fingerprint.*Unlock');
         } else {
             await this.waitAndTap('.*Fingerprint.*');
         }

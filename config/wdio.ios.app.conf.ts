@@ -27,10 +27,10 @@ export const config: WebdriverIO.Config = {
 
             //
             // NOTE: Change this name according to the Simulator you have created on your local machine
-            "appium:deviceName": isGhActions ? "iPhone 14" : "iPhone 15",
+            "appium:deviceName": "iPhone 16 Pro",
             //
             // NOTE: Change this version according to the Simulator Version you have created on your local machine
-            "appium:platformVersion": "17.2",
+            "appium:platformVersion": "18.2",
             "appium:orientation": "PORTRAIT",
             "appium:automationName": "XCUITest",
             // The path to the app

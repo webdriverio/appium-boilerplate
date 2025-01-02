@@ -51,8 +51,8 @@ class Gestures {
             percentage=0.99,
         }:
         {
-            scrollContainer:WebdriverIO.Element,
-            searchableElement:WebdriverIO.Element,
+            scrollContainer:WebdriverIO.Element | ChainablePromiseElement,
+            searchableElement:WebdriverIO.Element | ChainablePromiseElement,
             maxScrolls:number,
             amount?: number,
             direction?: SwipeDirectionType,
