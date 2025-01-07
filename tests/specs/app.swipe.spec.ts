@@ -1,7 +1,6 @@
 import TabBar from '../screenobjects/components/TabBar.js';
 import SwipeScreen from '../screenobjects/SwipeScreen.js';
 import Carousel from '../screenobjects/components/Carousel.js';
-import Gestures, { DIRECTIONS } from '../helpers/Gestures.js';
 
 describe('WebdriverIO and Appium, when using swiping', () => {
     beforeEach(async () => {
@@ -47,22 +46,20 @@ describe('WebdriverIO and Appium, when using swiping', () => {
 
     // There's an issue in the Android app with the carousel. You can't swipe up the screen when you starting point is on the carousel.
     // For now we skip this test for Android
-
     if (!driver.isAndroid) {
         it('should be able to swipe vertical by finding the surprise', async () => {
-            // Swipe vertical and try to find the element. You can only swipe a max of 5 times
-            await Gestures.checkIfDisplayedWithSwipe({
-                scrollContainer: await SwipeScreen.screen,
-                searchableElement: await SwipeScreen.logo,
+            // Finding the logo will be done with the "new" `scrollIntoView` method which now supports native apps as well
+            await SwipeScreen.logo.scrollIntoView({
+                scrollableElement: await SwipeScreen.screen,
+                direction: 'up',
                 maxScrolls: 5,
-                direction: DIRECTIONS.UP,
-                percentage: 0.99,
+                percent: 0.99,
             });
             await expect(SwipeScreen.logo).toBeDisplayed();
         });
     }
 
-    // You will find native a native swipe example below, but it is commented out because even though it looks "simple",
+    // You will find a native swipe example below, but it is commented out because even though it looks "simple",
     // there are more details you need to know about:
     // - the device/OS
     // - what is the difference between the native swipe on iOS and Android

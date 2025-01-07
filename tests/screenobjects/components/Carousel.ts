@@ -1,9 +1,8 @@
-import Gestures from "../../helpers/Gestures.js";
 import type { RectReturn } from "@wdio/protocols";
 
 let CAROUSEL_RECTANGLES: RectReturn;
 
-class Carousel extends Gestures {
+class Carousel {
     get carousel() {
         return $("~Carousel");
     }
@@ -63,7 +62,7 @@ class Carousel extends Gestures {
         // This will save unneeded webdriver calls.
         CAROUSEL_RECTANGLES =
             CAROUSEL_RECTANGLES ||
-            (await driver.getElementRect((await this.carousel).elementId));
+            (await driver.getElementRect(await this.carousel.elementId));
 
         return CAROUSEL_RECTANGLES;
     }
@@ -72,33 +71,11 @@ class Carousel extends Gestures {
      * Swipe the carousel to the LEFT (from right to left)
      */
     async swipeLeft() {
-        // Determine the rectangles of the carousel
-        const carouselRectangles = await this.getCarouselRectangles();
-        // We need to determine the center position of the carousel on the screen. This can be done by taking the
-        // starting position (carouselRectangles.y) and add half of the height of the carousel to it.
-        const y = Math.round(
-            carouselRectangles.y + carouselRectangles.height / 2
-        );
-
-        // Execute the gesture by providing a starting position and an end position
-        // Check the Gestures class for more information about the swipe method
-        await Gestures.executeGesture({
-            // Here we start on the right of the carousel. To make sure that we don't touch the outer most right
-            // part of the screen we take 10% of the x-position. The y-position has already been determined.
-            from: {
-                x: Math.round(
-                    carouselRectangles.width - carouselRectangles.width * 0.1
-                ),
-                y,
-            },
-            // Here we end on the left of the carousel. To make sure that we don't touch the outer most left
-            // part of the screen we add 10% to the x-position. The y-position has already been determined.
-            to: {
-                x: Math.round(
-                    carouselRectangles.x + carouselRectangles.width * 0.1
-                ),
-                y,
-            },
+        // This uses the "new" `swipe` method that now supports native apps
+        await driver.swipe({
+            direction: "left",
+            scrollableElement: this.carousel,
+            percent: 0.8,
         });
     }
 
@@ -106,33 +83,11 @@ class Carousel extends Gestures {
      * Swipe the carousel to the RIGHT (from left to right)
      */
     async swipeRight() {
-        // Determine the rectangles of the carousel
-        const carouselRectangles = await this.getCarouselRectangles();
-        // We need to determine the center position of the carousel on the screen. This can be done by taking the
-        // starting position (carouselRectangles.y) and add half of the height of the carousel to it.
-        const y = Math.round(
-            carouselRectangles.y + carouselRectangles.height / 2
-        );
-
-        // Execute the gesture by providing a starting position and an end position
-        // Check the Gestures class for more information about the swipe method
-        await Gestures.executeGesture({
-            // Here we start on the left of the carousel. To make sure that we don't touch the outer most left
-            // part of the screen we add 10% to the x-position. The y-position has already been determined.
-            from: {
-                x: Math.round(
-                    carouselRectangles.x + carouselRectangles.width * 0.1
-                ),
-                y,
-            },
-            // Here we end on the right of the carousel. To make sure that we don't touch the outer most right
-            // part of the screen we take 10% of the x-position. The y-position has already been determined.
-            to: {
-                x: Math.round(
-                    carouselRectangles.width - carouselRectangles.width * 0.1
-                ),
-                y,
-            },
+        // This uses the "new" `swipe` method that now supports native apps
+        await driver.swipe({
+            direction: "right",
+            scrollableElement: this.carousel,
+            percent: 0.8,
         });
     }
 }
