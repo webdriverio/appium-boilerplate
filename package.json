@@ -29,8 +29,9 @@
         "android.browserstack.app": "wdio run ./config/browserstack/wdio.android.bs.app.conf.ts",
         "android.sauce.emulators.app.eu": "REGION=eu  wdio config/saucelabs/wdio.android.emulators.app.conf.ts",
         "android.sauce.emulators.app.us": "wdio run config/saucelabs/wdio.android.emulators.app.conf.ts",
-        "android.lt.emulators.app": "wdio run config/lambdatest/wdio.android-browser-emulators.app.conf.ts",
-        "android.lt.rd.app": "wdio run config/lambdatest/wdio.android-browser-rd.app.conf.ts",
+        "android.lt.browser.emulator": "wdio run config/lambdatest/wdio.android.emulator.browser.conf.ts",
+        "android.lt.browser.realdevice": "wdio run config/lambdatest/wdio.android.realdevice.browser.conf.ts",
+        "android.lt.app.realdevice": "wdio run config/lambdatest/wdio.android.realdevice.app.conf.ts",
         "android.sauce.rdc.app.eu": "REGION=eu wdio config/saucelabs/wdio.android.rdc.app.conf.ts",
         "android.sauce.rdc.app.us": "wdio run config/saucelabs/wdio.android.rdc.app.conf.ts",
         "android.testingbot.app": "wdio ./config/testingbot/wdio.android.tb.app.conf.ts",
@@ -42,9 +43,8 @@
         "ios.sauce.simulators.app.eu": "REGION=eu wdio ./config/saucelabs/wdio.ios.simulators.app.conf.ts",
         "ios.sauce.simulators.app.us": "wdio run ./config/saucelabs/wdio.ios.simulators.app.conf.ts",
         "ios.browser": "wdio run config/wdio.ios.browser.conf.ts",
-        "ios.lt.emulators.app": "wdio run config/lambdatest/wdio.ios-browser-simulator.app.conf.ts",
-        "ios.lt.rd.app": "wdio run config/lambdatest/wdio.ios-browser-rd.app.conf.ts",
-        "android.lt.app": "wdio run config/lambdatest/wdio.android-app-rd.conf.ts",
+        "ios.lt.browser.simulator": "wdio run config/lambdatest/wdio.ios.simulator.browser.conf.ts",
+        "ios.lt.browser.realdevice": "wdio run config/lambdatest/wdio.ios.realdevice.browser.conf.ts",
         "lint": "eslint config tests"
     },
     "devDependencies": {
