@@ -44,6 +44,7 @@
         "ios.browser": "wdio run config/wdio.ios.browser.conf.ts",
         "ios.lt.emulators.app": "wdio run config/lambdatest/wdio.ios-browser-simulator.app.conf.ts",
         "ios.lt.rd.app": "wdio run config/lambdatest/wdio.ios-browser-rd.app.conf.ts",
+        "android.lt.app": "wdio run config/lambdatest/wdio.android-app-rd.conf.ts",
         "lint": "eslint config tests"
     },
     "devDependencies": {
