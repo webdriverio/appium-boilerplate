@@ -7,19 +7,7 @@ export const config: WebdriverIO.Config = {
     // LambdaTest user credentials
     user: process.env.LT_USERNAME || "YOUR_USERNAME",
     key: process.env.LT_ACCESS_KEY || "YOUR_ACCESS_KEY",
-    path: "/wd/hub",
 
-    // Default settings for all environments
-    logLevel: 'info',
-    bail: 0,
-    waitforTimeout: 10000,
-    connectionRetryTimeout: 120000,
-    connectionRetryCount: 3,
+    // LT Service
     services: ['lambdatest'],
-    framework: 'mocha',
-    reporters: ['spec'],
-    mochaOpts: {
-        ui: 'bdd',
-        timeout: 60000,
-    },
 };
