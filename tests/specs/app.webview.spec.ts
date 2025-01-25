@@ -20,12 +20,11 @@ describe("WebdriverIO and Appium, when interacting with a WebView,", () => {
     it("should be able search for the url method and open it", async () => {
         // To be able to use the site in the webview of the app we first need to
         // change the context from native to webview
-        // This is a custom method, check the source in `./helpers/WebView.js`
-        await WebViewScreen.switchToContext({
-            context: CONTEXT_REF.WEBVIEW,
-            // This is extra data to make sure we have the correct webview
-            title: "WebdriverIO",
-            url: "webdriver.io",
+        await driver.switchContext({
+            // We switch to the webview context by using more detailed information
+            // We check with a regex on the title and the url
+            title: /WebdriverIO.*/,
+            url: 'https://webdriver.io/',
         });
         // Now the site can be accessed like you would automate a normal website
         // keep in mind the responsiveness
@@ -52,20 +51,17 @@ describe("WebdriverIO and Appium, when interacting with a WebView,", () => {
          *  because you should never rely on the state of a different test,
          *  but here it is excepted ;-)
          */
-        await WebViewScreen.switchToContext({
-            context: CONTEXT_REF.NATIVE_APP,
-        });
+        await driver.switchContext(CONTEXT_REF.NATIVE_APP        );
     });
 
     it("should be able to switch between webview, native and webview", async () => {
         // To be able to use the site in the webview of the app we first need to
         // change the context from native to webview
-        // This is a custom method, check the source in `./helpers/WebView.js`
-        await WebViewScreen.switchToContext({
-            context: CONTEXT_REF.WEBVIEW,
-            // This is extra data to make sure we have the correct webview
-            title: "WebdriverIO",
-            url: "webdriver.io",
+        await driver.switchContext({
+            // We switch to the webview context by using more detailed information
+            // We check with a regex on the title and the url
+            title: /WebdriverIO.*/,
+            url: 'https://webdriver.io/',
         });
         // Open the search options
         await $(".DocSearch").click();
@@ -92,9 +88,7 @@ describe("WebdriverIO and Appium, when interacting with a WebView,", () => {
 
         // Now open the swipe screen and do some action there
         // This can only be done if webdriver.io is told to go to the native context
-        await WebViewScreen.switchToContext({
-            context: CONTEXT_REF.NATIVE_APP,
-        });
+        await driver.switchContext(CONTEXT_REF.NATIVE_APP);
         await TabBar.openSwipe();
         await SwipeScreen.waitForIsShown();
 
@@ -102,7 +96,12 @@ describe("WebdriverIO and Appium, when interacting with a WebView,", () => {
         await TabBar.openWebView();
         // To be able to use the site in the webview webdriver.io first needs
         // change the context from native to webview
-        await WebViewScreen.switchToContext({ context: CONTEXT_REF.WEBVIEW });
+        await driver.switchContext({
+            // We switch to the webview context by using more detailed information
+            // We check with a regex on the title and the url
+            title: /WebdriverIO.*/,
+            url: 'https://webdriver.io/',
+        });
         // Search for the OCR service
         await $(".DocSearch-Input").setValue(
             "ocr service for appium native apps"
