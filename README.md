@@ -385,6 +385,37 @@ You can use the script from [`package.json`](./package.json), to execute the tes
 $ npm run android.testingbot.app
 ```
 
+### LambdaTest
+
+This boilerplate provides a setup for testing with LambdaTest.
+Please check the [LambdaTest](./config/lambdatest) folder to see the setup for iOS and Android.
+
+Make sure you install the latest version of the `wdio-lambdatest-service` with:
+
+```shell
+npm i wdio-lambdatest-service --save-dev
+```
+
+There are 4 scripts that can be used.
+See the [`package.json`](./package.json), to execute the tests in the cloud:
+
+```sh
+# To run browser tests in iOS Simulator
+npm run ios.lt.browser.simulator
+```
+```sh
+# To run browser tests in iOS Real Device
+npm run ios.lt.browser.realdevice
+```
+```sh
+# To run browser tests in Android Emulator
+npm run android.lt.browser.emulator
+```
+```sh
+# To run browser tests in Android Real Device
+npm run android.lt.browser.realdevice
+```
+
 ## FAQ
 
 See [FAQ](./docs/FAQ.md)
