@@ -21,7 +21,7 @@ Boilerplate project to run Appium tests together with WebdriverIO for:
 
 This boilerplate is currently based on:
 
-- **WebdriverIO:** `8.x`
+- **WebdriverIO:** `9.x`
 - **Appium:** `2.x`
 
 ## Installation
@@ -108,12 +108,7 @@ npm run ios.app
 
 ### Drag And Drop
 
-Drag-and-drop an element can be a complex gesture to automate with Appium. The demo app has a simple puzzle that hopefully makes it easier and fun to understand how to implement a drag-and-drop in WebdriverIO. The test can be found [here](./tests/specs/app.drag.and.drop.spec.ts) and the drag-and-drop implementation can be found in [this](./tests/screenobjects DragScreen.ts) file.
-
-This file will now only hold the [`touchAction`](https://webdriver.io/docs/api/browser/touchAction/) way of using the drag and drop Gesture.
-The `touchPerform` is the *old* JSONWP way of implementing a gesture and is not W3C compatible. The `touchAction` is the new official W3C implementation of a gesture.
-
-You can run the single test with the following commands
+Drag-and-drop an element can be a complex gesture to automate with Appium. The demo app has a simple puzzle that hopefully makes it easier and fun to understand how to implement a drag-and-drop in WebdriverIO. The test can be found [here](./tests/specs/app.drag.and.drop.spec.ts). As you can see this boilerplate uses the enhanced [`driver.dragAndDrop()`](https://webdriver.io/docs/api/mobile/dragAndDrop)-method which makes it really easy for you to drag elements in native apps.
 
 ```sh
 # For Android local execution
@@ -202,9 +197,9 @@ Swiping is a movement with your finger on the screen that has a starting positio
 1. Move your finger to the end position
 1. Release your finger when you are in the end position
 
-The [Swipe](./tests/specs/app.swipe.spec.ts) test will be an example of how to do that. It uses a [Gesture](./tests/helpers/Gestures.ts)-helper that might be useful for you in the future.
+The [Swipe](./tests/specs/app.swipe.spec.ts) test will be an example of how to do that. It uses the newly added [`driver.swipe()`](https://webdriver.io/docs/api/mobile/swipe) command which reduces complex logic for you.
 
-If you want to know more about Gestures and how to automate them, then we would advise you to watch [this presentation "Swiping your way through Appium by Wim Selles"](https://youtu.be/oAJ7jwMNFVU).
+If you want to know more about custom Gestures and how to automate them, then we would advise you to watch [this presentation "Swiping your way through Appium by Wim Selles"](https://youtu.be/oAJ7jwMNFVU).
 
 You can run the single test with the following commands
 
