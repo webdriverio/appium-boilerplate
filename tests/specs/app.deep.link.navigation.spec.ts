@@ -38,7 +38,7 @@ describe('WebdriverIO and Appium, when navigating by deep link', () => {
     });
 
     it('should be able to open the home screen', async () => {
-        await openDeepLinkUrl('home');
+        await openDeepLinkUrl('');
         await HomeScreen.waitForIsShown(true);
     });
 });

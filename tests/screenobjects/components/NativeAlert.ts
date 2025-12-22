@@ -1,6 +1,6 @@
 const SELECTORS = {
     ANDROID: {
-        ALERT_TITLE: '*//android.widget.TextView[@resource-id="android:id/alertTitle"]',
+        ALERT_TITLE: '*//android.widget.TextView[@resource-id="com.wdiodemoapp:id/alert_title"]',
         ALERT_MESSAGE: '*//android.widget.TextView[@resource-id="android:id/message"]',
         ALERT_BUTTON: '*//android.widget.Button[@text="{BUTTON_TEXT}"]',
     },
