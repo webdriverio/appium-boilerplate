@@ -20,6 +20,7 @@ describe("WebdriverIO and Appium, when interacting with form elements,", () => {
         // if you don't have this issue.
         if (driver.isIOS) {
             await FormScreen.input.click();
+            await driver.pause(250);
         }
         await FormScreen.input.setValue(text);
         await expect(FormScreen.inputTextResult).toHaveText(
