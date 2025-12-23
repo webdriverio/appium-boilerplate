@@ -38,11 +38,17 @@ export const config: WebdriverIO.Config = {
                 process.cwd(),
                 "apps",
                 // Change this name according to the app version you downloaded
-                "ios.simulator.wdio.native.app.v1.0.8.zip"
+                "ios.simulator.wdio.native.app.v2.0.0.zip"
             ),
             "appium:newCommandTimeout": 240,
+            // Webview detection capabilities for iOS 18.x
             // This is needed to wait for the webview context to become available
-            "appium:webviewConnectTimeout": 5000,
+            "appium:webviewConnectTimeout": 20 * 1000,
+            // Add process bundle IDs to match webviews (iOS uses process-{bundleId} format)
+            // Using wildcard to match all webview processes, or specify: ["process-wdiodemoapp", "process-org.wdiodemoapp"]
+            "appium:additionalWebviewBundleIds": ["*"],
+            // There are some issues when typing that not all keys are sent. This is a workaround to slow down the typing.
+            "appium:maxTypingFrequency": 30,
         },
     ],
 };

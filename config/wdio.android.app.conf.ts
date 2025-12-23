@@ -36,7 +36,7 @@ export const config: WebdriverIO.Config = {
                 "apps",
                 //
                 // NOTE: Change this name according to the app version you downloaded
-                "android.wdio.native.app.v1.0.8.apk"
+                "android.wdio.native.app.v2.0.0.apk"
             ),
             "appium:appWaitActivity": "com.wdiodemoapp.MainActivity",
             "appium:newCommandTimeout": 240,

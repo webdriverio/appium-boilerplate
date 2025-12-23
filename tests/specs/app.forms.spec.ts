@@ -13,15 +13,6 @@ describe("WebdriverIO and Appium, when interacting with form elements,", () => {
     it("should be able type in the input and validate the text", async () => {
         const text = "Hello, this is a demo app";
 
-        // By default the setValue will trigger a keyboard. On the iOS simulator we used locally
-        // the keyboard was that fast that it lost a few keystrokes to send we we didn't get
-        // the full text. So we need to click on the input to focus it first.
-        // This is just a workaround for the iOS simulator. You don't need to do this for your app
-        // if you don't have this issue.
-        if (driver.isIOS) {
-            await FormScreen.input.click();
-            await driver.pause(250);
-        }
         await FormScreen.input.setValue(text);
         await expect(FormScreen.inputTextResult).toHaveText(
             expect.stringContaining(text)
