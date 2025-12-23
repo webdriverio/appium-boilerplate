@@ -14,7 +14,8 @@ class FormsScreen extends AppScreen {
     get inputTextResult () {return $('~input-text-result');}
     get switch () {return $('~switch');}
     get switchText () {return $('~switch-text');}
-    get dropDown () {return $('~Dropdown');}
+    get dropDown() { return $('~Dropdown'); }
+    get dropDownChevron() { return $('~dropdown-chevron'); }
     get activeButton () {return $('~button-Active');}
     get inActiveButton () {return $('~button-Inactive');}
 
@@ -26,8 +27,14 @@ class FormsScreen extends AppScreen {
         await this.switch.click();
     }
 
-    async tapOnDropDown(){
-        await this.dropDown.click();
+    async tapOnDropDown() {
+        // The tap action on the complete dropdown doesn't work on iOS, we need to
+        // tap on the chevron to open it
+        if(driver.isIOS) {
+            return await this.dropDownChevron.click();
+        }
+
+        return await this.dropDown.click();
     }
 
     async tapOnActiveButton(){
@@ -54,11 +61,11 @@ class FormsScreen extends AppScreen {
         // return getTextOfElement(this.dropDown);
         // For Android the selected value can be found with this XPATH
         // `//android.view.ViewGroup[@content-desc="Dropdown"]/android.view.ViewGroup/android.widget.EditText`
-        // Which is `//*[@content-desc="Dropdown"]/*/android.widget.EditText` so it's let element dependent
+        // Which is `//*[@content-desc="Dropdown"]//android.widget.EditText` so it's let element dependent
         let selector;
 
         if (driver.isAndroid) {
-            selector ='//*[@content-desc="Dropdown"]/*/android.widget.EditText';
+            selector ='//*[@content-desc="Dropdown"]//android.widget.EditText';
         } else {
             // **/*[`name == "Dropdown"`]/**/*[`name == "text_input"`]
             // For iOS we can use XPATH to the the text, this will be `//XCUIElementTypeTextField[@name="text_input"]`

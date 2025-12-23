@@ -1,3 +1,5 @@
+import { BUNDLE_ID } from "./Constants.js";
+
 /**
  * Get the time difference in seconds
  */
@@ -61,7 +63,10 @@ export async function openDeepLinkUrl(url:string) {
         await urlField.setValue(`${ prefix }${ url }\uE007`);
     } else {
         // Else we ne are a simulator
-        await driver.url(`${ prefix }${ url }`);
+        return await driver.execute('mobile:deepLink', {
+            url: `${ prefix }${ url }`,
+            bundleId: BUNDLE_ID,
+        });
     }
 
     /**

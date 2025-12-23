@@ -1,78 +1,78 @@
 name: Functional Android App Tests
 
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
-  pull_request:
-  pull_request_target:
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+    pull_request:
+    pull_request_target:
 
 jobs:
-  android-app:
-    runs-on: ubuntu-latest
-    # Src: https://hugo.alliau.me/posts/2021-05-04-migration-to-github-native-dependabot-solutions-for-auto-merge-and-action-secrets.html#share-your-secrets-with-dependabot
-    # If the PR is coming from a fork (pull_request_target), ensure it's opened by "dependabot[bot]".
-    # Otherwise, clone it normally.
-    if: |
-        github.event_name == 'pull_request' ||
-        (github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]')
-    steps:
-      - name: ⬇️ Checkout Repository
-        if: ${{ github.event_name != 'pull_request_target' }}
-        uses: actions/checkout@v4
+    android-app:
+        runs-on: ubuntu-latest
+        # Src: https://hugo.alliau.me/posts/2021-05-04-migration-to-github-native-dependabot-solutions-for-auto-merge-and-action-secrets.html#share-your-secrets-with-dependabot
+        # If the PR is coming from a fork (pull_request_target), ensure it's opened by "dependabot[bot]".
+        # Otherwise, clone it normally.
+        if: |
+            github.event_name == 'pull_request' ||
+            (github.event_name == 'pull_request_target' && github.actor == 'dependabot[bot]')
+        steps:
+            - name: ⬇️ Checkout Repository
+              if: ${{ github.event_name != 'pull_request_target' }}
+              uses: actions/checkout@v4
 
-      - name: ⬇️ Checkout PR Repository
-        if: ${{ github.event_name == 'pull_request_target' }}
-        uses: actions/checkout@v4
-        with:
-            ref: ${{ github.event.pull_request.head.sha }}
+            - name: ⬇️ Checkout PR Repository
+              if: ${{ github.event_name == 'pull_request_target' }}
+              uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: 🟢 Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-            node-version-file: '.nvmrc'
+            - name: 🟢 Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version-file: ".nvmrc"
 
-      - name: 🧩 Install Dependencies
-        run: |
-          npm ci
+            - name: 🧩 Install Dependencies
+              run: |
+                  npm ci
 
-      - name: Check for excluded dependencies
-        id: check-deps
-        if: github.actor == 'dependabot[bot]'
-        run: |
-            if echo "${{ github.event.pull_request.title }}" | grep -Eq "appium|appium-uiautomator2-driver|appium-xcuitest-driver"; then
-              echo "Skipping tests due to dependency update"
-              echo "::set-output name=skip::true"
-            fi
+            - name: Check for excluded dependencies
+              id: check-deps
+              if: github.actor == 'dependabot[bot]'
+              run: |
+                  if echo "${{ github.event.pull_request.title }}" | grep -Eq "appium|appium-uiautomator2-driver|appium-xcuitest-driver"; then
+                    echo "Skipping tests due to dependency update"
+                    echo "skip=true" >> $GITHUB_OUTPUT
+                  fi
 
-      - name: 📦 Download app
-        if: steps.check-deps.outputs.skip != 'true'
-        run: |
-            mkdir -p apps
-            wget https://github.com/webdriverio/native-demo-app/releases/download/v1.0.8/android.wdio.native.app.v1.0.8.apk -P apps
+            - name: 📦 Download app
+              if: steps.check-deps.outputs.skip != 'true'
+              run: |
+                  mkdir -p apps
+                  wget https://github.com/webdriverio/native-demo-app/releases/download/v2.0.0/android.wdio.native.app.v2.0.0.apk -P apps
 
-      - name: 📬 Upload App to Sauce Labs
-        if: steps.check-deps.outputs.skip != 'true'
-        run: |
-            curl -v \
-                -F "payload=@./apps/android.wdio.native.app.v1.0.8.apk" \
-                -F name=wdio-demo-app-android.apk \
-                -u "${{ secrets.SAUCE_USERNAME }}:${{ secrets.SAUCE_ACCESS_KEY }}" \
-                'https://api.eu-central-1.saucelabs.com/v1/storage/upload'
+            - name: 📬 Upload App to Sauce Labs
+              if: steps.check-deps.outputs.skip != 'true'
+              run: |
+                  curl -v \
+                      -F "payload=@./apps/android.wdio.native.app.v2.0.0.apk" \
+                      -F name=wdio-demo-app-android.apk \
+                      -u "${{ secrets.SAUCE_USERNAME }}:${{ secrets.SAUCE_ACCESS_KEY }}" \
+                      'https://api.eu-central-1.saucelabs.com/v1/storage/upload'
 
-      - name: 📲 Run Tests on an Android Emulator
-        if: steps.check-deps.outputs.skip != 'true'
-        env:
-            SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
-            SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
-        run: npm run android.sauce.emulators.app.eu
+            - name: 📲 Run Tests on an Android Emulator
+              if: steps.check-deps.outputs.skip != 'true'
+              env:
+                  SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+                  SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+              run: npm run android.sauce.emulators.app.eu
 
-    # Not needed now we are running on Sauce Labs
-    #   - name: 💾 Save server output
-    #     if: failure()
-    #     uses: actions/upload-artifact@v4
-    #     with:
-    #         name: android-runner-output
-    #         path: |
-    #             logs/
+        # Not needed now we are running on Sauce Labs
+        #   - name: 💾 Save server output
+        #     if: failure()
+        #     uses: actions/upload-artifact@v4
+        #     with:
+        #         name: android-runner-output
+        #         path: |
+        #             logs/

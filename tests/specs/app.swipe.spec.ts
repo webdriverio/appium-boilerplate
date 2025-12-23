@@ -44,20 +44,16 @@ describe('WebdriverIO and Appium, when using swiping', () => {
         await expect(await Carousel.isCardActive(await Carousel.openSourceCard)).toBeTruthy();
     });
 
-    // There's an issue in the Android app with the carousel. You can't swipe up the screen when you starting point is on the carousel.
-    // For now we skip this test for Android
-    if (!driver.isAndroid) {
-        it('should be able to swipe vertical by finding the surprise', async () => {
-            // Finding the logo will be done with the "new" `scrollIntoView` method which now supports native apps as well
-            await SwipeScreen.logo.scrollIntoView({
-                scrollableElement: await SwipeScreen.screen,
-                direction: 'up',
-                maxScrolls: 5,
-                percent: 0.99,
-            });
-            await expect(SwipeScreen.logo).toBeDisplayed();
+    it('should be able to swipe vertical by finding the surprise', async () => {
+        // Finding the logo will be done with the "new" `scrollIntoView` method which now supports native apps as well
+        await SwipeScreen.logo.scrollIntoView({
+            scrollableElement: await SwipeScreen.screen,
+            direction: 'up',
+            maxScrolls: 5,
+            percent: 0.99,
         });
-    }
+        await expect(SwipeScreen.logo).toBeDisplayed();
+    });
 
     // You will find a native swipe example below, but it is commented out because even though it looks "simple",
     // there are more details you need to know about:

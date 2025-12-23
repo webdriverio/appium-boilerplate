@@ -1,45 +1,45 @@
 name: Functional iOS App Tests
 
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
-  pull_request:
-  pull_request_target:
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+    pull_request:
+    pull_request_target:
 
 jobs:
-  ios-app:
-    runs-on: ubuntu-latest
-    # Only run the job if the PR is not created by the dependabot, the dependabot is only used in combination with Android
-    if: github.actor != 'dependabot[bot]' && github.event_name == 'pull_request'
-    steps:
-      - name: ⬇️ Checkout Repository
-        uses: actions/checkout@v4
+    ios-app:
+        runs-on: ubuntu-latest
+        # Only run the job if the PR is not created by the dependabot, the dependabot is only used in combination with Android
+        if: github.actor != 'dependabot[bot]' && github.event_name == 'pull_request'
+        steps:
+            - name: ⬇️ Checkout Repository
+              uses: actions/checkout@v4
 
-      - name: 🟢 Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-            node-version-file: '.nvmrc'
+            - name: 🟢 Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version-file: ".nvmrc"
 
-      - name: 🧩 Install Dependencies
-        run: npm ci
+            - name: 🧩 Install Dependencies
+              run: npm ci
 
-      - name: 📦 Download app
-        run: |
-            mkdir -p apps
-            wget https://github.com/webdriverio/native-demo-app/releases/download/v1.0.8/ios.simulator.wdio.native.app.v1.0.8.zip -P apps
+            - name: 📦 Download app
+              run: |
+                  mkdir -p apps
+                  wget https://github.com/webdriverio/native-demo-app/releases/download/v2.0.0/ios.simulator.wdio.native.app.v2.0.0.zip -P apps
 
-      - name: 📬 Upload App to Sauce Labs
-        run: |
-            curl -v \
-                -F "payload=@./apps/ios.simulator.wdio.native.app.v1.0.8.zip" \
-                -F name=wdio-demo-app-ios.zip \
-                -u "${{ secrets.SAUCE_USERNAME }}:${{ secrets.SAUCE_ACCESS_KEY }}" \
-                'https://api.eu-central-1.saucelabs.com/v1/storage/upload'
+            - name: 📬 Upload App to Sauce Labs
+              run: |
+                  curl -v \
+                      -F "payload=@./apps/ios.simulator.wdio.native.app.v2.0.0.zip" \
+                      -F name=wdio-demo-app-ios.zip \
+                      -u "${{ secrets.SAUCE_USERNAME }}:${{ secrets.SAUCE_ACCESS_KEY }}" \
+                      'https://api.eu-central-1.saucelabs.com/v1/storage/upload'
 
-      - name: 📲 Run Tests on an iOS Simulator
-        env:
-            SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
-            SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
-        run: npm run ios.sauce.simulators.app.eu
+            - name: 📲 Run Tests on an iOS Simulator
+              env:
+                  SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+                  SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+              run: npm run ios.sauce.simulators.app.eu

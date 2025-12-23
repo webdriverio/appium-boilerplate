@@ -4,25 +4,25 @@ let CAROUSEL_RECTANGLES: RectReturn;
 
 class Carousel {
     get carousel() {
-        return $("~Carousel");
+        return $(this.locatorStrategy("Carousel"));
     }
     get openSourceCard() {
-        return $(this.locatorStrategy("__CAROUSEL_ITEM_0_READY__"));
+        return $(this.locatorStrategy("__CAROUSEL_ITEM_0__"));
     }
     get communityCard() {
-        return $(this.locatorStrategy("__CAROUSEL_ITEM_1_READY__"));
+        return $(this.locatorStrategy("__CAROUSEL_ITEM_1__"));
     }
     get jsFoundationCard() {
-        return $(this.locatorStrategy("__CAROUSEL_ITEM_2_READY__"));
+        return $(this.locatorStrategy("__CAROUSEL_ITEM_2__"));
     }
     get supportVideosCard() {
-        return $(this.locatorStrategy("__CAROUSEL_ITEM_3_READY__"));
+        return $(this.locatorStrategy("__CAROUSEL_ITEM_3__"));
     }
     get extendableCard() {
-        return $(this.locatorStrategy("__CAROUSEL_ITEM_4_READY__"));
+        return $(this.locatorStrategy("__CAROUSEL_ITEM_4__"));
     }
     get compatibleCard() {
-        return $(this.locatorStrategy("__CAROUSEL_ITEM_5_READY__"));
+        return $(this.locatorStrategy("__CAROUSEL_ITEM_5__"));
     }
 
     private locatorStrategy(selector: string): string {
@@ -48,7 +48,7 @@ class Carousel {
      * This can be done by checking if the card has position x=0.
      */
     async isCardActive(card: ChainablePromiseElement) {
-        const cardRectangles = await driver.getElementRect(card.elementId);
+        const cardRectangles = await driver.getElementRect(await card.elementId);
 
         return cardRectangles.x === 0;
     }
