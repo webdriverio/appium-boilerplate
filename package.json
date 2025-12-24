@@ -46,8 +46,7 @@
         "ios.lt.browser.simulator": "wdio run config/lambdatest/wdio.ios.simulator.browser.conf.ts",
         "ios.lt.browser.realdevice": "wdio run config/lambdatest/wdio.ios.realdevice.browser.conf.ts",
         "lint": "eslint config tests",
-        "appium:inspector": "bash scripts/start-appium-inspector.sh",
-        "appium:inspector:win": "scripts\\start-appium-inspector.bat"
+        "appium:inspector": "npx start-appium-inspector"
     },
     "devDependencies": {
         "@typescript-eslint/eslint-plugin": "^8.50.1",

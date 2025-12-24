@@ -79,51 +79,33 @@ Since we do not have Appium installed as part of this package we are going to us
 
 ## 🔥 NEW 🔥 Using Appium Inspector in your browser
 
-The Appium Inspector is a powerful tool that allows you to inspect and interact with your mobile app's elements during development and debugging. This boilerplate includes scripts to easily start the Appium Inspector in your browser.
-
-### Available Scripts
-
-We provide two scripts to start the Appium Inspector:
-
-- **Linux/macOS**: `npm run appium:inspector`
-- **Windows**: `npm run appium:inspector:win`
+The Appium Inspector is a powerful tool that allows you to inspect and interact with your mobile app's elements during development and debugging. The `wdio-appium-service` now supports the `appium-inspector-plugin` which can be started directly using `npx`.
 
 ### Prerequisites
 
 - Node modules must be installed (`npm install`)
-- Chrome browser (recommended for best compatibility)
+- The appium server and needed drivers (already included in this boilerplate)
+- The `appium-inspector-plugin` package (already included in this boilerplate)
 
 ### Usage
 
-#### Linux/macOS
+You can start the Appium Inspector using the `npx` command:
 
 ```sh
 # Use default port 4723
-npm run appium:inspector
+npx start-appium-inspector
 
 # Use custom port
-npm run appium:inspector -- 4725
-```
-
-#### Windows
-
-```cmd
-# Use default port 4723
-npm run appium:inspector:win
-
-# Use custom port
-npm run appium:inspector:win 4725
+npx start-appium-inspector --port 4725
 ```
 
 > [!WARNING]
-> **Important**: The default Appium port is **4723**. If you use a different port when starting the script, you **must** also update the "Remote Port" field in the Appium Inspector interface to match your custom port. Otherwise, the Inspector will not be able to connect to your Appium server.
-
+> **Important**: The default Appium port is **4723**. If you use a different port when starting the inspector, you **must** also update the "Remote Port" field in the Appium Inspector interface to match your custom port. Otherwise, the Inspector will not be able to connect to your Appium server.
 
 ### Browser Compatibility
 
 - **Chrome**: Fully supported and recommended
 - **Other browsers**: May have limited functionality
-- The scripts will automatically attempt to open Chrome if available
 
 ### Capabilities Configuration
 
@@ -162,13 +144,12 @@ When using the Appium Inspector, you'll need to configure capabilities that matc
 
 ### Inspector URL
 
-Once the script is running, the Appium Inspector will be available at:
-- **Inspector URL**: https://inspector.appiumpro.com/
+Once the server and inspector are running, the Appium Inspector will be available at:
 - **Appium Server**: http://localhost:4723 (or your custom port)
 
 ### Stopping the Inspector
 
-Press `Ctrl+C` in the terminal to stop the Appium server and exit the inspector.
+Press `Ctrl+C` in the terminal to stop the Appium Inspector.
 
 ### Additional Resources
 
