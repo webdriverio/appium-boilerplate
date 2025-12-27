@@ -1,30 +1,30 @@
 export default class TabBar {
     static async openHome () {
-        await $('~Home').click();
+        await $('//*[@name="Home"]').click();
     }
 
     static async openWebView () {
-        await $('~Webview').click();
+        await $('//*[@name="Webview"]').click();
     }
 
     static async openLogin () {
-        await $('~Login').click();
+        await $('//*[@name="Login"]').click();
     }
 
     static async openForms () {
-        await $('~Forms').click();
+        await $('//*[@name="Forms"]').click();
     }
 
     static async openSwipe () {
-        await $('~Swipe').click();
+        await $('//*[@name="Swipe"]').click();
     }
 
     static async openDrag () {
-        await $('~Drag').click();
+        await $('//*[@name="Drag"]').click();
     }
 
     static async waitForTabBarShown ():Promise<boolean|void> {
-        return $('~Home').waitForDisplayed({
+        return $('//*[@name="Home"]').waitForDisplayed({
             timeout: 20000,
         });
     }

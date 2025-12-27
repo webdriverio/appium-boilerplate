@@ -1,7 +1,7 @@
 import AppScreen from './AppScreen.js';
 
 const SELECTORS = {
-    SCREEN: '~Login-screen',
+    SCREEN: '//*[@name="Login-screen"]',
 };
 
 class LoginScreen extends AppScreen {
@@ -10,14 +10,14 @@ class LoginScreen extends AppScreen {
     }
 
     get screen () {return $(SELECTORS.SCREEN);}
-    private get loginContainerButton () {return $('~button-login-container');}
-    private get signUpContainerButton () {return $('~button-sign-up-container');}
-    private get loginButton () {return $('~button-LOGIN');}
-    private get signUpButton () {return $('~button-SIGN UP');}
-    private get email () {return $('~input-email');}
-    private get password () {return $('~input-password');}
-    private get repeatPassword () {return $('~input-repeat-password');}
-    private get biometricButton () {return $('~button-biometric');}
+    private get loginContainerButton () {return $('//*[@name="button-login-container"]');}
+    private get signUpContainerButton () {return $('//*[@name="button-sign-up-container"]');}
+    private get loginButton () {return $('//*[@name="button-LOGIN"]');}
+    private get signUpButton () {return $('//*[@name="button-SIGN UP"]');}
+    private get email () {return $('//*[@name="input-email"]');}
+    private get password () {return $('//*[@name="input-password"]');}
+    private get repeatPassword () {return $('//*[@name="input-repeat-password"]');}
+    private get biometricButton () {return $('//*[@name="button-biometric"]');}
 
     async isBiometricButtonDisplayed () {
         return this.biometricButton.isDisplayed();
@@ -51,7 +51,7 @@ class LoginScreen extends AppScreen {
              *
              * That's why we click outside of the keyboard.
              */
-            await $('~Login-screen').click();
+            await $('//*[@name="Login-screen"]').click();
         }
         // On smaller screens there could be a possibility that the button is not shown
         // This uses the "new" `scrollIntoView` method that now also supports native apps
@@ -78,7 +78,7 @@ class LoginScreen extends AppScreen {
              *
              * That's why we click outside of the keyboard.
              */
-            await $('~Login-screen').click();
+            await $('//*[@name="Login-screen"]').click();
         }
         // On smaller screens there could be a possibility that the button is not shown
         // This uses the "new" `scrollIntoView` method that now also supports native apps

@@ -1,5 +1,5 @@
 import AppScreen from './AppScreen.js';
-const SWIPE_SCREEN_SELECTOR = '~Swipe-screen';
+const SWIPE_SCREEN_SELECTOR = '//*[@name="Swipe-screen"]';
 
 class SwipeScreen extends AppScreen {
     constructor () {
@@ -7,7 +7,7 @@ class SwipeScreen extends AppScreen {
     }
 
     get screen () {return $(SWIPE_SCREEN_SELECTOR);}
-    get logo () {return $('~WebdriverIO logo');}
+    get logo () {return $('//*[@name="WebdriverIO logo"]');}
 
 }
 

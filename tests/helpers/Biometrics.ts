@@ -2,8 +2,8 @@ import { DEFAULT_PIN, INCORRECT_PIN } from './Constants.js';
 import { executeInHomeScreenContext } from './Utils.js';
 
 class Biometrics {
-    private get iosAllowBiometry() {return $('~Don’t Allow');}
-    private get allowBiometry() {return $('-ios class chain:**/XCUIElementTypeButton[`name == "Allow" OR name=="OK"`]');}
+    private get iosAllowBiometry() {return $('//XCUIElementTypeButton[@name="Allow"]');}
+    private get allowBiometry() {return $('//XCUIElementTypeButton[@name="Allow" or @name="OK"]');}
     private get androidBiometryAlert() {
         const regex = '(Please log in|Login with.*)';
 

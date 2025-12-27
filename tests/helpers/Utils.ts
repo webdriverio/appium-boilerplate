@@ -47,10 +47,8 @@ export async function openDeepLinkUrl(url:string) {
         // This can be 2 different elements, or the button, or the text field
         // Use the predicate string because  the accessibility label will return 2 different types
         // of elements making it flaky to use. With predicate string we can be more precise
-        const addressBarSelector = 'label == "Address" OR name == "URL"';
-        const urlFieldSelector = 'type == "XCUIElementTypeTextField" && name CONTAINS "URL"';
-        const addressBar = $(`-ios predicate string:${ addressBarSelector }`);
-        const urlField = $(`-ios predicate string:${ urlFieldSelector }`);
+        const addressBar = $('//*[@label="Address" or @name="URL"]');
+        const urlField = $('//XCUIElementTypeTextField[contains(@name, "URL")]');
 
         // Wait for the url button to appear and click on it so the text field will appear
         // iOS 13 now has the keyboard open by default because the URL field has focus when opening the Safari browser
@@ -77,8 +75,7 @@ export async function openDeepLinkUrl(url:string) {
     // Wait for the notification and accept it
     // When using an iOS simulator you will only get the pop-up once, all the other times it won't be shown
     try {
-        const openSelector = 'type == \'XCUIElementTypeButton\' && name CONTAINS \'Open\'';
-        const openButton = $(`-ios predicate string:${ openSelector }`);
+        const openButton = $('//XCUIElementTypeButton[contains(@name, "Open")]');
         // Assumption is made that the alert will be seen within 2 seconds, if not it did not appear
         await openButton.waitForDisplayed({ timeout: 2000 });
         await openButton.click();

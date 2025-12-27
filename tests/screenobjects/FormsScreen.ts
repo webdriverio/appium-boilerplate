@@ -1,7 +1,7 @@
 import AppScreen from './AppScreen.js';
 
 const SELECTORS = {
-    SCREEN: '~Forms-screen',
+    SCREEN: '//*[@name="Forms-screen"]',
 };
 
 class FormsScreen extends AppScreen {
@@ -10,14 +10,14 @@ class FormsScreen extends AppScreen {
     }
 
     get screen () {return $(SELECTORS.SCREEN);}
-    get input () {return $('~text-input');}
-    get inputTextResult () {return $('~input-text-result');}
-    get switch () {return $('~switch');}
-    get switchText () {return $('~switch-text');}
-    get dropDown() { return $('~Dropdown'); }
-    get dropDownChevron() { return $('~dropdown-chevron'); }
-    get activeButton () {return $('~button-Active');}
-    get inActiveButton () {return $('~button-Inactive');}
+    get input () {return $('//*[@name="text-input"]');}
+    get inputTextResult () {return $('//*[@name="input-text-result"]');}
+    get switch () {return $('//*[@name="switch"]');}
+    get switchText () {return $('//*[@name="switch-text"]');}
+    get dropDown() { return $('//*[@name="Dropdown"]'); }
+    get dropDownChevron() { return $('//*[@name="dropdown-chevron"]'); }
+    get activeButton () {return $('//*[@name="button-Active"]');}
+    get inActiveButton () {return $('//*[@name="button-Inactive"]');}
 
     async tapOnInputTextResult(){
         await this.inputTextResult.click();
@@ -67,12 +67,9 @@ class FormsScreen extends AppScreen {
         if (driver.isAndroid) {
             selector ='//*[@content-desc="Dropdown"]//android.widget.EditText';
         } else {
-            // **/*[`name == "Dropdown"`]/**/*[`name == "text_input"`]
-            // For iOS we can use XPATH to the the text, this will be `//XCUIElementTypeTextField[@name="text_input"]`
-            // The downside is that it will take at least 500ms to find the element. We can also use a less brittle
-            // selector which is also faster. This is the `ios class chain` selector. To make it more robust
-            // we need to use the following selector.
-            selector = '-ios class chain:**/*[`name == "Dropdown"`]/**/*[`name == "text_input"`]';
+            // For iOS we use XPath to get the text, this will be `//XCUIElementTypeTextField[@name="text_input"]`
+            // The XPath selector finds the text_input field within the Dropdown element
+            selector = '//*[@name="Dropdown"]//XCUIElementTypeTextField[@name="text_input"]';
         }
 
         return $(selector).getText();
