@@ -64,7 +64,7 @@
         "appium": "^3.1.2",
         "appium-inspector-plugin": "^2025.11.1",
         "appium-uiautomator2-driver": "^6.7.6",
-        "appium-xcuitest-driver": "10.13.2",
+        "appium-xcuitest-driver": "10.21.1",
         "eslint-plugin-wdio": "^9.16.2",
         "ts-node": "^10.9.2",
         "typescript": "^5.9.3",
