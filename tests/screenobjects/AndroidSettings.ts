@@ -131,10 +131,15 @@ class AndroidSettings {
      * FingerPrint on Android 9 (2018) till the latest one all automatically for you.
      */
     async enableBiometricLogin() {
-        // Open the settings screen and set screen lock to pin
-        await this.executeAdbCommand(
-            `am start -a android.settings.SECURITY_SETTINGS && locksettings set-pin ${DEFAULT_PIN}`,
-        );
+        // Open Settings first (non-blocking)
+        await this.executeAdbCommand('am start -a android.settings.SECURITY_SETTINGS');
+        // Set PIN; on a fresh emulator set-pin works directly; on re-runs it fails because a PIN
+        // is already set — use the --old flag as a fallback to keep the same PIN.
+        try {
+            await this.executeAdbCommand(`locksettings set-pin ${DEFAULT_PIN}`);
+        } catch {
+            await this.executeAdbCommand(`locksettings set-pin --old ${DEFAULT_PIN} ${DEFAULT_PIN}`);
+        }
         // As of Android 14 there is a new flow to enable finger print
         if (this.platformVersion >= 14) {
             // There might be two Device unlock options, the first is the notification, the second is the actual setting
