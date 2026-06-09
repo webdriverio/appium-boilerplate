@@ -30,10 +30,12 @@ class FormsScreen extends AppScreen {
     get inActiveButton () {return $(SELECTORS.INACTIVE_BUTTON);}
 
     async tapOnInputTextResult(){
+        await this.waitForIsShown(true);
         await this.inputTextResult.click();
     }
 
     async tapOnSwitch(){
+        await this.waitForIsShown(true);
         await this.switch.click();
     }
 
@@ -48,11 +50,19 @@ class FormsScreen extends AppScreen {
     }
 
     async tapOnActiveButton(){
+        await this.activeButton.waitForEnabled({ timeoutMsg: 'Active button not enabled within timeout' });
         await this.activeButton.click();
     }
 
     async tapOnInActiveButton(){
         await this.inActiveButton.click();
+    }
+
+    async waitForDropDownValue(expected: string) {
+        await driver.waitUntil(
+            async () => (await this.getDropDownText()) === expected,
+            { timeout: 5000, interval: 200, timeoutMsg: `Dropdown did not show "${expected}" within 5s` },
+        );
     }
 
     /**

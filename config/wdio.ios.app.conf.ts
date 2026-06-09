@@ -6,6 +6,10 @@ const isGhActions = process.env.GITHUB_ACTION;
 export const config: WebdriverIO.Config = {
     ...baseConfig,
 
+    // iOS simulators use XCUITest which serializes accessibility-framework access.
+    // Running multiple sessions concurrently against one simulator causes timeouts.
+    maxInstances: 1,
+
     // ============
     // Specs
     // ============

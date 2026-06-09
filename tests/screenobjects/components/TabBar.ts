@@ -34,8 +34,8 @@ export default class TabBar {
 
     static async waitForTabBarShown ():Promise<boolean|void> {
         return $(SELECTORS.HOME).waitForDisplayed({
-            timeout: 20000,
-            timeoutMsg: 'Tab bar was not shown within 20s',
+            timeout: 45000,
+            timeoutMsg: 'Tab bar was not shown within 45s',
         });
     }
 }

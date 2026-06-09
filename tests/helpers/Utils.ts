@@ -62,11 +62,9 @@ export async function openDeepLinkUrl(url:string) {
         // Submit the url and add a break
         await urlField.setValue(`${ prefix }${ url }\uE007`);
     } else {
-        // Else we ne are a simulator
-        return await driver.execute('mobile:deepLink', {
-            url: `${ prefix }${ url }`,
-            bundleId: BUNDLE_ID,
-        });
+        // driver.url() opens URL schemes on iOS simulators without requiring app lookup by bundleId.
+        // mobile:deepLink fails on iOS 26+ (FBSOpenApplicationErrorDomain Code=4).
+        return await driver.url(`${ prefix }${ url }`);
     }
 
     /**

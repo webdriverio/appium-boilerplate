@@ -4,6 +4,10 @@ import { config as baseConfig } from "./wdio.shared.local.appium.conf.js";
 export const config: WebdriverIO.Config = {
     ...baseConfig,
 
+    // iOS simulators use XCUITest which serializes accessibility-framework access.
+    // Running multiple sessions concurrently against one simulator causes timeouts.
+    maxInstances: 1,
+
     // ============
     // Specs
     // ============

@@ -58,6 +58,7 @@ class LoginScreen extends AppScreen {
         await this.loginButton.scrollIntoView({
             scrollableElement: await this.screen,
         });
+        await this.loginButton.waitForEnabled({ timeoutMsg: 'Login button not enabled within timeout' });
         await this.loginButton.click();
     }
 
@@ -83,6 +84,7 @@ class LoginScreen extends AppScreen {
         // On smaller screens there could be a possibility that the button is not shown
         // This uses the "new" `scrollIntoView` method that now also supports native apps
         await this.signUpButton.scrollIntoView({scrollableElement: await this.screen});
+        await this.signUpButton.waitForEnabled({ timeoutMsg: 'Sign up button not enabled within timeout' });
         await this.signUpButton.click();
     }
 }

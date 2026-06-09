@@ -1,3 +1,5 @@
+import { BUNDLE_ID } from './Constants.js';
+
 export const CONTEXT_REF = {
     NATIVE_APP: 'NATIVE_APP',
     WEBVIEW: 'WEBVIEW',
@@ -84,10 +86,9 @@ class WebView {
 
                 // The name of the webview can be different on Android and iOS, so we need to check for both
                 const appIdentifier = driver.isIOS ?
-                    // Strange behavior with EXPO vs Bare React Native project. The bundleID that is returned is different than the
-                    // app identifier. In this case it is 'process-wdiodemoapp'. We also needed to add `"appium:additionalWebviewBundleIds": ["*"],`
-                    // to the caps to find the webview
-                    'process-wdiodemoapp' :
+                    // iOS 26+ returns org.reactjs.native.example.wdiodemoapp; older returned process-wdiodemoapp.
+                    // Use BUNDLE_ID (the actual registered bundle) and additionalWebviewBundleIds:["*"] in caps.
+                    BUNDLE_ID :
                     await driver.getCurrentPackage()
 
 
