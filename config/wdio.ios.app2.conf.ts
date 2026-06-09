@@ -36,6 +36,8 @@ export const config: WebdriverIO.Config = {
                 "ios.simulator.wdio.native.app.v2.2.0.zip"
             ),
             "appium:newCommandTimeout": 240,
+            // App already pre-installed; skip reinstall to avoid 30s cold-start penalty per session.
+            "appium:noReset": true,
             "appium:webviewConnectTimeout": 20 * 1000,
             "appium:additionalWebviewBundleIds": ["*"],
             "appium:maxTypingFrequency": 30,

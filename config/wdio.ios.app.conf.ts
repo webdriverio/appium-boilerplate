@@ -46,6 +46,8 @@ export const config: WebdriverIO.Config = {
                 "ios.simulator.wdio.native.app.v2.2.0.zip"
             ),
             "appium:newCommandTimeout": 240,
+            // App already pre-installed; skip reinstall to avoid 30s cold-start penalty per session.
+            "appium:noReset": true,
             // Webview detection capabilities for iOS 18.x
             // This is needed to wait for the webview context to become available
             "appium:webviewConnectTimeout": 20 * 1000,
