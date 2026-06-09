@@ -27,10 +27,11 @@ export const config: WebdriverIO.Config = {
 
             //
             // NOTE: Change this name according to the Simulator you have created on your local machine
-            "appium:deviceName": "iPhone 16 Pro",
+            "appium:deviceName": "Appium_Test_iPhone",
             //
             // NOTE: Change this version according to the Simulator Version you have created on your local machine
-            "appium:platformVersion": "18.5",
+            "appium:platformVersion": "26.4",
+            "appium:udid": "DA4738CD-5409-4F15-B6DB-3A5EC116AA79",
             "appium:orientation": "PORTRAIT",
             "appium:automationName": "XCUITest",
             // The path to the app
@@ -38,7 +39,7 @@ export const config: WebdriverIO.Config = {
                 process.cwd(),
                 "apps",
                 // Change this name according to the app version you downloaded
-                "ios.simulator.wdio.native.app.v2.0.0.zip"
+                "ios.simulator.wdio.native.app.v2.2.0.zip"
             ),
             "appium:newCommandTimeout": 240,
             // Webview detection capabilities for iOS 18.x

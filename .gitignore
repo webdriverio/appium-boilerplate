@@ -17,3 +17,13 @@ apps/
 chromeDriver
 .tmp
 *.mp4
+
+# eval
+eval/__pycache__/
+eval/.pytest_cache/
+eval/*.pyc
+eval/.deepeval/
+
+# logs
+logs/screenshots/
+logs/failure-report-*.md
