@@ -15,6 +15,11 @@ import os
 import re
 from pathlib import Path
 
+# qwen3:14b running locally can take 5–8 min per eval on a large input.
+# Raise deepeval's per-task timeout above the default 207 s so tests don't
+# time out before the model finishes.
+os.environ.setdefault("DEEPEVAL_PER_TASK_TIMEOUT_SECONDS_OVERRIDE", "900")
+
 import pytest
 from deepeval import assert_test
 from deepeval.metrics import GEval
