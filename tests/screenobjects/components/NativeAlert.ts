@@ -23,6 +23,7 @@ class NativeAlert {
         return $(selector).waitForExist({
             timeout: 11000,
             reverse: !isShown,
+            timeoutMsg: `Native alert not ${isShown ? 'shown' : 'hidden'} within 11s`,
         });
     }
 

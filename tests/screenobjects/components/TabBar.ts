@@ -1,31 +1,41 @@
+const SELECTORS = {
+    HOME: '~Home',
+    WEBVIEW: '~Webview',
+    LOGIN: '~Login',
+    FORMS: '~Forms',
+    SWIPE: '~Swipe',
+    DRAG: '~Drag',
+};
+
 export default class TabBar {
     static async openHome () {
-        await $('~Home').click();
+        await $(SELECTORS.HOME).click();
     }
 
     static async openWebView () {
-        await $('~Webview').click();
+        await $(SELECTORS.WEBVIEW).click();
     }
 
     static async openLogin () {
-        await $('~Login').click();
+        await $(SELECTORS.LOGIN).click();
     }
 
     static async openForms () {
-        await $('~Forms').click();
+        await $(SELECTORS.FORMS).click();
     }
 
     static async openSwipe () {
-        await $('~Swipe').click();
+        await $(SELECTORS.SWIPE).click();
     }
 
     static async openDrag () {
-        await $('~Drag').click();
+        await $(SELECTORS.DRAG).click();
     }
 
     static async waitForTabBarShown ():Promise<boolean|void> {
-        return $('~Home').waitForDisplayed({
+        return $(SELECTORS.HOME).waitForDisplayed({
             timeout: 20000,
+            timeoutMsg: 'Tab bar was not shown within 20s',
         });
     }
 }

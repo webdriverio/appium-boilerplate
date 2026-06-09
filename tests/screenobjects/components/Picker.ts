@@ -15,6 +15,7 @@ class Picker {
         await $(selector).waitForExist({
             timeout: 11000,
             reverse: !isShown,
+            timeoutMsg: `Picker not ${isShown ? 'shown' : 'hidden'} within 11s`,
         });
     }
 

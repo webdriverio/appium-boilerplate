@@ -28,6 +28,12 @@ class OllamaJudge(DeepEvalBaseLLM):
     def load_model(self):
         return self
 
+    @staticmethod
+    def _strip_think_tags(text: str) -> str:
+        """Remove <think>...</think> reasoning blocks emitted by qwen3 models."""
+        import re
+        return re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL).strip()
+
     def generate(self, prompt: str, schema: Optional[type] = None) -> str:
         payload = {
             "model": self.model,
@@ -38,10 +44,10 @@ class OllamaJudge(DeepEvalBaseLLM):
         response = requests.post(
             f"{self.BASE_URL}/api/generate",
             json=payload,
-            timeout=120,
+            timeout=300,
         )
         response.raise_for_status()
-        return response.json()["response"]
+        return self._strip_think_tags(response.json()["response"])
 
     async def a_generate(self, prompt: str, schema: Optional[type] = None) -> str:
         return self.generate(prompt, schema)
@@ -62,7 +68,7 @@ class OllamaJudge(DeepEvalBaseLLM):
         response = requests.post(
             f"{self.BASE_URL}/api/generate",
             json=payload,
-            timeout=120,
+            timeout=300,
         )
         response.raise_for_status()
-        return response.json()["response"]
+        return self._strip_think_tags(response.json()["response"])

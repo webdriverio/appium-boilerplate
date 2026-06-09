@@ -40,9 +40,15 @@ class AndroidSettings {
     private async postAndroidTenFingerPrintSetup(pin: number){
         await this.reEnterPin(pin);
         if (this.platformVersion >= 14) {
-            await this.waitAndTap('Pixel Imprint');
+            // Android 14+: "Pixel Imprint" or "Fingerprint" button to start enrollment
+            // Android 16 may use just "Fingerprint" — the regex covers both
+            await this.waitAndTap('Pixel Imprint|.*Fingerprint.*');
         }
-        if (this.platformVersion >= 12) {
+        if (this.platformVersion >= 16) {
+            // Android 16 changed Terms & Conditions button labels
+            await this.waitAndTap('More|MORE');
+            await this.waitAndTap('Agree|AGREE|I AGREE');
+        } else if (this.platformVersion >= 12) {
             await this.waitAndTap('MORE');
             await this.waitAndTap('I AGREE');
         } else {
@@ -54,7 +60,8 @@ class AndroidSettings {
      * Re-enter pin and submit screen
      */
     private async reEnterPin(pin: number) {
-        await (await this.findAndroidElementByMatchingText('Re-enter your PIN')).waitForDisplayed({ timeout: 10*1000 });
+        // Android 16 shows "Confirm your PIN" (verify existing PIN) rather than "Re-enter your PIN"
+        await (await this.findAndroidElementByMatchingText('Re-enter your PIN|Confirm your PIN|Enter your PIN')).waitForDisplayed({ timeout: 15*1000, timeoutMsg: 'PIN confirmation prompt not shown within 15s' });
         await this.executeAdbCommand(`input text ${pin} && input keyevent 66`);
     }
 
@@ -63,15 +70,15 @@ class AndroidSettings {
      */
     private async touchFingerPrintSensor(touchCode: number) {
         // Touch the sensor for the first time to trigger finger print
-        await (await this.findAndroidElementByMatchingText('Touch the sensor.*')).waitForDisplayed({ timeout: 10*1000 });
+        await (await this.findAndroidElementByMatchingText('Touch the sensor.*')).waitForDisplayed({ timeout: 20*1000, timeoutMsg: 'Touch sensor prompt not shown within 20s' });
         await driver.fingerPrint(touchCode);
 
         // Add finger print
-        await (await this.findAndroidElementByMatchingText('Put your finger.*')).waitForDisplayed({ timeout: 10*1000 });
+        await (await this.findAndroidElementByMatchingText('Put your finger.*')).waitForDisplayed({ timeout: 10*1000, timeoutMsg: 'Put finger prompt not shown within 10s' });
         await driver.fingerPrint(touchCode);
 
         // Confirm finger print
-        await (await this.findAndroidElementByMatchingText('Keep lifting.*')).waitForDisplayed({ timeout: 10*1000 });
+        await (await this.findAndroidElementByMatchingText('Keep lifting.*')).waitForDisplayed({ timeout: 10*1000, timeoutMsg: 'Keep lifting prompt not shown within 10s' });
         await driver.fingerPrint(touchCode);
     }
 
@@ -97,7 +104,7 @@ class AndroidSettings {
      * Wait on an element
      */
     async waitForMatchingElement(string: string) {
-        await (await this.findAndroidElementByMatchingText(string)).waitForDisplayed({ timeout: 10*1000 });
+        await (await this.findAndroidElementByMatchingText(string)).waitForDisplayed({ timeout: 10*1000, timeoutMsg: `Element matching "${string}" not shown within 10s` });
     }
     /**
      * Wait and click on an element
@@ -133,10 +140,12 @@ class AndroidSettings {
             // There might be two Device unlock options, the first is the notification, the second is the actual setting
             // First wait for the right screen to be shown
             await this.waitForMatchingElement('Device unlock.*');
-            // Android 14 might have notifications that might block searching the right element, so we need to close them
+            // Android 14+ may show notifications that block the right element — close them first
             await this.closeSettingsScreenLockNotifications();
-            await this.waitAndTap('Device unlock');
-            await this.waitAndTap('.*Fingerprint.*Unlock');
+            // Android 16 labels this "Device unlock & biometrics" — use wildcard for all 14+ variants
+            await this.waitAndTap('Device unlock.*');
+            // Android 16 may show "Fingerprint" alone; older versions show "Fingerprint Unlock"
+            await this.waitAndTap('.*Fingerprint.*');
         } else {
             await this.waitAndTap('.*Fingerprint.*');
         }

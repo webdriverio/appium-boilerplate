@@ -39,6 +39,7 @@ class Carousel {
     async waitForIsDisplayed(isShown = true) {
         await this.carousel.waitForDisplayed({
             reverse: !isShown,
+            timeoutMsg: `Carousel not ${isShown ? 'shown' : 'hidden'} within timeout`,
         });
     }
 

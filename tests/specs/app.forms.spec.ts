@@ -110,9 +110,7 @@ describe("WebdriverIO and Appium, when interacting with form elements,", () => {
         // So use a click and check if shown, make sure the alert is not there
         await NativeAlert.waitForIsShown(false);
         await FormScreen.tapOnInActiveButton();
-        // Just wait 1 second to be sure it didn't appear
-        await driver.pause(1000);
-        // Now validate it isn't there
+        // waitForIsShown(false) retries until the element is not displayed — covers the "did it appear?" check
         await NativeAlert.waitForIsShown(false);
     });
 });

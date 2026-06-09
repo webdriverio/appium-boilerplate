@@ -150,10 +150,19 @@ class WebView {
             // which in some cases is not correct
             await driver.switchAppiumContext(webviewName);
         } else {
-            await driver.switchContext({
-                title: /WebdriverIO.*/,
-                url: 'https://webdriver.io/',
-            });
+            // Android: the webview may be attached (empty===false) before the title is populated.
+            // Retry until the title matches rather than failing on the first attempt.
+            await driver.waitUntil(async () => {
+                try {
+                    await driver.switchContext({
+                        title: /WebdriverIO.*/,
+                        url: 'https://webdriver.io/',
+                    });
+                    return true;
+                } catch {
+                    return false;
+                }
+            }, { timeout: 30000, interval: 2000, timeoutMsg: 'WebView context with WebdriverIO title not available after 30s' });
         }
         await this.waitForDocumentFullyLoaded();
         await driver.switchContext(CONTEXT_REF.NATIVE_APP);

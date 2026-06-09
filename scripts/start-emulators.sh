@@ -25,7 +25,7 @@ start_android_emulator() {
     fi
 
     log "Starting $avd on port $port..."
-    "$EMULATOR" -avd "$avd" -port "$port" -no-window -no-audio -no-snapshot-load \
+    "$EMULATOR" -avd "$avd" -port "$port" -no-audio -no-snapshot-load \
         -no-boot-anim 2>/dev/null &
 
     local elapsed=0

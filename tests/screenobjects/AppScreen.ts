@@ -13,6 +13,7 @@ export default class AppScreen {
     async waitForIsShown (isShown = true): Promise<boolean | void> {
         return $(this.selector).waitForDisplayed({
             reverse: !isShown,
+            timeoutMsg: `Screen (${this.selector}) not ${isShown ? 'shown' : 'hidden'} within timeout`,
         });
     }
 }

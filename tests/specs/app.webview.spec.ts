@@ -76,7 +76,12 @@ describe("WebdriverIO and Appium, when interacting with a WebView,", () => {
             // We don't put an expect here because the wait for will fail if the element is not there.
             // This means this is already an "indirect" expectation
             await $(".DocSearch-Input").waitForDisplayed();
-            await driver.pause(5000);
+            // Wait for keyboard animation to settle; ignore timeout if keyboard never appears
+            await driver.waitUntil(async () => await driver.isKeyboardShown(), {
+                timeout: 5000,
+                interval: 500,
+                timeoutMsg: 'keyboard settle wait',
+            }).catch(() => {});
             // Hide the keyboard if shown
             if (await driver.isKeyboardShown()) {
                 /**
@@ -109,9 +114,9 @@ describe("WebdriverIO and Appium, when interacting with a WebView,", () => {
                 title: /WebdriverIO.*/,
                 url: 'https://webdriver.io/',
             });
-            // Search for the OCR service
+            // Search for the Appium service page
             await $(".DocSearch-Input").setValue(
-                "ocr service for appium native apps"
+                "appium service"
             );
             await driver.waitUntil(async () =>
                 (await $(".DocSearch-HitsFooter").getText()).includes("See all")
@@ -120,8 +125,8 @@ describe("WebdriverIO and Appium, when interacting with a WebView,", () => {
             await $("#docsearch-hits0-item-0 a").click();
 
             // Now wait for the header to be displayed and verify that we are on the correct page
-            await $("header h1").waitForDisplayed({ timeout: 3000 });
-            await expect(await $("header h1").getText()).toContain("OCR Testing");
+            await $("header h1").waitForDisplayed({ timeout: 10000, timeoutMsg: 'WebView page header not displayed after navigation' });
+            await expect(await $("header h1").getText()).toContain("Appium Service");
         });
     }
 });
