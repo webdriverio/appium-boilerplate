@@ -251,11 +251,11 @@ class TestPOMStructure:
     """Evaluate Page Object Model structure using qwen3:14b."""
 
     def test_screen_objects_pom_structure(self):
-        # Exclude platform utilities and static component helpers that intentionally don't extend AppScreen.
-        # AndroidSettings.ts: platform utility with dynamic UiAutomator2 selectors.
-        # components/: Carousel, NativeAlert, Picker, TabBar are shared UI components (static classes),
-        # not screen objects — they don't extend AppScreen by design.
-        excluded = {"AndroidSettings.ts", "Carousel.ts", "NativeAlert.ts", "Picker.ts", "TabBar.ts"}
+        # Exclude utilities and components that intentionally don't extend AppScreen:
+        # - AndroidSettings.ts: ADB/platform utility with dynamic UiAutomator2 selectors
+        # - WebviewScreen.ts: extends WebView helper class (context-switching utility), not AppScreen
+        # - components/*: Carousel, NativeAlert, Picker, TabBar are shared UI components (static classes)
+        excluded = {"AndroidSettings.ts", "WebviewScreen.ts", "Carousel.ts", "NativeAlert.ts", "Picker.ts", "TabBar.ts"}
         pom_files = [f for f in SCREEN_OBJECTS if f.name not in excluded]
         content = files_content(pom_files)
         test_case = LLMTestCase(
