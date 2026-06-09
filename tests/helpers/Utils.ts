@@ -64,7 +64,7 @@ export async function openDeepLinkUrl(url:string) {
     } else {
         // driver.url() opens URL schemes on iOS simulators without requiring app lookup by bundleId.
         // mobile:deepLink fails on iOS 26+ (FBSOpenApplicationErrorDomain Code=4).
-        return await driver.url(`${ prefix }${ url }`);
+        await driver.url(`${ prefix }${ url }`);
     }
 
     /**
@@ -72,8 +72,8 @@ export async function openDeepLinkUrl(url:string) {
      * if you started the iOS device with `autoAcceptAlerts:true` in the capabilities then Appium will auto accept the alert that should
      * be shown now. You can then comment out the code below
      */
-    // Wait for the notification and accept it
-    // When using an iOS simulator you will only get the pop-up once, all the other times it won't be shown
+    // Wait for the "Open in wdiodemoapp?" confirmation dialog and accept it.
+    // driver.url() on simulators triggers this dialog; it only appears the first time per run.
     try {
         const openSelector = 'type == \'XCUIElementTypeButton\' && name CONTAINS \'Open\'';
         const openButton = $(`-ios predicate string:${ openSelector }`);
