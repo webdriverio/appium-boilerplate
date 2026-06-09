@@ -1,5 +1,3 @@
-import { BUNDLE_ID } from "./Constants.js";
-
 /**
  * Get the time difference in seconds
  */
@@ -62,26 +60,13 @@ export async function openDeepLinkUrl(url:string) {
         // Submit the url and add a break
         await urlField.setValue(`${ prefix }${ url }\uE007`);
     } else {
-        // driver.url() opens URL schemes on iOS simulators without requiring app lookup by bundleId.
-        // mobile:deepLink fails on iOS 26+ (FBSOpenApplicationErrorDomain Code=4).
-        await driver.url(`${ prefix }${ url }`);
-    }
-
-    /**
-     * PRO TIP:
-     * if you started the iOS device with `autoAcceptAlerts:true` in the capabilities then Appium will auto accept the alert that should
-     * be shown now. You can then comment out the code below
-     */
-    // Wait for the "Open in wdiodemoapp?" confirmation dialog and accept it.
-    // driver.url() on simulators triggers this dialog; it only appears the first time per run.
-    try {
-        const openSelector = 'type == \'XCUIElementTypeButton\' && name CONTAINS \'Open\'';
-        const openButton = $(`-ios predicate string:${ openSelector }`);
-        // Assumption is made that the alert will be seen within 2 seconds, if not it did not appear
-        await openButton.waitForDisplayed({ timeout: 2000 });
-        await openButton.click();
-    } catch (e) {
-        // ignore
+        // Use mobile: deepLink for iOS simulators — activates the app by bundle ID first,
+        // then navigates to the URL within it. This avoids the SpringBoard "Open in app?"
+        // dialog that driver.url() triggers on iOS 26.x.
+        await driver.execute('mobile: deepLink', {
+            url: `${ prefix }${ url }`,
+            bundleId: 'org.wdiodemoapp',
+        });
     }
 }
 

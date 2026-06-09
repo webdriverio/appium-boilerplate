@@ -17,6 +17,14 @@ class DragScreen extends AppScreen {
         super(SELECTORS.SCREEN);
     }
 
+    // ~Drag-drop-screen is a plain View on iOS 26.x — not in the accessibility tree. Use a drag item instead.
+    override async waitForIsShown (isShown = true): Promise<boolean | void> {
+        return $(SELECTORS.DRAG_L1).waitForDisplayed({
+            reverse: !isShown,
+            timeoutMsg: `Screen (Drag-drop) not ${isShown ? 'shown' : 'hidden'} within timeout`,
+        });
+    }
+
     get dragL1() {return $(SELECTORS.DRAG_L1);}
     get dragC1() {return $(SELECTORS.DRAG_C1);}
     get dragR1() {return $(SELECTORS.DRAG_R1);}
@@ -39,7 +47,7 @@ class DragScreen extends AppScreen {
     private get retry() {return $(SELECTORS.RETRY);}
 
     async waitForRetryButton(){
-        return this.retry.waitForDisplayed({ timeoutMsg: 'Retry button not displayed' });
+        return this.retry.waitForDisplayed();
     }
 
     async tapOnRetryButton(){
@@ -51,7 +59,7 @@ class DragScreen extends AppScreen {
     }
 
     async waitForRenewButton(){
-        return this.renew.waitForDisplayed({ timeoutMsg: 'Renew button not displayed' });
+        return this.renew.waitForDisplayed();
     }
 }
 

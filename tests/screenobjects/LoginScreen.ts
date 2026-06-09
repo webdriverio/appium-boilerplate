@@ -2,6 +2,7 @@ import AppScreen from './AppScreen.js';
 
 const SELECTORS = {
     SCREEN: '~Login-screen',
+    LOGIN_CONTAINER: '~button-login-container',
 };
 
 class LoginScreen extends AppScreen {
@@ -9,8 +10,17 @@ class LoginScreen extends AppScreen {
         super(SELECTORS.SCREEN);
     }
 
+    // ~Login-screen is a plain View on iOS 26.x — not in the accessibility tree.
+    // Use the interactive login container button instead.
+    override async waitForIsShown (isShown = true): Promise<boolean | void> {
+        return this.loginContainerButton.waitForDisplayed({
+            reverse: !isShown,
+            timeoutMsg: `Screen (Login) not ${isShown ? 'shown' : 'hidden'} within timeout`,
+        });
+    }
+
     get screen () {return $(SELECTORS.SCREEN);}
-    private get loginContainerButton () {return $('~button-login-container');}
+    private get loginContainerButton () {return $(SELECTORS.LOGIN_CONTAINER);}
     private get signUpContainerButton () {return $('~button-sign-up-container');}
     private get loginButton () {return $('~button-LOGIN');}
     private get signUpButton () {return $('~button-SIGN UP');}
@@ -38,27 +48,8 @@ class LoginScreen extends AppScreen {
     async submitLoginForm({ username, password }:{username:string; password:string;}) {
         await this.email.setValue(username);
         await this.password.setValue(password);
-
-        if (await driver.isKeyboardShown()) {
-            /**
-             * Normally we would hide the keyboard with this command `driver.hideKeyboard()`, but there is an issue for hiding the keyboard
-             * on iOS when using the command. You will get an error like below
-             *
-             *  Request failed with status 400 due to Error Domain=com.facebook.WebDriverAgent Code=1 "The keyboard on iPhone cannot be
-             *  dismissed because of a known XCTest issue. Try to dismiss it in the way supported by your application under test."
-             *  UserInfo={NSLocalizedDescription=The keyboard on iPhone cannot be dismissed because of a known XCTest issue. Try to dismiss
-             *  it in the way supported by your application under test.}
-             *
-             * That's why we click outside of the keyboard.
-             */
-            await $('~Login-screen').click();
-        }
-        // On smaller screens there could be a possibility that the button is not shown
-        // This uses the "new" `scrollIntoView` method that now also supports native apps
-        await this.loginButton.scrollIntoView({
-            scrollableElement: await this.screen,
-        });
-        await this.loginButton.waitForEnabled({ timeoutMsg: 'Login button not enabled within timeout' });
+        await this.dismissKeyboard();
+        await this.loginButton.scrollIntoView();
         await this.loginButton.click();
     }
 
@@ -66,26 +57,19 @@ class LoginScreen extends AppScreen {
         await this.email.setValue(username);
         await this.password.setValue(password);
         await this.repeatPassword.setValue(password);
-
-        if (await driver.isKeyboardShown()) {
-            /**
-             * Normally we would hide the keyboard with this command `driver.hideKeyboard()`, but there is an issue for hiding the keyboard
-             * on iOS when using the command. You will get an error like below
-             *
-             *  Request failed with status 400 due to Error Domain=com.facebook.WebDriverAgent Code=1 "The keyboard on iPhone cannot be
-             *  dismissed because of a known XCTest issue. Try to dismiss it in the way supported by your application under test."
-             *  UserInfo={NSLocalizedDescription=The keyboard on iPhone cannot be dismissed because of a known XCTest issue. Try to dismiss
-             *  it in the way supported by your application under test.}
-             *
-             * That's why we click outside of the keyboard.
-             */
-            await $('~Login-screen').click();
-        }
-        // On smaller screens there could be a possibility that the button is not shown
-        // This uses the "new" `scrollIntoView` method that now also supports native apps
-        await this.signUpButton.scrollIntoView({scrollableElement: await this.screen});
-        await this.signUpButton.waitForEnabled({ timeoutMsg: 'Sign up button not enabled within timeout' });
+        await this.dismissKeyboard();
+        await this.signUpButton.scrollIntoView();
         await this.signUpButton.click();
+    }
+
+    // hideKeyboard() throws on iOS (XCTest limitation) — fall back to tapping an accessible element.
+    private async dismissKeyboard() {
+        if (!await driver.isKeyboardShown()) return;
+        try {
+            await driver.hideKeyboard();
+        } catch {
+            await this.loginContainerButton.click();
+        }
     }
 }
 

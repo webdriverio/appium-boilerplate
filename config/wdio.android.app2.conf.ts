@@ -4,6 +4,18 @@ import { config as baseConfig } from "./wdio.shared.local.appium.conf.js";
 export const config: WebdriverIO.Config = {
     ...baseConfig,
 
+    // Separate Appium port so app and app2 can run in parallel without conflicts
+    port: 4724,
+    services: [
+        ['appium', {
+            args: {
+                relaxedSecurity: true,
+                log: './logs/appium-android-p2.log',
+                port: 4724,
+            },
+        }],
+    ],
+
     // ============
     // Specs
     // ============

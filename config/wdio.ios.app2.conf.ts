@@ -4,9 +4,19 @@ import { config as baseConfig } from "./wdio.shared.local.appium.conf.js";
 export const config: WebdriverIO.Config = {
     ...baseConfig,
 
-    // iOS simulators use XCUITest which serializes accessibility-framework access.
-    // Running multiple sessions concurrently against one simulator causes timeouts.
     maxInstances: 1,
+
+    // Separate Appium port so ios.app and ios.app2 can run in parallel without conflicts
+    port: 4724,
+    services: [
+        ['appium', {
+            args: {
+                relaxedSecurity: true,
+                log: './logs/appium-ios-p2.log',
+                port: 4724,
+            },
+        }],
+    ],
 
     // ============
     // Specs
@@ -36,8 +46,6 @@ export const config: WebdriverIO.Config = {
                 "ios.simulator.wdio.native.app.v2.2.0.zip"
             ),
             "appium:newCommandTimeout": 240,
-            // App already pre-installed; skip reinstall to avoid 30s cold-start penalty per session.
-            "appium:noReset": true,
             "appium:webviewConnectTimeout": 20 * 1000,
             "appium:additionalWebviewBundleIds": ["*"],
             "appium:maxTypingFrequency": 30,

@@ -12,7 +12,6 @@ class SwipeScreen extends AppScreen {
 
     get screen () {return $(SELECTORS.SCREEN);}
     get logo () {return $(SELECTORS.LOGO);}
-
 }
 
 export default new SwipeScreen();
