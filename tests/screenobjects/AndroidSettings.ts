@@ -39,15 +39,16 @@ class AndroidSettings {
      */
     private async postAndroidTenFingerPrintSetup(pin: number){
         await this.reEnterPin(pin);
-        if (this.platformVersion >= 14) {
-            // Android 14+: "Pixel Imprint" or "Fingerprint" button to start enrollment
-            // Android 16 may use just "Fingerprint" — the regex covers both
-            await this.waitAndTap('Pixel Imprint|.*Fingerprint.*');
-        }
         if (this.platformVersion >= 16) {
-            // Android 16 changed Terms & Conditions button labels
+            // Android 16: after PIN entry the wizard shows a "Set up Pixel Imprint" info page
+            // with MORE → I AGREE; there is no separate enrollment-start button to tap
             await this.waitAndTap('More|MORE');
             await this.waitAndTap('Agree|AGREE|I AGREE');
+        } else if (this.platformVersion >= 14) {
+            // Android 14/15: a "Pixel Imprint" / "Fingerprint" enrollment button appears before T&C
+            await this.waitAndTap('Pixel Imprint|.*Fingerprint.*');
+            await this.waitAndTap('MORE');
+            await this.waitAndTap('I AGREE');
         } else if (this.platformVersion >= 12) {
             await this.waitAndTap('MORE');
             await this.waitAndTap('I AGREE');
@@ -60,8 +61,8 @@ class AndroidSettings {
      * Re-enter pin and submit screen
      */
     private async reEnterPin(pin: number) {
-        // Android 16 shows "Confirm your PIN" (verify existing PIN) rather than "Re-enter your PIN"
-        await (await this.findAndroidElementByMatchingText('Re-enter your PIN|Confirm your PIN|Enter your PIN')).waitForDisplayed({ timeout: 15*1000, timeoutMsg: 'PIN confirmation prompt not shown within 15s' });
+        // Android 16 shows "Enter your device PIN"; older versions show "Re-enter your PIN"
+        await (await this.findAndroidElementByMatchingText('Enter your device PIN|Re-enter your PIN|Confirm your PIN|Enter your PIN')).waitForDisplayed({ timeout: 15*1000, timeoutMsg: 'PIN confirmation prompt not shown within 15s' });
         await this.executeAdbCommand(`input text ${pin} && input keyevent 66`);
     }
 
@@ -149,8 +150,13 @@ class AndroidSettings {
             await this.closeSettingsScreenLockNotifications();
             // Android 16 labels this "Device unlock & biometrics" — use wildcard for all 14+ variants
             await this.waitAndTap('Device unlock.*');
-            // Android 16 may show "Fingerprint" alone; older versions show "Fingerprint Unlock"
-            await this.waitAndTap('.*Fingerprint.*');
+            if (this.platformVersion >= 16) {
+                // Android 16: fingerprint section has "Fingerprint" header + "Add fingerprint" button;
+                // tapping the header does nothing — we must tap the "Add fingerprint" button
+                await this.waitAndTap('Add fingerprint');
+            } else {
+                await this.waitAndTap('.*Fingerprint.*');
+            }
         } else {
             await this.waitAndTap('.*Fingerprint.*');
         }
