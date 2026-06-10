@@ -47,7 +47,7 @@ class DragScreen extends AppScreen {
     private get retry() {return $(SELECTORS.RETRY);}
 
     async waitForRetryButton(){
-        return this.retry.waitForDisplayed();
+        return this.retry.waitForDisplayed({ timeoutMsg: 'Retry button not shown within timeout' });
     }
 
     async tapOnRetryButton(){
@@ -59,7 +59,7 @@ class DragScreen extends AppScreen {
     }
 
     async waitForRenewButton(){
-        return this.renew.waitForDisplayed();
+        return this.renew.waitForDisplayed({ timeoutMsg: 'Renew button not shown within timeout' });
     }
 }
 

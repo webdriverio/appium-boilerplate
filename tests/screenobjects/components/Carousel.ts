@@ -28,7 +28,7 @@ class Carousel {
     private locatorStrategy(selector: string): string {
         return driver.isIOS
             ? `~${selector}`
-            : `//*[@resource-id="${selector}"]`;
+            : `android=new UiSelector().resourceId("${selector}")`;
     }
 
     /**

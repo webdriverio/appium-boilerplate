@@ -47,7 +47,7 @@ describe("WebdriverIO and Appium, when interacting with a WebView,", () => {
             await $("#docsearch-hits0-item-0 a").click();
 
             // Now wait for the header to be displayed and verify that we are on the correct page
-            await $("h1").waitForDisplayed({ timeout: 3000 });
+            await $("h1").waitForDisplayed({ timeout: 3000, timeoutMsg: 'Page heading h1 not shown within 3s' });
             await expect(await driver.getTitle()).toEqual("url | WebdriverIO");
 
             /**
@@ -75,7 +75,7 @@ describe("WebdriverIO and Appium, when interacting with a WebView,", () => {
             // Wait for the search box to be there
             // We don't put an expect here because the wait for will fail if the element is not there.
             // This means this is already an "indirect" expectation
-            await $(".DocSearch-Input").waitForDisplayed();
+            await $(".DocSearch-Input").waitForDisplayed({ timeoutMsg: 'DocSearch input not shown within timeout' });
             // Wait for keyboard animation to settle; ignore timeout if keyboard never appears
             await driver.waitUntil(async () => await driver.isKeyboardShown(), {
                 timeout: 5000,

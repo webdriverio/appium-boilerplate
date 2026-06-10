@@ -10,7 +10,7 @@ class WebViewScreen extends WebView {
      * Wait for the screen to be displayed based on Xpath
      */
     async waitForWebViewIsDisplayedByXpath (isShown = true): Promise<boolean|void> {
-        const selector = browser.isAndroid ? SELECTORS.ANDROID_WEBVIEW : SELECTORS.IOS_WEBVIEW;
+        const selector = driver.isAndroid ? SELECTORS.ANDROID_WEBVIEW : SELECTORS.IOS_WEBVIEW;
 
         return $(selector).waitForDisplayed({
             timeout: 45000,

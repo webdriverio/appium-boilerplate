@@ -1,5 +1,5 @@
 const SELECTORS = {
-    ANDROID_LISTVIEW: '//android.widget.ListView',
+    ANDROID_LISTVIEW: 'android=new UiSelector().className("android.widget.ListView")',
     IOS_PICKERWHEEL: '-ios predicate string:type == \'XCUIElementTypePickerWheel\'',
     DONE: '~done_button',
 };
@@ -40,7 +40,7 @@ class Picker {
      */
     private static async setAndroidValue (value:string) {
         // For Android we can click on a value, if it's in the list, based on the text
-        await $(`${SELECTORS.ANDROID_LISTVIEW}/*[@text='${value}']`).click();
+        await $(`android=new UiSelector().text("${value}")`).click();
     }
 
     /**

@@ -44,7 +44,7 @@ class Biometrics {
         // - https://github.com/appium/appium/issues/19716
         await executeInHomeScreenContext(async () => {
             try {
-                await this.iosAllowBiometry.waitForDisplayed({ timeout: 3 * 1000 });
+                await this.iosAllowBiometry.waitForDisplayed({ timeout: 3 * 1000, timeoutMsg: 'iOS biometry permission alert not shown within timeout' });
                 await this.allowBiometry.click();
             } catch (e) {
                 // This means that allow using touch/facID has already been accepted and thus the alert is not shown
@@ -56,7 +56,7 @@ class Biometrics {
      * Submit Android biometric login
      */
     async submitAndroidBiometricLogin(fingerprintId:number) {
-        await this.androidBiometryAlert.waitForDisplayed({ timeout: 10 *1000 });
+        await this.androidBiometryAlert.waitForDisplayed({ timeout: 10 * 1000, timeoutMsg: 'Android biometry alert not shown within timeout' });
 
         await driver.fingerPrint(fingerprintId);
     }

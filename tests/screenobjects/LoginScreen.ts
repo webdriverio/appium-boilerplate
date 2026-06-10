@@ -3,6 +3,13 @@ import AppScreen from './AppScreen.js';
 const SELECTORS = {
     SCREEN: '~Login-screen',
     LOGIN_CONTAINER: '~button-login-container',
+    SIGN_UP_CONTAINER: '~button-sign-up-container',
+    LOGIN_BUTTON: '~button-LOGIN',
+    SIGN_UP_BUTTON: '~button-SIGN UP',
+    EMAIL: '~input-email',
+    PASSWORD: '~input-password',
+    REPEAT_PASSWORD: '~input-repeat-password',
+    BIOMETRIC_BUTTON: '~button-biometric-login',
 };
 
 class LoginScreen extends AppScreen {
@@ -21,13 +28,13 @@ class LoginScreen extends AppScreen {
 
     get screen () {return $(SELECTORS.SCREEN);}
     private get loginContainerButton () {return $(SELECTORS.LOGIN_CONTAINER);}
-    private get signUpContainerButton () {return $('~button-sign-up-container');}
-    private get loginButton () {return $('~button-LOGIN');}
-    private get signUpButton () {return $('~button-SIGN UP');}
-    private get email () {return $('~input-email');}
-    private get password () {return $('~input-password');}
-    private get repeatPassword () {return $('~input-repeat-password');}
-    private get biometricButton () {return $('~button-biometric');}
+    private get signUpContainerButton () {return $(SELECTORS.SIGN_UP_CONTAINER);}
+    private get loginButton () {return $(SELECTORS.LOGIN_BUTTON);}
+    private get signUpButton () {return $(SELECTORS.SIGN_UP_BUTTON);}
+    private get email () {return $(SELECTORS.EMAIL);}
+    private get password () {return $(SELECTORS.PASSWORD);}
+    private get repeatPassword () {return $(SELECTORS.REPEAT_PASSWORD);}
+    private get biometricButton () {return $(SELECTORS.BIOMETRIC_BUTTON);}
 
     async isBiometricButtonDisplayed () {
         return this.biometricButton.isDisplayed();

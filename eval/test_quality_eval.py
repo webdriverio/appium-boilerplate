@@ -163,16 +163,42 @@ class TestDeterministicChecks:
         )
 
     def test_accessibility_id_coverage(self):
-        """At least 70% of selectors in screen objects should use accessibility ID (~)."""
+        """At least 70% of selectors in screen objects should use accessibility ID (~).
+
+        Scans both direct $() calls with string literals AND SELECTORS constant
+        object entries — because refactored files reference SELECTORS.KEY in
+        their $() calls, not raw string literals.
+        """
+        # Selector prefixes we recognise as Appium locator strategies
+        _selector_prefixes = ("~", "android=", "-ios ", "//", "*//")
+
+        def _extract_selectors(content: str) -> list[str]:
+            found: list[str] = []
+            # 1) Direct $('...') or $("...") with simple (no-internal-quote) strings
+            for m in re.findall(r"\$\('([^']+)'\)", content):
+                if any(m.startswith(p) for p in _selector_prefixes):
+                    found.append(m)
+            for m in re.findall(r'\$\("([^"]+)"\)', content):
+                if any(m.startswith(p) for p in _selector_prefixes):
+                    found.append(m)
+            # 2) SELECTORS constant entries: KEY: '...' or KEY: "..."
+            #    Handles UiSelector strings with internal quotes by reading up to
+            #    the first unescaped outer quote of the SAME type.
+            for m in re.findall(r":\s*'([^']+)'", content):
+                if any(m.startswith(p) for p in _selector_prefixes):
+                    found.append(m)
+            for m in re.findall(r':\s*"([^"]*)"', content):
+                if any(m.startswith(p) for p in _selector_prefixes):
+                    found.append(m)
+            return found
+
         all_selectors: list[str] = []
         accessibility_id_selectors: list[str] = []
 
         for screen in SCREEN_OBJECTS:
-            content = read_file(screen)
-            # Find all selector strings
-            matches = re.findall(r'\$\([\'"`](.+?)[\'"`]\)', content)
-            all_selectors.extend(matches)
-            accessibility_id_selectors.extend(m for m in matches if m.startswith("~"))
+            selectors = _extract_selectors(read_file(screen))
+            all_selectors.extend(selectors)
+            accessibility_id_selectors.extend(s for s in selectors if s.startswith("~"))
 
         if not all_selectors:
             pytest.skip("No selectors found in screen objects")
