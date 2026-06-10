@@ -268,3 +268,109 @@ class TestPOMStructure:
             actual_output=content,
         )
         assert_test(test_case, [pom_structure_metric])
+
+
+# ── Agent output quality gates (deterministic) ────────────────────────────────
+
+class TestAgentOutputGates:
+    """Deterministic gates that verify the code-refactor and checklist-review
+    agents leave the codebase in the expected state.  These run fast (no LLM)
+    and act as a regression harness after any agent-driven change."""
+
+    def test_no_method_exceeds_15_lines(self):
+        """No method body in screen objects should exceed 15 lines.
+        Long methods are a sign the agent introduced a god-method instead of
+        splitting into smaller helpers."""
+        violations = []
+        # Match class method declarations only — exclude keywords (if/for/while/switch/catch)
+        _keywords = {"if", "for", "while", "switch", "catch", "constructor"}
+        # AndroidSettings.ts is a multi-version platform utility — legitimately complex
+        _excluded = {"AndroidSettings.ts"}
+        method_re = re.compile(r"^\s+(?:(?:private|public|protected|override|static|async)\s+)*(\w+)\s*\(")
+        for screen in (s for s in SCREEN_OBJECTS if s.name not in _excluded):
+            lines = read_file(screen).splitlines()
+            method_start = None
+            depth = 0
+            method_name = ""
+            for i, line in enumerate(lines, 1):
+                m = method_re.match(line)
+                if m and "{" in line and m.group(1) not in _keywords:
+                    method_start = i
+                    method_name = m.group(1)
+                    depth = line.count("{") - line.count("}")
+                elif method_start is not None:
+                    depth += line.count("{") - line.count("}")
+                    if depth <= 0:
+                        length = i - method_start + 1
+                        if length > 15:
+                            violations.append(
+                                f"{screen.name}: `{method_name}` is {length} lines (max 15)"
+                            )
+                        method_start = None
+        assert not violations, (
+            "Methods exceeding 15-line limit (split into smaller helpers):\n"
+            + "\n".join(violations)
+        )
+
+    def test_no_raw_string_platform_check(self):
+        """Platform checks must use driver.isAndroid / driver.isIOS, not string
+        comparisons like platformName === 'Android'."""
+        violations = []
+        pattern = re.compile(r'platformName\s*[=!]=\s*[\'"]', re.IGNORECASE)
+        for path in list(SCREEN_OBJECTS) + list(SPEC_FILES):
+            for i, line in enumerate(read_file(path).splitlines(), 1):
+                if pattern.search(line) and not line.strip().startswith("//"):
+                    violations.append(f"{path.name}:{i}: {line.strip()}")
+        assert not violations, (
+            "Raw platformName string checks — use driver.isAndroid/driver.isIOS:\n"
+            + "\n".join(violations)
+        )
+
+    def test_getters_do_not_use_await(self):
+        """Getters in screen objects must NOT use `await $()`.
+        `await $()` holds a stale element reference; getters should return
+        `$(SELECTOR)` so the element is re-queried on each access."""
+        violations = []
+        pattern = re.compile(r"\bget\b.+\{.*await\s+\$\(")
+        for screen in SCREEN_OBJECTS:
+            for i, line in enumerate(read_file(screen).splitlines(), 1):
+                if pattern.search(line) and not line.strip().startswith("//"):
+                    violations.append(f"{screen.name}:{i}: {line.strip()}")
+        assert not violations, (
+            "Getters using `await $()` — remove the await:\n"
+            + "\n".join(violations)
+        )
+
+    def test_waitForDisplayed_has_timeoutMsg(self):
+        """Every waitForDisplayed call in screen objects should pass a timeoutMsg
+        so failures are self-describing.  Calls without one are flagged as WARNING."""
+        missing = []
+        for screen in SCREEN_OBJECTS:
+            content = read_file(screen)
+            for i, line in enumerate(content.splitlines(), 1):
+                if "waitForDisplayed(" in line and "timeoutMsg" not in line and not line.strip().startswith("//"):
+                    missing.append(f"{screen.name}:{i}: {line.strip()}")
+        # INFO-level: collect and print but don't hard-fail (some one-liner waitForDisplayed
+        # calls are acceptable when the surrounding context already identifies the element)
+        if missing:
+            print(
+                "\n[INFO] waitForDisplayed without timeoutMsg "
+                "(add timeoutMsg for self-describing failures):"
+            )
+            for m in missing:
+                print(f"  {m}")
+
+    def test_agent_files_exist(self):
+        """All required Claude Code agents must be present in .claude/agents/."""
+        agents_dir = PROJECT_ROOT / ".claude/agents"
+        required = {
+            "run-android-tests.md",
+            "run-ios-tests.md",
+            "investigate-failure.md",
+            "eval-test-quality.md",
+            "checklist-review.md",
+            "sync-upstream.md",
+            "code-refactor.md",
+        }
+        missing = required - {f.name for f in agents_dir.glob("*.md")}
+        assert not missing, f"Missing agent definition files: {missing}"
