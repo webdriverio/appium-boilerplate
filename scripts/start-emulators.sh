@@ -43,6 +43,20 @@ start_android_emulator() {
     "$ADB" -s "$serial" wait-for-device shell \
         'while [[ "$(getprop sys.boot_completed)" != "1" ]]; do sleep 2; done'
 
+    # Prevent screen sleep and ensure the emulator is unlocked before tests run.
+    # Without keep-awake settings the emulator falls asleep and the keyguard blocks
+    # the app, causing "Tab bar not shown within 45s" failures.
+    # Use set-disabled first so the swipe dismisses the lock screen without a PIN,
+    # then set a PIN afterwards — Android requires a PIN for fingerprint/biometric tests.
+    "$ADB" -s "$serial" shell settings put global stay_on_while_plugged_in 7
+    "$ADB" -s "$serial" shell settings put system screen_off_timeout 2147483647
+    "$ADB" -s "$serial" shell locksettings set-disabled true 2>/dev/null || true
+    "$ADB" -s "$serial" shell input keyevent KEYCODE_WAKEUP
+    "$ADB" -s "$serial" shell input swipe 500 1800 500 200
+    sleep 1
+    # Re-set PIN after unlock — biometric (fingerprint) tests require a secure lock screen.
+    "$ADB" -s "$serial" shell locksettings set-pin 1234 2>/dev/null || true
+
     log "$avd is ready on $serial"
 }
 

@@ -46,6 +46,9 @@ export const config: WebdriverIO.Config = {
                 "ios.simulator.wdio.native.app.v2.2.0.zip"
             ),
             "appium:newCommandTimeout": 240,
+            // Enroll Touch ID/Face ID before the app is launched so the app detects
+            // biometric availability on its very first render of the login screen.
+            "appium:allowTouchIdEnroll": true,
             "appium:webviewConnectTimeout": 20 * 1000,
             "appium:additionalWebviewBundleIds": ["*"],
             "appium:maxTypingFrequency": 30,

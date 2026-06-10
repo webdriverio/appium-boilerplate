@@ -34,5 +34,6 @@ export const config: Omit<WebdriverIO.Config, 'capabilities'> = {
                 waitForSelectorTimeout: 3 * 1000
             });
         }
+
     }
 };

@@ -9,7 +9,7 @@ const SELECTORS = {
     EMAIL: '~input-email',
     PASSWORD: '~input-password',
     REPEAT_PASSWORD: '~input-repeat-password',
-    BIOMETRIC_BUTTON: '~button-biometric-login',
+    BIOMETRIC_BUTTON: '~button-biometric',
 };
 
 class LoginScreen extends AppScreen {

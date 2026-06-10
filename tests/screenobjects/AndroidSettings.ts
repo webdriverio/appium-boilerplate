@@ -38,13 +38,14 @@ class AndroidSettings {
      * Post Android 10 finger print setup steps
      */
     private async postAndroidTenFingerPrintSetup(pin: number){
-        await this.reEnterPin(pin);
         if (this.platformVersion >= 16) {
-            // Android 16: after PIN entry the wizard shows a "Set up Pixel Imprint" info page
-            // with MORE → I AGREE; there is no separate enrollment-start button to tap
-            await this.waitAndTap('More|MORE');
-            await this.waitAndTap('Agree|AGREE|I AGREE');
-        } else if (this.platformVersion >= 14) {
+            // Android 16: PIN was confirmed during navigation in enableBiometricLogin,
+            // and MORE + I AGREE were already handled there too.
+            // The enrollment wizard starts directly at "Touch the sensor" — no further setup needed here.
+            return;
+        }
+        await this.reEnterPin(pin);
+        if (this.platformVersion >= 14) {
             // Android 14/15: a "Pixel Imprint" / "Fingerprint" enrollment button appears before T&C
             await this.waitAndTap('Pixel Imprint|.*Fingerprint.*');
             await this.waitAndTap('MORE');
@@ -70,8 +71,24 @@ class AndroidSettings {
      * Touch the fingerprint sensor and enable it
      */
     private async touchFingerPrintSensor(touchCode: number) {
+        if (this.platformVersion >= 16) {
+            // Android 16 enrollment wizard via the Settings navigation path requires 3 touches:
+            // Touch 1: "Touch the sensor"         → advances to "Lift, then touch again"
+            // Touch 2: "Lift, then touch again"   → advances to "Lift finger, then touch sensor again"
+            // Touch 3: "Lift finger, ..."          → completes enrollment → "Fingerprint added"
+            await (await this.findAndroidElementByMatchingText('Touch the sensor')).waitForDisplayed({ timeout: 20*1000, timeoutMsg: 'Touch the sensor prompt not shown within 20s' });
+            await driver.fingerPrint(touchCode);
+            await (await this.findAndroidElementByMatchingText('Lift, then touch again')).waitForDisplayed({ timeout: 10*1000, timeoutMsg: 'Lift-then-touch prompt not shown within 10s' });
+            await driver.fingerPrint(touchCode);
+            await (await this.findAndroidElementByMatchingText('Lift finger, then touch sensor again')).waitForDisplayed({ timeout: 10*1000, timeoutMsg: 'Lift finger prompt not shown within 10s' });
+            await driver.fingerPrint(touchCode);
+            await (await this.findAndroidElementByMatchingText('Fingerprint added')).waitForDisplayed({ timeout: 15*1000, timeoutMsg: 'Fingerprint added confirmation not shown within 15s' });
+            return;
+        }
+
+        // Android < 16: multi-step enrollment flow
         // Touch the sensor for the first time to trigger finger print
-        await (await this.findAndroidElementByMatchingText('Touch the sensor.*')).waitForDisplayed({ timeout: 20*1000, timeoutMsg: 'Touch sensor prompt not shown within 20s' });
+        await (await this.findAndroidElementByMatchingText('Touch the sensor.*|Lift, then touch.*')).waitForDisplayed({ timeout: 20*1000, timeoutMsg: 'Touch sensor prompt not shown within 20s' });
         await driver.fingerPrint(touchCode);
 
         // Add finger print
@@ -142,21 +159,26 @@ class AndroidSettings {
             await this.executeAdbCommand(`locksettings set-pin --old ${DEFAULT_PIN} ${DEFAULT_PIN}`);
         }
         // As of Android 14 there is a new flow to enable finger print
-        if (this.platformVersion >= 14) {
+        if (this.platformVersion >= 16) {
+            // Android 16: "Fingerprint" is a direct row in Security & Privacy settings (no "Device unlock" tap needed).
+            // Tapping it shows a PIN prompt, then a "Set up Pixel Imprint" intro with MORE → I AGREE, then the wizard.
+            await this.waitForMatchingElement('Fingerprint|Pixel Imprint');
+            await this.closeSettingsScreenLockNotifications();
+            await this.waitAndTap('Fingerprint|Pixel Imprint');
+            await this.reEnterPin(DEFAULT_PIN);
+            // Intro screen: tap MORE to see the full T&C text
+            await this.waitAndTap('MORE');
+            // T&C screen: agree to proceed to the enrollment wizard
+            await this.waitAndTap('I AGREE');
+        } else if (this.platformVersion >= 14) {
             // There might be two Device unlock options, the first is the notification, the second is the actual setting
             // First wait for the right screen to be shown
             await this.waitForMatchingElement('Device unlock.*');
             // Android 14+ may show notifications that block the right element — close them first
             await this.closeSettingsScreenLockNotifications();
-            // Android 16 labels this "Device unlock & biometrics" — use wildcard for all 14+ variants
+            // Android 14/15 labels the section "Device unlock & biometrics" — use wildcard
             await this.waitAndTap('Device unlock.*');
-            if (this.platformVersion >= 16) {
-                // Android 16: fingerprint section has "Fingerprint" header + "Add fingerprint" button;
-                // tapping the header does nothing — we must tap the "Add fingerprint" button
-                await this.waitAndTap('Add fingerprint');
-            } else {
-                await this.waitAndTap('.*Fingerprint.*');
-            }
+            await this.waitAndTap('.*Fingerprint.*');
         } else {
             await this.waitAndTap('.*Fingerprint.*');
         }
