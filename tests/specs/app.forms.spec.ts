@@ -85,15 +85,15 @@ describe("WebdriverIO and Appium, when interacting with form elements,", () => {
          * as assertions so we don't need to do double assertions per action (wait for the element
          * to be there, and when it's there, expect that it's there)
          */
-        await NativeAlert.topOnButtonWithText("Ask me later");
+        await NativeAlert.tapOnButtonWithText("Ask me later");
         await NativeAlert.waitForIsShown(false);
         await FormScreen.tapOnActiveButton();
         await NativeAlert.waitForIsShown(true);
-        await NativeAlert.topOnButtonWithText("Cancel");
+        await NativeAlert.tapOnButtonWithText("Cancel");
         await NativeAlert.waitForIsShown(false);
         await FormScreen.tapOnActiveButton();
         await NativeAlert.waitForIsShown(true);
-        await NativeAlert.topOnButtonWithText("OK");
+        await NativeAlert.tapOnButtonWithText("OK");
         await NativeAlert.waitForIsShown(false);
     });
 

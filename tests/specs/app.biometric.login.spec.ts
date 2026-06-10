@@ -66,13 +66,23 @@ describe('WebdriverIO and Appium, when interacting with a biometric button,', ()
         await expect(await NativeAlert.text()).toContain('Success');
 
         if (driver.isIOS){
-            // Before we can close the alert we need to wait for the native "Face ID" modal to disappear
-            // This modal can not be detected by Appium, so we need to wait for it to disappear
-            await driver.pause(750);
+            // The native Face ID overlay briefly obscures the alert after a successful match.
+            // Poll until the alert is reachable rather than sleeping a fixed amount of time.
+            await driver.waitUntil(
+                async () => {
+                    try {
+                        await NativeAlert.waitForIsShown(true);
+                        return true;
+                    } catch {
+                        return false;
+                    }
+                },
+                { timeout: 5000, interval: 250, timeoutMsg: 'Alert not tappable after Face ID overlay disappeared' },
+            );
         }
 
         // Close the alert
-        await NativeAlert.topOnButtonWithText('OK');
+        await NativeAlert.tapOnButtonWithText('OK');
         await NativeAlert.waitForIsShown(false);
     });
 
@@ -97,13 +107,13 @@ describe('WebdriverIO and Appium, when interacting with a biometric button,', ()
                 await expect(await NativeAlert.text()).toContain('Not Recogni');
 
                 // Close the alert
-                await NativeAlert.topOnButtonWithText('Cancel');
+                await NativeAlert.tapOnButtonWithText('Cancel');
                 await NativeAlert.waitForIsShown(false);
             });
         } else {
             await AndroidSettings.waitAndTap('Cancel');
             // @TODO: This takes very long, need to fix this
-            await (await AndroidSettings.findAndroidElementByMatchingText('Cancel')).waitForDisplayed({ reverse:true });
+            await (await AndroidSettings.findAndroidElementByMatchingText('Cancel')).waitForDisplayed({ reverse: true, timeoutMsg: 'Cancel button still visible after biometric failure' });
             await NativeAlert.waitForIsShown(false);
         }
     });

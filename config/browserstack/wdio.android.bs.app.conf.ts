@@ -6,11 +6,11 @@ export const config: WebdriverIO.Config = {
     // Specs
     // ============
     specs: [
-        '../tests/specs/**/app*.spec.js',
+        '../tests/specs/**/app*.spec.ts',
     ],
     exclude: [
         // Exclude this one because the test can only be executed on emulators/simulators
-        '../tests/specs/**/app.biometric.login.spec.js',
+        '../tests/specs/**/app.biometric.login.spec.ts',
     ],
 
     // =============================
@@ -29,8 +29,13 @@ export const config: WebdriverIO.Config = {
     // http://appium.io/docs/en/writing-running-appium/caps/#general-capabilities
     capabilities: [
         {
+            // W3C required capability
+            platformName: 'Android',
             // Set URL of the application under test
             'appium:app': process.env.BROWSERSTACK_APP_ID || 'BROWSERSTACK_APP_ID',
+            'appium:automationName': 'UiAutomator2',
+            'appium:newCommandTimeout': 240,
+            'appium:noReset': false,
 
             'bstack:options': {
                 // Set your BrowserStack config

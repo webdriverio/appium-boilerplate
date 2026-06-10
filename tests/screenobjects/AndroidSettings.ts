@@ -125,11 +125,14 @@ class AndroidSettings {
         await (await this.findAndroidElementByMatchingText(string)).waitForDisplayed({ timeout: 10*1000, timeoutMsg: `Element matching "${string}" not shown within 10s` });
     }
     /**
-     * Wait and click on an element
+     * Wait for a matching element to be displayed, then click the same resolved reference.
+     * Resolving once avoids the race condition where the element disappears between the
+     * waitForDisplayed call and a second findElement call.
      */
     async waitAndTap(string: string) {
-        await this.waitForMatchingElement(string);
-        await (await this.findAndroidElementByMatchingText(string)).click();
+        const element = await this.findAndroidElementByMatchingText(string);
+        await element.waitForDisplayed({ timeout: 10 * 1000, timeoutMsg: `Element matching "${string}" not shown within 10s` });
+        await element.click();
     }
 
     /**

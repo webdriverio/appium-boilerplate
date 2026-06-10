@@ -37,7 +37,7 @@ class NativeAlert {
      *  Use the text of the button, provide a string and it will automatically transform it to uppercase
      *  and click on the button
      */
-    static async topOnButtonWithText (selector: string) {
+    static async tapOnButtonWithText (selector: string) {
         const buttonSelector = driver.isAndroid
             ? SELECTORS.ANDROID.ALERT_BUTTON.replace(/{BUTTON_TEXT}/, selector.toUpperCase())
             : `~${selector}`;

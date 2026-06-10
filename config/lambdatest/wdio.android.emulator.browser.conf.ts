@@ -17,7 +17,7 @@ export const config: WebdriverIO.Config = {
             "w3c": true,
             "platformName": "android",
             "deviceName": "Pixel 2",
-            "appiumVersion": "1.22.3",
+            "appiumVersion": "2.0.0",
             "platformVersion": "10",
             "build": "Appium Android Virtual Device",
             "name": "Chrome Tests",

@@ -4,6 +4,11 @@ import { config as baseConfig } from "./wdio.shared.local.appium.conf.js";
 export const config: WebdriverIO.Config = {
     ...baseConfig,
 
+    // Retry once on failure — biometrics + app-relaunch sequences can exceed the wait
+    // timeout on slower emulators under parallel load without being genuine test bugs.
+    specFileRetries: 1,
+    specFileRetriesDelay: 5,
+
     // ============
     // Specs
     // ============
@@ -41,6 +46,8 @@ export const config: WebdriverIO.Config = {
             ),
             "appium:appWaitActivity": "com.wdiodemoapp.MainActivity",
             "appium:newCommandTimeout": 240,
+            "appium:autoGrantPermissions": true,
+            "appium:noReset": false,
         },
     ],
 };

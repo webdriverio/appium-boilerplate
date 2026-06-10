@@ -1,4 +1,4 @@
-import { config as baseConfig } from '../wdio.shared.conf';
+import { config as baseConfig } from '../wdio.shared.conf.js';
 
 export const config: WebdriverIO.Config = {
     ...baseConfig,
@@ -7,20 +7,18 @@ export const config: WebdriverIO.Config = {
     // Specs
     // ============
     specs: [
-        './tests/specs/**/app*.spec.ts',
+        '../../tests/specs/**/app*.spec.ts',
     ],
     exclude: [
         // Exclude this one because the test can only be executed on emulators/simulators
-        './tests/specs/**/app.biometric.login.spec.ts',
+        '../../tests/specs/**/app.biometric.login.spec.ts',
     ],
 
     // =============================
     // TestingBot specific config
     // =============================
-    // User configuration
     user: process.env.TESTINGBOT_KEY || 'TESTINGBOT_KEY',
     key: process.env.TESTINGBOT_SECRET || 'TESTINGBOT_SECRET',
-    // Use testingbot service
     services: ['testingbot'],
 
     // ============
@@ -30,12 +28,11 @@ export const config: WebdriverIO.Config = {
     // http://appium.io/docs/en/writing-running-appium/caps/#general-capabilities
     capabilities: [
         {
-            // Set URL of the application under test
-            app: 'https://testingbot.com/appium/sample.apk',
-
-            deviceName: 'Pixel 6',
             platformName: 'Android',
-            version: '12.0',
+            'appium:deviceName': 'Pixel 6',
+            'appium:platformVersion': '12.0',
+            'appium:automationName': 'UiAutomator2',
+            'appium:app': 'https://testingbot.com/appium/sample.apk',
         },
     ],
 };

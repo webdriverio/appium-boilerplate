@@ -1,8 +1,8 @@
 import type { RectReturn } from "@wdio/protocols";
 
-let CAROUSEL_RECTANGLES: RectReturn;
-
 class Carousel {
+    /** Cached carousel dimensions — reset per instance so tests don't share stale geometry. */
+    private carouselRectanglesCache: RectReturn | undefined = undefined;
     get carousel() {
         return $(this.locatorStrategy("Carousel"));
     }
@@ -48,24 +48,35 @@ class Carousel {
      * We can validate which card is active by checking if it is fully visible.
      * This can be done by checking if the card has position x=0.
      */
-    async isCardActive(card: ChainablePromiseElement) {
-        const cardRectangles = await driver.getElementRect(await card.elementId);
-
-        return cardRectangles.x === 0;
+    async isCardActive(card: ChainablePromiseElement): Promise<boolean> {
+        const elementId = await card.elementId;
+        if (!elementId) return false;
+        const rect = await driver.getElementRect(elementId);
+        return rect.x === 0;
     }
 
     /**
-     * Get the carousel position and size
+     * Poll until the given carousel card has settled at position x=0 (i.e. is the active card).
+     * Swipe animations take a variable amount of time — polling avoids false failures caused by
+     * asserting before the animation completes.
+     */
+    async waitForCardActive(card: ChainablePromiseElement, timeout = 5000): Promise<void> {
+        await driver.waitUntil(
+            () => this.isCardActive(card),
+            { timeout, interval: 200, timeoutMsg: 'Carousel card did not settle to active position within timeout' },
+        );
+    }
+
+    /**
+     * Get the carousel position and size.
+     * Result is cached on the instance to avoid redundant Appium calls within a single test.
      */
     async getCarouselRectangles(): Promise<RectReturn> {
-        // Get the rectangles of the carousel and store it in a global that will be used for a next call.
-        // We don't want ask for the rectangles of the carousel if we already know them.
-        // This will save unneeded webdriver calls.
-        CAROUSEL_RECTANGLES =
-            CAROUSEL_RECTANGLES ||
+        this.carouselRectanglesCache =
+            this.carouselRectanglesCache ??
             (await driver.getElementRect(await this.carousel.elementId));
 
-        return CAROUSEL_RECTANGLES;
+        return this.carouselRectanglesCache;
     }
 
     /**

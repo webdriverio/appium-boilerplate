@@ -1,8 +1,6 @@
 import { join } from "node:path";
 import { config as baseConfig } from "./wdio.shared.local.appium.conf.js";
 
-const isGhActions = process.env.GITHUB_ACTION;
-
 export const config: WebdriverIO.Config = {
     ...baseConfig,
 
@@ -46,6 +44,9 @@ export const config: WebdriverIO.Config = {
                 "ios.simulator.wdio.native.app.v2.2.0.zip"
             ),
             "appium:newCommandTimeout": 240,
+            // Pin WDA to a fixed local port so a concurrent ios.app2 run (port 8101)
+            // does not kill this session when it rebuilds WDA on the same machine.
+            "appium:wdaLocalPort": 8100,
             // Enroll Touch ID/Face ID before the app is launched so the app detects
             // biometric availability on its very first render of the login screen.
             "appium:allowTouchIdEnroll": true,

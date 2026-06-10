@@ -46,6 +46,9 @@ export const config: WebdriverIO.Config = {
                 "ios.simulator.wdio.native.app.v2.2.0.zip"
             ),
             "appium:newCommandTimeout": 240,
+            // Separate WDA port from ios.app (8100) so both simulators run concurrently
+            // without the second WDA build killing the first session.
+            "appium:wdaLocalPort": 8101,
             // Enroll Touch ID/Face ID before the app is launched so the app detects
             // biometric availability on its very first render of the login screen.
             "appium:allowTouchIdEnroll": true,

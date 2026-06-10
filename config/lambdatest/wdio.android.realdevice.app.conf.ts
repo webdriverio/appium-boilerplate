@@ -20,7 +20,8 @@ export const config: WebdriverIO.Config = {
     capabilities: [{
         "lt:options": {
             "w3c": true,
-            "platformName": "android",
+            "platformName": "Android",
+            "appium:automationName": "UiAutomator2",
             "deviceName": "Pixel 3",
             "platformVersion": "11",
             // To upload your app, refer to the following documentation:

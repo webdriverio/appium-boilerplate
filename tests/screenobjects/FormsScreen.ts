@@ -10,7 +10,7 @@ const SELECTORS = {
     DROPDOWN_CHEVRON: '~dropdown-chevron',
     ACTIVE_BUTTON: '~button-Active',
     INACTIVE_BUTTON: '~button-Inactive',
-    DROPDOWN_VALUE_ANDROID: '//*[@content-desc="Dropdown"]//android.widget.EditText',
+    DROPDOWN_VALUE_ANDROID: 'android=new UiSelector().descriptionContains("Dropdown").childSelector(new UiSelector().className("android.widget.EditText"))',
     DROPDOWN_VALUE_IOS: '-ios class chain:**/*[`name == "Dropdown"`]/**/*[`name == "text_input"`]',
 };
 

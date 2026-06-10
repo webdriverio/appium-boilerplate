@@ -7,7 +7,7 @@ describe('dynamic loading', () => {
         await expect(DynamicPage.loadedPage).not.toBeExisting();
 
         await DynamicPage.btnStart.click();
-        await DynamicPage.loadedPage.waitForExist();
+        await DynamicPage.loadedPage.waitForExist({ timeoutMsg: 'Loaded page element did not appear after clicking Start' });
 
         await expect(DynamicPage.loadedPage).toBeExisting();
     });

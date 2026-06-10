@@ -13,7 +13,7 @@ export function timeDifference (string: string, start:number, end:number) {
  * iOS sims have more than 1 `-` in the UDID and the UDID is being
  */
 export function isIosRealDevice(){
-    const realDeviceRegex = /^[a-f0-9]{25}|[a-f0-9]{40}$/i;
+    const realDeviceRegex = /^([a-f0-9]{25}|[a-f0-9]{40})$/i;
 
     return 'appium:udid' in driver.capabilities && realDeviceRegex.test(driver.capabilities['appium:udid'] as string);
 }

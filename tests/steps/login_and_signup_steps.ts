@@ -3,10 +3,16 @@ import TabBar from '../screenobjects/components/TabBar.js';
 import LoginScreen from '../screenobjects/LoginScreen.js';
 import NativeAlert from '../screenobjects/components/NativeAlert.js';
 
-Given(/^I am on the (login|signup) tab$/, async (tab) => {
+Given(/^I am on the (login|signup) tab$/, async (tab: string) => {
     await TabBar.waitForTabBarShown();
     await TabBar.openLogin();
     await LoginScreen.waitForIsShown(true);
+    // Navigate to the correct container based on the captured tab name
+    if (tab === 'signup') {
+        await LoginScreen.tapOnSignUpContainerButton();
+    } else {
+        await LoginScreen.tapOnLoginContainerButton();
+    }
 });
 
 When(/^I enter valid (login|signup) credentials$/, async (formType) => {
@@ -25,6 +31,6 @@ Then(/^I should see a (Success|Signed Up) alert$/, async (alertType) => {
 });
 
 Then('the alert should be closed when I click on OK', async () => {
-    await NativeAlert.topOnButtonWithText('OK');
+    await NativeAlert.tapOnButtonWithText('OK');
     await NativeAlert.waitForIsShown(false);
 });

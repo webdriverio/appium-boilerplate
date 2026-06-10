@@ -32,6 +32,11 @@ export const config: WebdriverIO.Config = {
             // Read the reset strategies very well, they differ per platform, see
             // http://appium.io/docs/en/writing-running-appium/other/reset-strategies/
             'appium:newCommandTimeout': 240,
+            // Enroll Touch ID/Face ID before launch so biometric availability is detected on first render
+            // Cast required: WDIO types don't yet include appium:allowTouchIdEnroll in RequestedStandaloneCapabilities
+            ...({ 'appium:allowTouchIdEnroll': true } as WebdriverIO.Capabilities),
+            // Slow down typing to prevent dropped characters on simulator
+            ...({ 'appium:maxTypingFrequency': 30 } as WebdriverIO.Capabilities),
             // Sauce Labs specific options
             'sauce:options': {
                 // Group builds by build name
