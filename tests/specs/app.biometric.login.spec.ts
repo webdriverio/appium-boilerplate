@@ -4,7 +4,7 @@ import Biometrics from '../helpers/Biometrics.js';
 import NativeAlert from '../screenobjects/components/NativeAlert.js';
 import AndroidSettings from '../screenobjects/AndroidSettings.js';
 import { executeInHomeScreenContext, relaunchApp } from '../helpers/Utils.js';
-import { BUNDLE_ID, PACKAGE_NAME } from '../helpers/Constants.js';
+import { BUNDLE_ID, PACKAGE_NAME, TIMEOUTS } from '../helpers/Constants.js';
 
 /**
  * IMPORTANT!
@@ -78,7 +78,7 @@ describe('WebdriverIO and Appium, when interacting with a biometric button,', ()
                         return false;
                     }
                 },
-                { timeout: 5000, interval: 250, timeoutMsg: 'Alert not tappable after Face ID overlay disappeared' },
+                { timeout: TIMEOUTS.QUICK, interval: 250, timeoutMsg: 'Alert not tappable after Face ID overlay disappeared' },
             );
         }
 

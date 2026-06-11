@@ -1,6 +1,8 @@
 import { TIMEOUTS } from '../../helpers/Constants.js';
 
 const SELECTORS = {
+    // The Android platform picker dialog exposes no resource-id or accessibility id,
+    // so a UiAutomator2 className match is the most stable locator available here.
     ANDROID_LISTVIEW: 'android=new UiSelector().className("android.widget.ListView")',
     IOS_PICKERWHEEL: '-ios predicate string:type == \'XCUIElementTypePickerWheel\'',
     DONE: '~done_button',

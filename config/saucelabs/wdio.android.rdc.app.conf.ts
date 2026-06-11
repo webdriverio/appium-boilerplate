@@ -29,8 +29,9 @@ export const config: WebdriverIO.Config = {
             'appium:automationName': 'UiAutomator2',
             'appium:orientation': 'PORTRAIT',
             'sauce:options': {
-                // Keep the device connected between tests so we don't need to wait for the cleaning process
-                cacheId: 'jsy1v49pn10',
+                // Keep the device connected between tests so we don't need to wait for the cleaning process.
+                // Overridable per environment/CI pipeline so runs aren't tied to one device pool.
+                cacheId: process.env.SAUCE_RDC_CACHE_ID || 'jsy1v49pn10',
                 idleTimeout: 180,
                 // Add a name to the test
                 name: 'wdio-demo-app-test',

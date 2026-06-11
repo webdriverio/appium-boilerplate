@@ -2,6 +2,7 @@ import TabBar from '../screenobjects/components/TabBar.js';
 import WebViewScreen from '../screenobjects/WebviewScreen.js';
 import SwipeScreen from '../screenobjects/SwipeScreen.js';
 import { CONTEXT_REF } from '../helpers/WebView.js';
+import { TIMEOUTS } from '../helpers/Constants.js';
 
 describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
     // For now we exclude this suite for iOS. There is an issue with the current EXPO app
@@ -78,7 +79,7 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
         await WebViewScreen.waitForDocSearchInput();
         // Wait for keyboard animation to settle; continue even if it never appears
         await driver.waitUntil(async () => await driver.isKeyboardShown(), {
-            timeout: 5000,
+            timeout: TIMEOUTS.QUICK,
             interval: 500,
             timeoutMsg: 'keyboard settle wait',
         }).catch(() => {});

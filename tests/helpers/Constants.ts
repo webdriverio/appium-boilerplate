@@ -11,6 +11,8 @@ export const BUNDLE_ID = 'org.wdiodemoapp';
 export const TIMEOUTS = {
     /** 3 s — UiSelector fast-fail, short animation settle */
     VERY_SHORT: 3_000,
+    /** 5 s — in-test polls: keyboard appear, alert tappable */
+    QUICK: 5_000,
     /** 10 s — standard element-appears wait */
     SHORT:  10_000,
     /** 11 s — component-level waits (alert / picker) that need a small buffer above SHORT */
