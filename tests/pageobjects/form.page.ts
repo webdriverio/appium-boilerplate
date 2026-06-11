@@ -8,6 +8,7 @@ class FormPage extends Page {
     get password () { return $('#password'); }
     get submitButton () { return $('#login button[type=submit]'); }
     get flash () { return $('#flash'); }
+    private get pageHeading () { return $('#content h2'); }
 
     /**
      * a method to encapsule automation code to interact with the page
@@ -19,7 +20,7 @@ class FormPage extends Page {
         // only for mobile, if you test on a desktop browser `hideKeyboard` won't exist.
         if (driver.isMobile) {
             // driver.hideKeyboard() throws on iOS (XCTest limitation) — tap outside to dismiss instead.
-            await $('h2').click();
+            await this.pageHeading.click();
         }
         await this.submitButton.click();
     }

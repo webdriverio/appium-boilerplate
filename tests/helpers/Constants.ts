@@ -13,6 +13,8 @@ export const TIMEOUTS = {
     VERY_SHORT: 3_000,
     /** 10 s — standard element-appears wait */
     SHORT:  10_000,
+    /** 11 s — component-level waits (alert / picker) that need a small buffer above SHORT */
+    SHORT_PLUS: 11_000,
     /** 15 s — PIN / confirmation-dialog prompts */
     MEDIUM: 15_000,
     /** 20 s — sensor prompt, webview connect */

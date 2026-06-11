@@ -54,7 +54,7 @@ describe('WebdriverIO and Appium, when interacting with form elements,', () => {
         // This uses the "new" `scrollIntoView` method that now also supports native apps
         await FormScreen.activeButton.scrollIntoView({
             maxScrolls: 2,
-            scrollableElement: await FormScreen.screen,
+            scrollableElement: FormScreen.screen,
         });
         await FormScreen.tapOnActiveButton();
         await NativeAlert.waitForIsShown(true);
@@ -85,7 +85,7 @@ describe('WebdriverIO and Appium, when interacting with form elements,', () => {
         // This uses the "new" `scrollIntoView` method that now also supports native apps
         await FormScreen.inActiveButton.scrollIntoView({
             maxScrolls: 2,
-            scrollableElement: await FormScreen.screen,
+            scrollableElement: FormScreen.screen,
         });
         // In this case the button can't be asked if it is active or not with
         // `expect(FormScreen.inActiveButton.isEnabled()).toEqual(false);`

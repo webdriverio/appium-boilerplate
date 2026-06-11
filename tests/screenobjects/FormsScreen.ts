@@ -36,6 +36,9 @@ class FormsScreen extends AppScreen {
     private get dropDownChevron () {return $(SELECTORS.DROPDOWN_CHEVRON);}
     get activeButton () {return $(SELECTORS.ACTIVE_BUTTON);}
     get inActiveButton () {return $(SELECTORS.INACTIVE_BUTTON);}
+    private get dropDownValue () {
+        return $(driver.isAndroid ? SELECTORS.DROPDOWN_VALUE_ANDROID : SELECTORS.DROPDOWN_VALUE_IOS);
+    }
 
     async tapOnInputTextResult(){
         await this.inputTextResult.click();
@@ -78,7 +81,7 @@ class FormsScreen extends AppScreen {
     }
 
     async getDropDownText ():Promise<string> {
-        return $(driver.isAndroid ? SELECTORS.DROPDOWN_VALUE_ANDROID : SELECTORS.DROPDOWN_VALUE_IOS).getText();
+        return this.dropDownValue.getText();
     }
 }
 

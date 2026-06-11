@@ -17,7 +17,7 @@ Given(/^I am on the (login|signup) tab$/, async (tab: string) => {
 
 When(/^I enter valid (login|signup) credentials$/, async (formType) => {
     if (formType === 'login') {
-        await LoginScreen.tapOnLoginContainerButton();
+        // Given already tapped the login container to show the form — do not tap again.
         await LoginScreen.submitLoginForm({ username: 'test@webdriver.io', password: 'Test1234!' });
     } else if (formType === 'signup') {
         await LoginScreen.tapOnSignUpContainerButton();

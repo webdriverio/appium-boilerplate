@@ -1,3 +1,5 @@
+import { TIMEOUTS } from '../../helpers/Constants.js';
+
 const SELECTORS = {
     ANDROID_LISTVIEW: 'android=new UiSelector().className("android.widget.ListView")',
     IOS_PICKERWHEEL: '-ios predicate string:type == \'XCUIElementTypePickerWheel\'',
@@ -13,9 +15,9 @@ class Picker {
         // we determine the selector here
         const selector = driver.isIOS ? SELECTORS.IOS_PICKERWHEEL : SELECTORS.ANDROID_LISTVIEW;
         await $(selector).waitForExist({
-            timeout: 11000,
+            timeout: TIMEOUTS.SHORT_PLUS,
             reverse: !isShown,
-            timeoutMsg: `Picker not ${isShown ? 'shown' : 'hidden'} within 11s`,
+            timeoutMsg: `Picker not ${isShown ? 'shown' : 'hidden'} within ${TIMEOUTS.SHORT_PLUS / 1000}s`,
         });
     }
 

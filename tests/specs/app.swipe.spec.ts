@@ -25,6 +25,8 @@ describe('WebdriverIO and Appium, when using swiping', () => {
         await Carousel.waitForCardActive(Carousel.supportVideosCard);
 
         await Carousel.swipeLeft();
+        await Carousel.waitForCardActive(Carousel.extendableCard);
+
         await Carousel.swipeLeft();
         await Carousel.waitForCardActive(Carousel.compatibleCard);
 

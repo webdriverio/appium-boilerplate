@@ -1,3 +1,5 @@
+import { TIMEOUTS } from '../../helpers/Constants.js';
+
 const SELECTORS = {
     ANDROID: {
         ALERT_TITLE: 'android=new UiSelector().resourceId("com.wdiodemoapp:id/alert_title")',
@@ -21,9 +23,9 @@ class NativeAlert {
             : SELECTORS.IOS.ALERT;
 
         return $(selector).waitForExist({
-            timeout: 11000,
+            timeout: TIMEOUTS.SHORT_PLUS,
             reverse: !isShown,
-            timeoutMsg: `Native alert not ${isShown ? 'shown' : 'hidden'} within 11s`,
+            timeoutMsg: `Native alert not ${isShown ? 'shown' : 'hidden'} within ${TIMEOUTS.SHORT_PLUS / 1000}s`,
         });
     }
 

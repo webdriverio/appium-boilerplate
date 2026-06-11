@@ -1,3 +1,5 @@
+import { TIMEOUTS } from '../../helpers/Constants.js';
+
 const SELECTORS = {
     HOME: '~Home',
     WEBVIEW: '~Webview',
@@ -34,8 +36,8 @@ export default class TabBar {
 
     static async waitForTabBarShown ():Promise<boolean|void> {
         return $(SELECTORS.HOME).waitForDisplayed({
-            timeout: 45000,
-            timeoutMsg: 'Tab bar was not shown within 45s',
+            timeout: TIMEOUTS.VERY_LONG,
+            timeoutMsg: `Tab bar was not shown within ${TIMEOUTS.VERY_LONG / 1000}s`,
         });
     }
 }

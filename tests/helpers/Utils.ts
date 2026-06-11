@@ -57,6 +57,10 @@ export async function openDeepLinkUrl(url:string) {
             await addressBar.click();
         }
 
+        // Wait for the text field to be ready before typing \u2014 it may not be
+        // immediately interactive after the address bar click triggers focus.
+        await urlField.waitForDisplayed({ timeoutMsg: 'Safari URL text field not displayed within timeout' });
+
         // Submit the url and add a break
         await urlField.setValue(`${ prefix }${ url }\uE007`);
     } else {

@@ -70,17 +70,29 @@ wait_strategy_metric = GEval(
     criteria="""
         Evaluate the TypeScript code for Appium wait strategy quality.
 
-        PASS conditions (score towards 1.0):
-        - Uses waitForDisplayed({ timeout, timeoutMsg }) with a meaningful timeoutMsg string
-        - Uses waitForEnabled() before clicking elements that become enabled asynchronously
-        - Uses driver.waitUntil() for custom polling conditions
-        - Uses waitForIsShown() before interacting with a screen
+        The codebase uses a layered Page Object Model: SPEC files delegate all waiting
+        to screen-object methods (waitForIsShown(), waitForTabBarShown(), waitFor*Button()),
+        while SCREEN OBJECT files contain the underlying waitForDisplayed/waitUntil calls.
+        Judge each layer by its own responsibility — do NOT penalise a spec file for not
+        calling waitForDisplayed/waitForEnabled directly; that is the screen object's job
+        and inline element waits in specs would be a POM violation.
+
+        PASS conditions (score towards 1.0) — any of these, appropriate to the layer:
+        - Spec files call waitForIsShown() / waitForTabBarShown() (or equivalent screen-object
+          wait methods) before interacting with a screen — this is the CORRECT spec-level
+          pattern and alone merits a high score for a spec file
+        - Screen objects use waitForDisplayed({ timeout, timeoutMsg }) with a meaningful
+          timeoutMsg string
+        - waitForEnabled() used before clicking elements that become enabled asynchronously
+          (only where such elements exist — its absence is NOT a deficit)
+        - driver.waitUntil() used for custom polling conditions
 
         FAIL conditions (score towards 0.0):
         - Contains driver.pause(milliseconds) — this is a hard sleep and is always wrong
         - waitForDisplayed() called without a timeoutMsg (message is empty or missing)
         - Polling with a setTimeout/setInterval loop instead of driver.waitUntil()
-        - No waits before interacting with elements that may load asynchronously
+        - Interactions with no wait at all beforehand — neither a screen-object wait method
+          nor an element-level wait
     """,
     evaluation_params=[SingleTurnParams.INPUT, SingleTurnParams.ACTUAL_OUTPUT],
     model=text_judge,
