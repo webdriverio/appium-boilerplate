@@ -1,5 +1,14 @@
 import { DEFAULT_PIN, TIMEOUTS } from '../helpers/Constants.js';
 
+const SELECTORS = {
+    // Settings-app elements have no accessibility IDs, so UiAutomator2 text/description
+    // matching is the most stable strategy available here.
+    DISMISS_BY_DESCRIPTION: 'android=new UiSelector().descriptionContains("Dismiss")',
+    DISMISS_BY_TEXT: 'android=new UiSelector().textMatches("(?i)Dismiss")',
+    /** Case-insensitive regex text match — Settings labels vary across Android versions. */
+    byTextPattern: (pattern: string) => `android=new UiSelector().textMatches("(?i)${pattern}")`,
+} as const;
+
 class AndroidSettings {
     /**
      * Get the numeric Android platform version from the active session capabilities.
@@ -36,7 +45,7 @@ class AndroidSettings {
      * Find an Android element by a text pattern (case-insensitive regex match).
      */
     async findAndroidElementByMatchingText(pattern: string) {
-        return $(`android=new UiSelector().textMatches("(?i)${pattern}")`);
+        return $(SELECTORS.byTextPattern(pattern));
     }
 
     /**
@@ -194,11 +203,11 @@ class AndroidSettings {
     private async closeSettingsScreenLockNotifications() {
         try {
             if (await (await this.findAndroidElementByMatchingText('Set screen lock')).isDisplayed()) {
-                const byDesc = $('android=new UiSelector().descriptionContains("Dismiss")');
+                const byDesc = $(SELECTORS.DISMISS_BY_DESCRIPTION);
                 await byDesc.click();
                 // A second dismiss button (matched by text) may exist on some ROMs; only tap
                 // it if still visible after the first click to avoid a stale-element throw.
-                const byText = $('android=new UiSelector().textMatches("(?i)Dismiss")');
+                const byText = $(SELECTORS.DISMISS_BY_TEXT);
                 if (await byText.isDisplayed()) {
                     await byText.click();
                 }
