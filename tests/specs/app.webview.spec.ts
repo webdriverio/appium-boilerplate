@@ -14,6 +14,11 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
     //
     // The guard must live inside a before hook — driver.isAndroid is not available at module
     // evaluation time (before the WDIO session is created).
+    //
+    // NOTE: Both tests in this suite end in the NATIVE_APP context (test 1 does so explicitly;
+    // test 2 relies on beforeEach navigating back to native via waitForWebsiteLoaded).
+    // Leaving context management to each test + beforeEach is accepted bad practice here
+    // because the app is not reset between tests and a shared context state is unavoidable.
     before(function () {
         if (!driver.isAndroid) {
             this.skip();
@@ -53,14 +58,6 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
         await WebViewScreen.waitForPageHeading();
         await expect(await driver.getTitle()).toEqual('url | WebdriverIO');
 
-        /**
-         * IMPORTANT!!
-         *  Because the app is not closed and opened between the 2 tests
-         *  (and thus is NOT starting in the default context which is native)
-         *  the context is here set to native. This is bad practice,
-         *  because you should never rely on the state of a different test,
-         *  but here it is excepted ;-)
-         */
         await driver.switchContext(CONTEXT_REF.NATIVE_APP);
     });
 

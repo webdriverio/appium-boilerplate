@@ -114,7 +114,7 @@ describe('WebdriverIO and Appium, when interacting with a biometric button,', ()
         } else {
             await AndroidSettings.waitAndTap('Cancel');
             // @TODO: This takes very long, need to fix this
-            await (await AndroidSettings.findAndroidElementByMatchingText('Cancel')).waitForDisplayed({ reverse: true, timeoutMsg: 'Cancel button still visible after biometric failure' });
+            await (await AndroidSettings.findAndroidElementByMatchingText('Cancel')).waitForDisplayed({ reverse: true, timeout: TIMEOUTS.LONG, timeoutMsg: 'Cancel button still visible after biometric failure' });
             await NativeAlert.waitForIsShown(false);
         }
     });

@@ -32,6 +32,7 @@ export const config: WebdriverIO.Config = {
             'appium:app': 'storage:filename=wdio-demo-app-android.apk',
             'appium:appWaitActivity': 'com.wdiodemoapp.MainActivity',
             'appium:newCommandTimeout': 240,
+            'appium:noReset': false,
             // Sauce Labs specific options
             'sauce:options':{
                 // Group builds by build name

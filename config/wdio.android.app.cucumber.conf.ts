@@ -1,6 +1,6 @@
 import { config as baseConfig } from './wdio.shared.local.appium.conf.js';
 import { androidCapabilities } from './capabilities.js';
-import path from 'path';
+import path from 'node:path';
 import url from 'node:url';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));

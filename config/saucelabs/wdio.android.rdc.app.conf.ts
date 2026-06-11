@@ -39,6 +39,7 @@ export const config: WebdriverIO.Config = {
             },
 
             'appium:newCommandTimeout': 240,
+            'appium:noReset': false,
             // The path to the app that has been uploaded to the Sauce Storage,
             // see https://wiki.saucelabs.com/display/DOCS/Application+Storage for more information
             'appium:app': 'storage:filename=wdio-demo-app-android.apk',

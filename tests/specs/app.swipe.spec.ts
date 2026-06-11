@@ -54,7 +54,7 @@ describe('WebdriverIO and Appium, when using swiping', () => {
         it('should be able to swipe vertical by finding the surprise', async () => {
             // Finding the logo will be done with the "new" `scrollIntoView` method which now supports native apps as well
             await SwipeScreen.logo.scrollIntoView({
-                scrollableElement: await SwipeScreen.screen,
+                scrollableElement: SwipeScreen.screen,
                 direction: 'up',
                 maxScrolls: 5,
                 percent: 0.99,

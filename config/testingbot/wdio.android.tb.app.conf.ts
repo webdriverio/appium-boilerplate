@@ -33,6 +33,8 @@ export const config: WebdriverIO.Config = {
             'appium:platformVersion': '12.0',
             'appium:automationName': 'UiAutomator2',
             'appium:app': 'https://testingbot.com/appium/sample.apk',
+            'appium:newCommandTimeout': 240,
+            'appium:noReset': false,
         },
     ],
 };

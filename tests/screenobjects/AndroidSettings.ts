@@ -106,8 +106,12 @@ class AndroidSettings {
 
     /** Android 10–15 setup: re-enter PIN, accept T&C based on version. */
     private async postAndroidTenFingerPrintSetup(pin: number) {
+        // The platformVersion >= 16 guard here intentionally mirrors the routing
+        // in fingerPrintWizard. The caller reaches this method only for versions >= 10,
+        // but Android 16 already completed PIN + T&C in navigateToFingerprintAndroid16(),
+        // so we exit early to skip the redundant steps.  Keeping the guard in both
+        // layers avoids a silent regression if callers are refactored independently.
         if (this.platformVersion >= 16) {
-            // Android 16: PIN + T&C handled in navigateToFingerprintAndroid16().
             return;
         }
         await this.reEnterPin(pin);

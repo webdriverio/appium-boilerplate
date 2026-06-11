@@ -1,3 +1,5 @@
+import { BUNDLE_ID, PACKAGE_NAME } from './Constants.js';
+
 /**
  * Get the time difference in seconds
  */
@@ -28,7 +30,7 @@ export async function openDeepLinkUrl(url:string) {
         // Life is so much easier
         return driver.execute('mobile:deepLink', {
             url: `${ prefix }${ url }`,
-            package: 'com.wdiodemoapp',
+            package: PACKAGE_NAME,
         });
     }
 
@@ -69,7 +71,7 @@ export async function openDeepLinkUrl(url:string) {
         // dialog that driver.url() triggers on iOS 26.x.
         await driver.execute('mobile: deepLink', {
             url: `${ prefix }${ url }`,
-            bundleId: 'org.wdiodemoapp',
+            bundleId: BUNDLE_ID,
         });
     }
 }

@@ -1,8 +1,4 @@
-import type { RectReturn } from '@wdio/protocols';
-
 class Carousel {
-    /** Cached carousel dimensions — reset per instance so tests don't share stale geometry. */
-    private carouselRectanglesCache: RectReturn | undefined = undefined;
     get carousel() {
         return $(this.locatorStrategy('Carousel'));
     }
@@ -65,18 +61,6 @@ class Carousel {
             () => this.isCardActive(card),
             { timeout, interval: 200, timeoutMsg: 'Carousel card did not settle to active position within timeout' },
         );
-    }
-
-    /**
-     * Get the carousel position and size.
-     * Result is cached on the instance to avoid redundant Appium calls within a single test.
-     */
-    async getCarouselRectangles(): Promise<RectReturn> {
-        this.carouselRectanglesCache =
-            this.carouselRectanglesCache ??
-            (await driver.getElementRect(await this.carousel.elementId));
-
-        return this.carouselRectanglesCache;
     }
 
     /**

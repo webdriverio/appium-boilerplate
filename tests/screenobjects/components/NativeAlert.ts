@@ -1,8 +1,8 @@
-import { TIMEOUTS } from '../../helpers/Constants.js';
+import { PACKAGE_NAME, TIMEOUTS } from '../../helpers/Constants.js';
 
 const SELECTORS = {
     ANDROID: {
-        ALERT_TITLE: 'android=new UiSelector().resourceId("com.wdiodemoapp:id/alert_title")',
+        ALERT_TITLE: `android=new UiSelector().resourceId("${PACKAGE_NAME}:id/alert_title")`,
         ALERT_MESSAGE: 'android=new UiSelector().resourceId("android:id/message")',
         ALERT_BUTTON: 'android=new UiSelector().text("{BUTTON_TEXT}")',
     },
