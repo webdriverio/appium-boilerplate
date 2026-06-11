@@ -62,6 +62,15 @@ class FormsScreen extends AppScreen {
         await this.inActiveButton.click();
     }
 
+    /**
+     * Dismiss the keyboard after typing in the input field.
+     * Taps the input-result area — a safe native-element target that also
+     * dismisses the keyboard without triggering any side-effects.
+     */
+    async dismissKeyboardAfterInput(): Promise<void> {
+        await this.dismissKeyboard(this.inputTextResult);
+    }
+
     async isSwitchActive ():Promise<boolean> {
         return driver.isAndroid
             ? (await this.switch.getAttribute('checked')) === 'true'

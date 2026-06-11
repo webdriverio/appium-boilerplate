@@ -118,8 +118,9 @@ export async function executeInHomeScreenContext(action:() => Promise<void>): Pr
     try {
         // Execute the action in the home screen context
         result = await action();
-    } catch (e) {
-        // Ignore any exceptions during the action
+    } catch {
+        // Expected: SpringBoard dialog not present — the biometric permission alert
+        // was already accepted in a prior session.  No action required.
     }
 
     // Revert to the original app context

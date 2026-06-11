@@ -55,7 +55,7 @@ class LoginScreen extends AppScreen {
     async submitLoginForm({ username, password }:{username:string; password:string;}) {
         await this.email.setValue(username);
         await this.password.setValue(password);
-        await this.dismissKeyboard();
+        await this.hideKeyboardAfterInput();
         await this.loginButton.scrollIntoView();
         await this.loginButton.click();
     }
@@ -64,7 +64,7 @@ class LoginScreen extends AppScreen {
         await this.email.setValue(username);
         await this.password.setValue(password);
         await this.repeatPassword.setValue(password);
-        await this.dismissKeyboard();
+        await this.hideKeyboardAfterInput();
         // iOS 26.x: XCUITest no longer exposes XCUIElementTypeApplication as a scrollable element.
         // Pass an explicit ScrollView so scrollIntoView can resolve the container.
         await this.signUpButton.scrollIntoView({ scrollableElement: this.scrollContainer });
@@ -77,14 +77,9 @@ class LoginScreen extends AppScreen {
             : $('android=new UiScrollable(new UiSelector().scrollable(true))');
     }
 
-    // hideKeyboard() throws on iOS (XCTest limitation) — fall back to tapping an accessible element.
-    private async dismissKeyboard() {
-        if (!await driver.isKeyboardShown()) return;
-        try {
-            await driver.hideKeyboard();
-        } catch {
-            await this.loginContainerButton.click();
-        }
+    // hideKeyboard() throws on iOS — BaseScreen.dismissKeyboard() falls back to tapping the element.
+    private async hideKeyboardAfterInput(): Promise<void> {
+        await this.dismissKeyboard(this.loginContainerButton);
     }
 }
 

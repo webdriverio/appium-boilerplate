@@ -1,60 +1,23 @@
-import { join } from "node:path";
-import { config as baseConfig } from "./wdio.shared.local.appium.conf.js";
+import { config as baseConfig } from './wdio.shared.local.appium.conf.js';
+import { iosCapabilities, appiumService } from './capabilities.js';
 
 export const config: WebdriverIO.Config = {
     ...baseConfig,
 
     maxInstances: 1,
 
-    // Separate Appium port so ios.app and ios.app2 can run in parallel without conflicts
+    // Separate Appium port so ios.app and ios.app2 run in parallel.
     port: 4724,
-    services: [
-        ['appium', {
-            args: {
-                relaxedSecurity: true,
-                log: './logs/appium-ios-p2.log',
-                port: 4724,
-            },
-        }],
-    ],
+    services: [appiumService({ port: 4724, logFile: './logs/appium-ios-p2.log' })],
 
-    // ============
-    // Specs
-    // ============
-    specs: ["../tests/specs/**/app*.spec.ts"],
+    specs: ['../tests/specs/**/app*.spec.ts'],
 
-    // ============
-    // Capabilities
-    // ============
-    // For all capabilities please check
-    // http://appium.io/docs/en/writing-running-appium/caps/
     capabilities: [
-        {
-            platformName: "iOS",
-            "wdio:maxInstances": 1,
-
-            // iPhone 17 Simulator — second parallel iOS device
-            // Boot with: xcrun simctl boot 74B54CD8-219B-48B1-A483-4BAFD13C9A17
-            "appium:deviceName": "iPhone 17 Simulator",
-            "appium:platformVersion": "26.5",
-            "appium:udid": "74B54CD8-219B-48B1-A483-4BAFD13C9A17",
-            "appium:orientation": "PORTRAIT",
-            "appium:automationName": "XCUITest",
-            "appium:app": join(
-                process.cwd(),
-                "apps",
-                "ios.simulator.wdio.native.app.v2.2.0.zip"
-            ),
-            "appium:newCommandTimeout": 240,
-            // Separate WDA port from ios.app (8100) so both simulators run concurrently
-            // without the second WDA build killing the first session.
-            "appium:wdaLocalPort": 8101,
-            // Enroll Touch ID/Face ID before the app is launched so the app detects
-            // biometric availability on its very first render of the login screen.
-            "appium:allowTouchIdEnroll": true,
-            "appium:webviewConnectTimeout": 20 * 1000,
-            "appium:additionalWebviewBundleIds": ["*"],
-            "appium:maxTypingFrequency": 30,
-        },
+        iosCapabilities({
+            deviceName: 'iPhone 17 Simulator',
+            udid: '74B54CD8-219B-48B1-A483-4BAFD13C9A17',
+            platformVersion: '26.5',
+            wdaLocalPort: 8101,
+        }),
     ],
 };

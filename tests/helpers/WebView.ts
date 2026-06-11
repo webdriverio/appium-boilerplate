@@ -1,4 +1,4 @@
-import { BUNDLE_ID } from './Constants.js';
+import { BUNDLE_ID, TIMEOUTS } from './Constants.js';
 
 export const CONTEXT_REF = {
     NATIVE_APP: 'NATIVE_APP',
@@ -89,8 +89,7 @@ class WebView {
                     // iOS 26+ returns org.reactjs.native.example.wdiodemoapp; older returned process-wdiodemoapp.
                     // Use BUNDLE_ID (the actual registered bundle) and additionalWebviewBundleIds:["*"] in caps.
                     BUNDLE_ID :
-                    await driver.getCurrentPackage()
-
+                    await driver.getCurrentPackage();
 
                 return currentContexts.length > 1 &&
                     currentContexts.find(context => {
@@ -101,16 +100,15 @@ class WebView {
                                 webviewName =  (context as IosContext).id;
                             }
 
-                            return foundContext
+                            return foundContext;
                         }
 
                         // Also check that the matching page is not empty
                         return (context as AndroidContext).packageName === appIdentifier && (context as AndroidContext)?.androidWebviewData?.empty === false;
                     });
             }, {
-                // Wait a max of 45 seconds. Reason for this high amount is that loading
-                // a webview for iOS might take longer
-                timeout: 45 * 1000,
+                // iOS webview context detection can take up to 45 s on first launch
+                timeout: TIMEOUTS.VERY_LONG,
                 timeoutMsg: 'Webview context not loaded',
                 interval: 100,
             },
@@ -131,8 +129,8 @@ class WebView {
             // https://www.w3.org/TR/webdriver/#dfn-waiting-for-the-navigation-to-complete
             async() => (await driver.execute(() => document.readyState)) === DOCUMENT_READY_STATE.COMPLETE,
             {
-                timeout: 15000,
-                timeoutMsg: 'Website not loaded',
+                timeout: TIMEOUTS.MEDIUM,
+                timeoutMsg: 'Website not fully loaded',
                 interval: 100,
             },
         );
@@ -163,7 +161,7 @@ class WebView {
                 } catch {
                     return false;
                 }
-            }, { timeout: 30000, interval: 2000, timeoutMsg: 'WebView context with WebdriverIO title not available after 30s' });
+            }, { timeout: TIMEOUTS.EXTRA_LONG, interval: 2000, timeoutMsg: `WebView context with WebdriverIO title not available after ${TIMEOUTS.EXTRA_LONG / 1000}s` });
         }
         await this.waitForDocumentFullyLoaded();
         await driver.switchContext(CONTEXT_REF.NATIVE_APP);

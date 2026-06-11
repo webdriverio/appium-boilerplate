@@ -1,4 +1,4 @@
-import { DEFAULT_PIN, INCORRECT_PIN } from './Constants.js';
+import { DEFAULT_PIN, INCORRECT_PIN, TIMEOUTS } from './Constants.js';
 import { executeInHomeScreenContext } from './Utils.js';
 
 class Biometrics {
@@ -44,10 +44,10 @@ class Biometrics {
         // - https://github.com/appium/appium/issues/19716
         await executeInHomeScreenContext(async () => {
             try {
-                await this.iosAllowBiometry.waitForDisplayed({ timeout: 3 * 1000, timeoutMsg: 'iOS biometry permission alert not shown within timeout' });
+                await this.iosAllowBiometry.waitForDisplayed({ timeout: TIMEOUTS.VERY_SHORT, timeoutMsg: 'iOS biometry permission alert not shown within timeout' });
                 await this.allowBiometry.click();
-            } catch (e) {
-                // This means that allow using touch/facID has already been accepted and thus the alert is not shown
+            } catch {
+                // Biometry permission already accepted — alert not shown, safe to continue
             }
         });
     }
@@ -56,7 +56,7 @@ class Biometrics {
      * Submit Android biometric login
      */
     async submitAndroidBiometricLogin(fingerprintId:number) {
-        await this.androidBiometryAlert.waitForDisplayed({ timeout: 10 * 1000, timeoutMsg: 'Android biometry alert not shown within timeout' });
+        await this.androidBiometryAlert.waitForDisplayed({ timeout: TIMEOUTS.SHORT, timeoutMsg: 'Android biometry alert not shown within timeout' });
 
         await driver.fingerPrint(fingerprintId);
     }

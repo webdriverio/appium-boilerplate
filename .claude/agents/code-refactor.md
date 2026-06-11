@@ -89,3 +89,6 @@ Files you MUST review and refactor if needed:
 - Do not run tests — that is the run-android-tests / run-ios-tests agent's job.
 - Do not touch `eval/` or `scripts/` directories.
 - Do not modify `.claude/agents/` files.
+- Do not do architecture-level structural work (base-class consolidation, config capability factory,
+  spec parameterisation, timeout constant extraction, keyboard-dismiss helper extraction) —
+  that is the `structural-refactor` agent's job. Run `structural-refactor` AFTER this agent.

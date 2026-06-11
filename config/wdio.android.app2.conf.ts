@@ -1,57 +1,22 @@
-import { join } from "node:path";
-import { config as baseConfig } from "./wdio.shared.local.appium.conf.js";
+import { config as baseConfig } from './wdio.shared.local.appium.conf.js';
+import { androidCapabilities, appiumService } from './capabilities.js';
 
 export const config: WebdriverIO.Config = {
     ...baseConfig,
 
-    // Separate Appium port so app and app2 can run in parallel without conflicts
+    // Separate Appium port so android.app and android.app2 run in parallel.
     port: 4724,
-    services: [
-        ['appium', {
-            args: {
-                relaxedSecurity: true,
-                log: './logs/appium-android-p2.log',
-                port: 4724,
-            },
-        }],
-    ],
+    services: [appiumService({ port: 4724, logFile: './logs/appium-android-p2.log' })],
 
-    // Retry once on failure — biometrics + app-relaunch sequences can exceed the wait
-    // timeout on slower emulators under parallel load without being genuine test bugs.
     specFileRetries: 1,
     specFileRetriesDelay: 5,
 
-    // ============
-    // Specs
-    // ============
-    specs: ["../tests/specs/**/app*.spec.ts"],
+    specs: ['../tests/specs/**/app*.spec.ts'],
 
-    // ============
-    // Capabilities
-    // ============
-    // For all capabilities please check
-    // https://github.com/appium/appium-uiautomator2-driver
     capabilities: [
-        {
-            platformName: "Android",
-            "wdio:maxInstances": 1,
-
-            // Pixel_9_P2 — second parallel Android device (port 5560)
-            // Start with: ~/Library/Android/sdk/emulator/emulator -avd Pixel_9_P2 -port 5560 -no-window -no-audio
-            "appium:deviceName": "Pixel_9_P2",
-            "appium:udid": "emulator-5560",
-            "appium:platformVersion": "16.0",
-            "appium:orientation": "PORTRAIT",
-            "appium:automationName": "UiAutomator2",
-            "appium:app": join(
-                process.cwd(),
-                "apps",
-                "android.wdio.native.app.v2.2.0.apk"
-            ),
-            "appium:appWaitActivity": "com.wdiodemoapp.MainActivity",
-            "appium:newCommandTimeout": 240,
-            "appium:autoGrantPermissions": true,
-            "appium:noReset": false,
-        },
+        androidCapabilities({
+            deviceName: 'Pixel_9_P2',
+            udid: 'emulator-5560',
+        }),
     ],
 };

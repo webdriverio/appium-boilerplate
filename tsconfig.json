@@ -2,6 +2,11 @@
     "compilerOptions": {
         "sourceMap": false,
         "target": "es2020",
+        // Suppress type errors from third-party declaration files (node_modules).
+        // These are transient cross-package declaration conflicts in WDIO's dependency
+        // tree (urlpattern-polyfill, puppeteer-core, expect-webdriverio) that the
+        // WDIO team tracks but are not actionable in consumer projects.
+        "skipLibCheck": true,
         "module": "NodeNext",
         "moduleResolution": "Node16",
         "removeComments": true,

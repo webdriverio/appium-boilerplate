@@ -1,9 +1,9 @@
-import TabBar from "../screenobjects/components/TabBar.js";
-import WebViewScreen from "../screenobjects/WebviewScreen.js";
-import SwipeScreen from "../screenobjects/SwipeScreen.js";
-import { CONTEXT_REF } from "../helpers/WebView.js";
+import TabBar from '../screenobjects/components/TabBar.js';
+import WebViewScreen from '../screenobjects/WebviewScreen.js';
+import SwipeScreen from '../screenobjects/SwipeScreen.js';
+import { CONTEXT_REF } from '../helpers/WebView.js';
 
-describe("WebdriverIO and Appium, when interacting with a WebView,", () => {
+describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
     // For now we exclude this suite for iOS. There is an issue with the current EXPO app
     // which lead to a new feature request for WebdriverIO. We first need to implement that
     // before we can run this test on iOS.
@@ -32,7 +32,7 @@ describe("WebdriverIO and Appium, when interacting with a WebView,", () => {
         await WebViewScreen.waitForWebsiteLoaded();
     });
 
-    it("should be able search for the url method and open it", async () => {
+    it('should be able search for the url method and open it', async () => {
         // To be able to use the site in the webview of the app we first need to
         // change the context from native to webview
         await driver.switchContext({
@@ -43,21 +43,14 @@ describe("WebdriverIO and Appium, when interacting with a WebView,", () => {
         });
         // Now the site can be accessed like you would automate a normal website
         // keep in mind the responsiveness
-
-        // Open the search options
-        await $(".DocSearch").click();
-        // Search for url
-        await $(".DocSearch-Input").setValue("url");
-        await driver.waitUntil(
-            async () => (await $(".DocSearch-HitsFooter").getText()).includes("See all"),
-            { timeout: 10000, interval: 500, timeoutMsg: 'Search results footer "See all" not shown within 10s' },
-        );
-        // Let's take the first result
-        await $("#docsearch-hits0-item-0 a").click();
+        await WebViewScreen.openDocSearch();
+        await WebViewScreen.setDocSearchQuery('url');
+        await WebViewScreen.waitForSearchResults();
+        await WebViewScreen.clickFirstSearchResult();
 
         // Now wait for the header to be displayed and verify that we are on the correct page
-        await $("h1").waitForDisplayed({ timeout: 3000, timeoutMsg: 'Page heading h1 not shown within 3s' });
-        await expect(await driver.getTitle()).toEqual("url | WebdriverIO");
+        await WebViewScreen.waitForPageHeading();
+        await expect(await driver.getTitle()).toEqual('url | WebdriverIO');
 
         /**
          * IMPORTANT!!
@@ -70,7 +63,7 @@ describe("WebdriverIO and Appium, when interacting with a WebView,", () => {
         await driver.switchContext(CONTEXT_REF.NATIVE_APP);
     });
 
-    it("should be able to switch between webview, native and webview", async () => {
+    it('should be able to switch between webview, native and webview', async () => {
         // To be able to use the site in the webview of the app we first need to
         // change the context from native to webview
         await driver.switchContext({
@@ -79,33 +72,18 @@ describe("WebdriverIO and Appium, when interacting with a WebView,", () => {
             title: /WebdriverIO.*/,
             url: 'https://webdriver.io/',
         });
-        // Open the search options
-        await $(".DocSearch").click();
-        // Wait for the search box to be there
-        // We don't put an expect here because the wait for will fail if the element is not there.
-        // This means this is already an "indirect" expectation
-        await $(".DocSearch-Input").waitForDisplayed({ timeoutMsg: 'DocSearch input not shown within timeout' });
-        // Wait for keyboard animation to settle; ignore timeout if keyboard never appears
+        await WebViewScreen.openDocSearch();
+        // waitForDocSearchInput is an indirect assertion — the wait itself fails the test
+        // if the element never appears, so no explicit expect() is needed.
+        await WebViewScreen.waitForDocSearchInput();
+        // Wait for keyboard animation to settle; continue even if it never appears
         await driver.waitUntil(async () => await driver.isKeyboardShown(), {
             timeout: 5000,
             interval: 500,
             timeoutMsg: 'keyboard settle wait',
         }).catch(() => {});
-        // Hide the keyboard if shown
-        if (await driver.isKeyboardShown()) {
-            /**
-             * Normally we would hide the keyboard with this command `driver.hideKeyboard()`, but there is an issue for hiding the keyboard
-             * on iOS when using the command. You will get an error like below
-             *
-             *  Request failed with status 400 due to Error Domain=com.facebook.WebDriverAgent Code=1 "The keyboard on iPhone cannot be
-             *  dismissed because of a known XCTest issue. Try to dismiss it in the way supported by your application under test."
-             *  UserInfo={NSLocalizedDescription=The keyboard on iPhone cannot be dismissed because of a known XCTest issue. Try to dismiss
-             *  it in the way supported by your application under test.}
-             *
-             * That's why we click on the footer
-             */
-            await $(".DocSearch-Footer").click();
-        }
+        // Dismiss the keyboard via the footer — hideKeyboard() throws in web context on iOS XCTest.
+        await WebViewScreen.dismissDocSearchKeyboard();
 
         // Now open the swipe screen and do some action there
         // This can only be done if webdriver.io is told to go to the native context
@@ -123,19 +101,12 @@ describe("WebdriverIO and Appium, when interacting with a WebView,", () => {
             title: /WebdriverIO.*/,
             url: 'https://webdriver.io/',
         });
-        // Search for the Appium service page
-        await $(".DocSearch-Input").setValue(
-            "appium service"
-        );
-        await driver.waitUntil(
-            async () => (await $(".DocSearch-HitsFooter").getText()).includes("See all"),
-            { timeout: 10000, interval: 500, timeoutMsg: 'Search results footer "See all" not shown within 10s' },
-        );
-        // Let's take the first result
-        await $("#docsearch-hits0-item-0 a").click();
+        await WebViewScreen.setDocSearchQuery('appium service');
+        await WebViewScreen.waitForSearchResults();
+        await WebViewScreen.clickFirstSearchResult();
 
         // Now wait for the header to be displayed and verify that we are on the correct page
-        await $("header h1").waitForDisplayed({ timeout: 10000, timeoutMsg: 'WebView page header not displayed after navigation' });
-        await expect(await $("header h1").getText()).toContain("Appium Service");
+        await WebViewScreen.waitForPageHeading();
+        await expect(await WebViewScreen.getPageHeadingText()).toContain('Appium Service');
     });
 });

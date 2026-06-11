@@ -5,23 +5,23 @@ export const config: WebdriverIO.Config = {
     ...baseConfig,
 
     // LambdaTest specific configuration
-    hostname: "hub.lambdatest.com",
+    hostname: 'hub.lambdatest.com',
 
     // Test specs
-    specs: ["../../tests/specs/**/browser*.spec.ts"],
+    specs: ['../../tests/specs/**/browser*.spec.ts'],
     maxInstances: 1,
 
     // Capabilities for Android emulators
     capabilities: [{
-        "lt:options": {
-            "w3c": true,
-            "platformName": "android",
-            "deviceName": "Pixel 2",
-            "appiumVersion": "2.0.0",
-            "platformVersion": "10",
-            "build": "Appium Android Virtual Device",
-            "name": "Chrome Tests",
-            "project": "WDIO-appium-android",
+        'lt:options': {
+            'w3c': true,
+            'platformName': 'android',
+            'deviceName': 'Pixel 2',
+            'appiumVersion': '2.0.0',
+            'platformVersion': '10',
+            'build': 'Appium Android Virtual Device',
+            'name': 'Chrome Tests',
+            'project': 'WDIO-appium-android',
         },
     }],
 };

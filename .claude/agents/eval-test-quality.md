@@ -53,7 +53,7 @@ ollama list
 curl -s http://localhost:11434/api/tags | python3 -c "import sys,json; models=[m['name'] for m in json.load(sys.stdin)['models']]; print('Available:', models)"
 ```
 
-### 3. Run the full eval suite
+### 3. Run the full eval suite (static gates + LLM judges)
 ```bash
 cd /Users/niro/projects/appium-boilerplate/eval && python3 -m pytest test_quality_eval.py -v --tb=short 2>&1 | tee ../logs/eval-$(date +%Y%m%d-%H%M%S).log
 ```
@@ -66,6 +66,13 @@ cd /Users/niro/projects/appium-boilerplate/eval && python3 -m pytest test_qualit
 ### 5. Run flakiness detection on a specific spec
 ```bash
 cd /Users/niro/projects/appium-boilerplate && python3 eval/flakiness_detector.py tests/specs/app.forms.spec.ts
+```
+
+### 6. Run behavioural agent harness (opt-in — requires claude CLI + Ollama)
+```bash
+# Invokes the code-refactor agent on a fixture file and LLM-judges the output.
+# Slow (2–5 min per test). Skip silently if RUN_AGENT_EVALS is unset.
+RUN_AGENT_EVALS=1 cd /Users/niro/projects/appium-boilerplate/eval && python3 -m pytest test_agent_behaviour.py -v --tb=short 2>&1
 ```
 
 ### 6. Report results

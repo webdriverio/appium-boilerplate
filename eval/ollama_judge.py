@@ -44,7 +44,7 @@ class OllamaJudge(DeepEvalBaseLLM):
         response = requests.post(
             f"{self.BASE_URL}/api/generate",
             json=payload,
-            timeout=300,
+            timeout=600,
         )
         response.raise_for_status()
         return self._strip_think_tags(response.json()["response"])
@@ -68,7 +68,7 @@ class OllamaJudge(DeepEvalBaseLLM):
         response = requests.post(
             f"{self.BASE_URL}/api/generate",
             json=payload,
-            timeout=300,
+            timeout=600,
         )
         response.raise_for_status()
         return self._strip_think_tags(response.json()["response"])

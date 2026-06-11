@@ -23,9 +23,10 @@ describe('WebdriverIO and Appium, when interacting with a biometric button,', ()
         // Appium strips the 'appium:' prefix from capabilities in the session response,
         // so the key is 'platformVersion' at runtime, not 'appium:platformVersion'.
         // Check both forms to be safe.
+        const caps = driver.capabilities as Record<string, unknown>;
         const platformVersion = (
-            driver.capabilities['platformVersion'] ??
-            driver.capabilities['appium:platformVersion'] ??
+            caps['platformVersion'] ??
+            caps['appium:platformVersion'] ??
             '0'
         ) as string;
         if (driver.isIOS && parseInt(platformVersion, 10) >= 26) {
