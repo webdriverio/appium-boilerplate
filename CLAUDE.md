@@ -36,6 +36,9 @@ Invoke with `/agent-name` in the Claude Code prompt:
 | investigate-failure | `/investigate-failure` | Read logs + screenshots, diagnose, auto-fix, create `fix/auto-*` branch |
 | eval-test-quality | `/eval-test-quality` | DeepEval + Ollama quality scoring (qwen3:14b + qwen2.5vl:7b) |
 | checklist-review | `/checklist-review` | Static review of all tests against Appium checklist |
+| code-refactor | `/code-refactor` | Line-level best-practice fixes (waits, locators, POM, DRY) — run after checklist-review |
+| structural-refactor | `/structural-refactor` | Architecture-level refactors (base classes, capability factory, timeout centralisation) |
+| update-dependencies | `/update-dependencies` | Bump devDependencies to latest, keep @wdio/* aligned, verify tsc + lint, roll back breakage |
 | sync-upstream | `/sync-upstream` | Fetch + merge from webdriverio/appium-boilerplate upstream |
 
 ### Eval harness
