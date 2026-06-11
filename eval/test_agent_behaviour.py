@@ -1,10 +1,10 @@
 """
-Behavioural agent harness — invokes the code-refactor agent on a fixture file
-and asserts the output meets quality criteria via deterministic checks AND an
-Ollama LLM judge.
+Behavioural agent harness — invokes the code-refactor and update-dependencies
+agents on fixture files and asserts the output meets quality criteria via
+deterministic checks AND an Ollama LLM judge.
 
-This harness tests that the code-refactor AGENT (not just static code) actually
-fixes planted anti-patterns.  Because it invokes the claude CLI it is:
+This harness tests that the AGENTS (not just static code) actually fix the
+planted problems.  Because it invokes the claude CLI it is:
   - Slow (can take 2–5 min per test)
   - Opt-in: skipped unless RUN_AGENT_EVALS=1 AND the `claude` CLI is in PATH
 
@@ -144,23 +144,23 @@ refactored_quality_metric = GEval(
 )
 
 
-# ── Agent invocation helper ───────────────────────────────────────────────────
+# ── Agent invocation helpers ──────────────────────────────────────────────────
 
-def invoke_code_refactor_agent(target_file: Path, timeout: int = 300) -> None:
-    """Run the code-refactor Claude Code agent against *target_file*.
+def run_headless_claude(prompt: str, timeout: int = 300) -> str:
+    """Run `claude -p` (print mode) with the permissions the agents need.
 
-    Uses `claude -p` (print mode — no interactive prompt) so the agent runs
-    headlessly and exits when done.
+    Headless mode denies tool calls silently unless granted, so file edits and
+    the read-only npm/tsc lookups the agents rely on are allowlisted explicitly.
+    The fixture files live in pytest tmp dirs outside the repo — `--add-dir`
+    makes them editable.
     """
-    prompt = (
-        f"Refactor the file at {target_file} to meet WDIO/Appium best practices. "
-        "Fix: driver.pause() → waitForDisplayed/waitUntil, "
-        "remove await from getters, replace XPath with UiAutomator2/ClassChain, "
-        "split god-methods > 15 lines into private helpers. "
-        "Verify tsc --noEmit passes after. Report what was changed."
-    )
     result = subprocess.run(
-        ["claude", "-p", prompt],
+        [
+            "claude", "-p", prompt,
+            "--permission-mode", "acceptEdits",
+            "--add-dir", "/private/tmp", "--add-dir", "/tmp",
+            "--allowedTools", "Edit,Write,Read,Bash(npm view:*),Bash(npx tsc:*)",
+        ],
         cwd=str(PROJECT_ROOT),
         capture_output=True,
         text=True,
@@ -171,6 +171,19 @@ def invoke_code_refactor_agent(target_file: Path, timeout: int = 300) -> None:
             f"claude CLI exited with code {result.returncode}.\n"
             f"stdout: {result.stdout[-2000:]}\nstderr: {result.stderr[-2000:]}"
         )
+    return result.stdout
+
+
+def invoke_code_refactor_agent(target_file: Path, timeout: int = 300) -> None:
+    """Run the code-refactor Claude Code agent against *target_file*."""
+    run_headless_claude(
+        f"Refactor the file at {target_file} to meet WDIO/Appium best practices. "
+        "Fix: driver.pause() → waitForDisplayed/waitUntil, "
+        "remove await from getters, replace XPath with UiAutomator2/ClassChain, "
+        "split god-methods > 15 lines into private helpers. "
+        "Verify tsc --noEmit passes after. Report what was changed.",
+        timeout=timeout,
+    )
 
 
 # ── Fixtures ─────────────────────────────────────────────────────────────────
@@ -269,3 +282,108 @@ class TestCodeRefactorAgentBehaviour:
             actual_output=refactored,
         )
         assert_test(test_case, [refactored_quality_metric])
+
+
+# ── update-dependencies agent ─────────────────────────────────────────────────
+#
+# Fixture package.json with deliberately stale pins.  The agent must bump each
+# devDependency to ^<latest> and keep the @wdio/* family on ONE version.
+# Assertions are version-agnostic (planted < result) so they don't rot as new
+# releases ship.
+
+FIXTURE_PACKAGE_JSON = """\
+{
+    "name": "dep-update-fixture",
+    "version": "0.0.1",
+    "devDependencies": {
+        "@wdio/cli": "^9.0.0",
+        "@wdio/globals": "^9.2.0",
+        "@wdio/local-runner": "^9.0.0",
+        "appium-uiautomator2-driver": "^7.0.0",
+        "typescript": "^5.0.0"
+    }
+}
+"""
+
+PLANTED_VERSIONS = {
+    "@wdio/cli": "9.0.0",
+    "@wdio/globals": "9.2.0",
+    "@wdio/local-runner": "9.0.0",
+    "appium-uiautomator2-driver": "7.0.0",
+    "typescript": "5.0.0",
+}
+
+
+def _semver_tuple(version: str) -> tuple[int, ...]:
+    """'^9.28.0' → (9, 28, 0).  Pre-release suffixes are stripped."""
+    cleaned = version.lstrip("^~=v").split("-")[0]
+    return tuple(int(part) for part in cleaned.split(".") if part.isdigit())
+
+
+def invoke_update_dependencies_agent(target_file: Path, timeout: int = 300) -> None:
+    """Run the update-dependencies agent rules against a fixture package.json.
+
+    `npm install` is excluded on purpose — the eval asserts on the version
+    bumps the agent writes, not on registry side effects.
+    """
+    run_headless_claude(
+        f"Act as the update-dependencies agent (.claude/agents/update-dependencies.md) "
+        f"on the fixture file {target_file} ONLY. "
+        "For each devDependency, look up the latest published version with "
+        "`npm view <pkg> version` and rewrite the entry as ^<latest>. "
+        "All @wdio/* packages must end up on the exact same version. "
+        "Edit only that file — do NOT run npm install and do NOT touch the real project. "
+        "Report each package as before → after.",
+        timeout=timeout,
+    )
+
+
+@pytest.fixture(scope="module")
+def updated_package_json(tmp_path_factory):
+    """Write the stale fixture, invoke the agent once per module, return path."""
+    tmp = tmp_path_factory.mktemp("dep_fixture")
+    fixture_path = tmp / "package.json"
+    fixture_path.write_text(FIXTURE_PACKAGE_JSON, encoding="utf-8")
+    invoke_update_dependencies_agent(fixture_path)
+    return fixture_path
+
+
+@pytest.mark.agent
+class TestUpdateDependenciesAgentBehaviour:
+    """End-to-end behavioural tests for the update-dependencies agent."""
+
+    @skip_unless_enabled
+    @skip_unless_claude
+    def test_agent_output_is_valid_json(self, updated_package_json):
+        """The agent must leave package.json parseable with devDependencies intact."""
+        import json
+
+        data = json.loads(updated_package_json.read_text(encoding="utf-8"))
+        missing = set(PLANTED_VERSIONS) - set(data.get("devDependencies", {}))
+        assert not missing, f"agent dropped devDependencies: {sorted(missing)}"
+
+    @skip_unless_enabled
+    @skip_unless_claude
+    def test_agent_bumps_every_stale_pin(self, updated_package_json):
+        """Every planted-stale version must be strictly newer afterwards."""
+        import json
+
+        deps = json.loads(updated_package_json.read_text(encoding="utf-8"))["devDependencies"]
+        stale = [
+            f"{pkg}: {planted} → {deps[pkg]}"
+            for pkg, planted in PLANTED_VERSIONS.items()
+            if _semver_tuple(deps[pkg]) <= _semver_tuple(planted)
+        ]
+        assert not stale, "update-dependencies agent left stale pins:\n" + "\n".join(stale)
+
+    @skip_unless_enabled
+    @skip_unless_claude
+    def test_agent_keeps_wdio_family_aligned(self, updated_package_json):
+        """All @wdio/* packages must land on one identical version."""
+        import json
+
+        deps = json.loads(updated_package_json.read_text(encoding="utf-8"))["devDependencies"]
+        wdio_versions = {pkg: v for pkg, v in deps.items() if pkg.startswith("@wdio/")}
+        assert len(set(wdio_versions.values())) == 1, (
+            f"@wdio/* packages diverged after update: {wdio_versions}"
+        )
