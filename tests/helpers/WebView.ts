@@ -149,6 +149,9 @@ class WebView {
             // which in some cases is not correct
             await driver.switchAppiumContext(webviewName);
         } else {
+            // Android WebView inspection requires the app to call
+            // WebView.setWebContentsDebuggingEnabled(true) at runtime; without it,
+            // Appium cannot enumerate or switch to the WebView context.
             // Android: the webview may be attached (empty===false) before the title is populated.
             // Retry until the title matches rather than failing on the first attempt.
             await driver.waitUntil(async () => {

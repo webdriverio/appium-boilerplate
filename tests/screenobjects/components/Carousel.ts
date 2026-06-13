@@ -1,30 +1,45 @@
+// Carousel uses accessibility IDs on iOS and resource IDs on Android.
+// The SELECTORS map stores both forms so no raw strings appear in getters.
+const SELECTORS = {
+    ios: (id: string) => `~${id}`,
+    android: (id: string) => `android=new UiSelector().resourceId("${id}")`,
+} as const;
+
+const CAROUSEL_IDS = {
+    CAROUSEL: 'Carousel',
+    OPEN_SOURCE: '__CAROUSEL_ITEM_0__',
+    COMMUNITY: '__CAROUSEL_ITEM_1__',
+    JS_FOUNDATION: '__CAROUSEL_ITEM_2__',
+    SUPPORT_VIDEOS: '__CAROUSEL_ITEM_3__',
+    EXTENDABLE: '__CAROUSEL_ITEM_4__',
+    COMPATIBLE: '__CAROUSEL_ITEM_5__',
+} as const;
+
 class Carousel {
-    get carousel() {
-        return $(this.locatorStrategy('Carousel'));
-    }
-    get openSourceCard() {
-        return $(this.locatorStrategy('__CAROUSEL_ITEM_0__'));
-    }
-    get communityCard() {
-        return $(this.locatorStrategy('__CAROUSEL_ITEM_1__'));
-    }
-    get jsFoundationCard() {
-        return $(this.locatorStrategy('__CAROUSEL_ITEM_2__'));
-    }
-    get supportVideosCard() {
-        return $(this.locatorStrategy('__CAROUSEL_ITEM_3__'));
-    }
-    get extendableCard() {
-        return $(this.locatorStrategy('__CAROUSEL_ITEM_4__'));
-    }
-    get compatibleCard() {
-        return $(this.locatorStrategy('__CAROUSEL_ITEM_5__'));
+    private locatorStrategy(id: string): string {
+        return driver.isIOS ? SELECTORS.ios(id) : SELECTORS.android(id);
     }
 
-    private locatorStrategy(selector: string): string {
-        return driver.isIOS
-            ? `~${selector}`
-            : `android=new UiSelector().resourceId("${selector}")`;
+    get carousel() {
+        return $(this.locatorStrategy(CAROUSEL_IDS.CAROUSEL));
+    }
+    get openSourceCard() {
+        return $(this.locatorStrategy(CAROUSEL_IDS.OPEN_SOURCE));
+    }
+    get communityCard() {
+        return $(this.locatorStrategy(CAROUSEL_IDS.COMMUNITY));
+    }
+    get jsFoundationCard() {
+        return $(this.locatorStrategy(CAROUSEL_IDS.JS_FOUNDATION));
+    }
+    get supportVideosCard() {
+        return $(this.locatorStrategy(CAROUSEL_IDS.SUPPORT_VIDEOS));
+    }
+    get extendableCard() {
+        return $(this.locatorStrategy(CAROUSEL_IDS.EXTENDABLE));
+    }
+    get compatibleCard() {
+        return $(this.locatorStrategy(CAROUSEL_IDS.COMPATIBLE));
     }
 
     /**

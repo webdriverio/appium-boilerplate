@@ -27,7 +27,10 @@ class AndroidSettings {
      * to the latest version, fully automatically.
      */
     async enableBiometricLogin() {
-        await this.executeAdbCommand('am start -a android.settings.SECURITY_SETTINGS');
+        // --activity-clear-task forces the Settings app to start fresh on the Security &
+        // Privacy root screen even when a sub-screen (e.g. Account security) is already
+        // in the foreground from a previous test step.
+        await this.executeAdbCommand('am start --activity-clear-task -a android.settings.SECURITY_SETTINGS');
         await this.ensurePinIsSet();
 
         if (this.platformVersion >= 16) {
@@ -43,8 +46,9 @@ class AndroidSettings {
 
     /**
      * Find an Android element by a text pattern (case-insensitive regex match).
+     * Returns a ChainablePromiseElement directly — no await needed at the call site.
      */
-    async findAndroidElementByMatchingText(pattern: string) {
+    findAndroidElementByMatchingText(pattern: string) {
         return $(SELECTORS.byTextPattern(pattern));
     }
 
@@ -52,7 +56,7 @@ class AndroidSettings {
      * Wait for an element matching `pattern` to be displayed.
      */
     async waitForMatchingElement(pattern: string) {
-        await (await this.findAndroidElementByMatchingText(pattern)).waitForDisplayed({
+        await this.findAndroidElementByMatchingText(pattern).waitForDisplayed({
             timeout: TIMEOUTS.SHORT,
             timeoutMsg: `Element matching "${pattern}" not shown within ${TIMEOUTS.SHORT / 1000}s`,
         });
@@ -64,7 +68,7 @@ class AndroidSettings {
      * the waitForDisplayed call and a second findElement lookup.
      */
     async waitAndTap(pattern: string) {
-        const element = await this.findAndroidElementByMatchingText(pattern);
+        const element = this.findAndroidElementByMatchingText(pattern);
         await element.waitForDisplayed({
             timeout: TIMEOUTS.SHORT,
             timeoutMsg: `Element matching "${pattern}" not shown within ${TIMEOUTS.SHORT / 1000}s`,
@@ -74,9 +78,33 @@ class AndroidSettings {
 
     // ── Navigation helpers (version-specific paths into fingerprint setup) ────
 
-    /** Android 16: Fingerprint is a direct row in Security & Privacy — no Device unlock tap. */
+    /**
+     * Android 16: after a fingerprint is already enrolled the OS shows a "Fingerprint"
+     * shortcut directly on the Security & Privacy screen.  On a fresh/wiped device
+     * (no fingerprint enrolled yet) that shortcut is absent and the entry point is
+     * "Device unlock" instead — the same path used by Android 14/15.
+     * Try the direct shortcut first; fall back to "Device unlock" if it isn't there.
+     */
     private async navigateToFingerprintAndroid16() {
-        await this.waitForMatchingElement('Fingerprint|Pixel Imprint');
+        const fingerprintVisible = await this.findAndroidElementByMatchingText('Fingerprint|Pixel Imprint')
+            .isDisplayed()
+            .catch(() => false);
+
+        if (!fingerprintVisible) {
+            // "Device unlock" may be below the fold — scroll down until it is visible,
+            // then tap it to reach the fingerprint sub-screen.
+            await driver.waitUntil(
+                async () => {
+                    const el = this.findAndroidElementByMatchingText('Device unlock.*');
+                    if (await el.isDisplayed().catch(() => false)) return true;
+                    await driver.execute('mobile: scroll', { direction: 'down', percent: 0.5 });
+                    return false;
+                },
+                { timeout: TIMEOUTS.MEDIUM, timeoutMsg: '"Device unlock" not found after scrolling Security & Privacy' },
+            );
+            await this.waitAndTap('Device unlock.*');
+        }
+
         await this.closeSettingsScreenLockNotifications();
         await this.waitAndTap('Fingerprint|Pixel Imprint');
         await this.reEnterPin(DEFAULT_PIN);
@@ -138,9 +166,9 @@ class AndroidSettings {
 
     /** Wait for the PIN-entry screen then submit the PIN via ADB. */
     private async reEnterPin(pin: number) {
-        await (await this.findAndroidElementByMatchingText(
+        await this.findAndroidElementByMatchingText(
             'Enter your device PIN|Re-enter your PIN|Confirm your PIN|Enter your PIN',
-        )).waitForDisplayed({
+        ).waitForDisplayed({
             timeout: TIMEOUTS.MEDIUM,
             timeoutMsg: `PIN confirmation prompt not shown within ${TIMEOUTS.MEDIUM / 1000}s`,
         });
@@ -166,7 +194,7 @@ class AndroidSettings {
         await this.waitForPromptAndTouch('Touch the sensor', touchCode, TIMEOUTS.LONG);
         await this.waitForPromptAndTouch('Lift, then touch again', touchCode, TIMEOUTS.SHORT);
         await this.waitForPromptAndTouch('Lift finger, then touch sensor again', touchCode, TIMEOUTS.SHORT);
-        await (await this.findAndroidElementByMatchingText('Fingerprint added')).waitForDisplayed({
+        await this.findAndroidElementByMatchingText('Fingerprint added').waitForDisplayed({
             timeout: TIMEOUTS.MEDIUM,
             timeoutMsg: `Fingerprint added confirmation not shown within ${TIMEOUTS.MEDIUM / 1000}s`,
         });
@@ -181,7 +209,7 @@ class AndroidSettings {
 
     /** Wait for a sensor-prompt element and immediately simulate a finger touch. */
     private async waitForPromptAndTouch(promptPattern: string, touchCode: number, timeout: number) {
-        await (await this.findAndroidElementByMatchingText(promptPattern)).waitForDisplayed({
+        await this.findAndroidElementByMatchingText(promptPattern).waitForDisplayed({
             timeout,
             timeoutMsg: `Sensor prompt "${promptPattern}" not shown within ${timeout / 1000}s`,
         });
@@ -202,7 +230,7 @@ class AndroidSettings {
     /** Close any "Set screen lock" notification that blocks the fingerprint setting. */
     private async closeSettingsScreenLockNotifications() {
         try {
-            if (await (await this.findAndroidElementByMatchingText('Set screen lock')).isDisplayed()) {
+            if (await this.findAndroidElementByMatchingText('Set screen lock').isDisplayed()) {
                 const byDesc = $(SELECTORS.DISMISS_BY_DESCRIPTION);
                 await byDesc.click();
                 // A second dismiss button (matched by text) may exist on some ROMs; only tap

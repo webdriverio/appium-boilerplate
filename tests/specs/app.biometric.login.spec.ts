@@ -3,7 +3,7 @@ import LoginScreen from '../screenobjects/LoginScreen.js';
 import Biometrics from '../helpers/Biometrics.js';
 import NativeAlert from '../screenobjects/components/NativeAlert.js';
 import AndroidSettings from '../screenobjects/AndroidSettings.js';
-import { executeInHomeScreenContext, relaunchApp } from '../helpers/Utils.js';
+import { executeInHomeScreenContext, isAndroidRealDevice, relaunchApp } from '../helpers/Utils.js';
 import { BUNDLE_ID, PACKAGE_NAME, TIMEOUTS } from '../helpers/Constants.js';
 
 /**
@@ -30,6 +30,12 @@ describe('WebdriverIO and Appium, when interacting with a biometric button,', ()
             '0'
         ) as string;
         if (driver.isIOS && parseInt(platformVersion, 10) >= 26) {
+            return this.skip();
+        }
+
+        // driver.fingerPrint() is emulator-only on Android — it throws on real devices.
+        // Skip the entire suite when running against a real Android device.
+        if (isAndroidRealDevice()) {
             return this.skip();
         }
 
@@ -114,7 +120,7 @@ describe('WebdriverIO and Appium, when interacting with a biometric button,', ()
         } else {
             await AndroidSettings.waitAndTap('Cancel');
             // @TODO: This takes very long, need to fix this
-            await (await AndroidSettings.findAndroidElementByMatchingText('Cancel')).waitForDisplayed({ reverse: true, timeout: TIMEOUTS.LONG, timeoutMsg: 'Cancel button still visible after biometric failure' });
+            await AndroidSettings.findAndroidElementByMatchingText('Cancel').waitForDisplayed({ reverse: true, timeout: TIMEOUTS.LONG, timeoutMsg: 'Cancel button still visible after biometric failure' });
             await NativeAlert.waitForIsShown(false);
         }
     });

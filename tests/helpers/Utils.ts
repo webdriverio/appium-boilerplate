@@ -21,6 +21,20 @@ export function isIosRealDevice(){
 }
 
 /**
+ * Android emulators report a serial that starts with "emulator-".
+ * Real Android devices use a numeric or alphanumeric USB serial — never that prefix.
+ */
+export function isAndroidRealDevice(): boolean {
+    const serial = (
+        (driver.capabilities as Record<string, unknown>)['appium:udid'] ??
+        (driver.capabilities as Record<string, unknown>)['udid'] ??
+        ''
+    ) as string;
+
+    return driver.isAndroid && !serial.toLowerCase().startsWith('emulator-');
+}
+
+/**
  * Create a cross platform solution for opening a deep link
  */
 export async function openDeepLinkUrl(url:string) {
