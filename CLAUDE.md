@@ -40,6 +40,8 @@ Invoke with `/agent-name` in the Claude Code prompt:
 | structural-refactor | `/structural-refactor` | Architecture-level refactors (base classes, capability factory, timeout centralisation) |
 | update-dependencies | `/update-dependencies` | Bump devDependencies to latest, keep @wdio/* aligned, verify tsc + lint, roll back breakage |
 | sync-upstream | `/sync-upstream` | Fetch + merge from webdriverio/appium-boilerplate upstream |
+| overhaul-orchestrator | `/overhaul-orchestrator` | **Full 3-phase autonomous overhaul** — upstream sync → code quality → test run+fix. Arm gate first: `touch .claude/.verify-active`. One command, walk away. |
+| verify-plan | `/verify-plan <checklist>` | Adversarial fresh-context reviewer — reports each checklist item as PASS/FAIL/ALREADY-SATISFIED with proof. Used by overhaul-orchestrator; also invokable manually. |
 
 ### Eval harness
 ```bash
@@ -108,3 +110,23 @@ Auto-fixes are committed to `fix/auto-<YYYYMMDD-HHMMSS>` branches — never dire
 - **DO use git log** to understand commit history and patterns
 - **DO use git diff** to see what has changed
 - **DO inform the developer** when changes are ready to be committed
+
+---
+
+## Verification Contract
+
+> These rules are enforced by `.claude/hooks/verify.sh` (Stop hook) and `/verify-plan` (adversarial subagent). They are NOT advisory — follow them for every phase of work.
+
+1. **Evidence over assertion.** Every "done" must paste the exact command run and its output. Do not say "tsc passes" — paste `npx tsc --noEmit` output. If it passes cleanly, the output is empty; paste that emptiness.
+
+2. **"Already satisfied" is a valid result.** If an invariant was already true before this change, say "already satisfied — invariant held before this session" and show the grep/check output that proves it. Do NOT fabricate work.
+
+3. **Phase gate before declaring complete.** Before ending any phase:
+   - Run `npx tsc --noEmit` and `npm run lint` — paste both outputs.
+   - Run `grep -rnE '\.pause\(|browser\.pause\(' tests config` — paste result (must be empty).
+   - Invoke `/verify-plan` with the phase checklist and paste its PASS/FAIL/ALREADY-SATISFIED table.
+   - The Stop hook (`verify.sh`) enforces tsc, lint, and no-pause automatically when `.claude/.verify-active` is armed.
+
+4. **One phase per session.** Run `/clear` between phases. Context accumulation buries checklist rules.
+
+5. **Arm/disarm the Stop hook.** At the start of an overhaul run: `touch .claude/.verify-active`. After all phases pass and work is committed: `rm .claude/.verify-active`.
