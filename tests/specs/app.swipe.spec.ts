@@ -14,7 +14,6 @@ describe('WebdriverIO and Appium, when using swiping', () => {
         // This handles swipe animation settling time without a fixed sleep.
         await Carousel.waitForCardActive(Carousel.openSourceCard);
 
-        // Swipe left through all cards and verify each settles into view
         await Carousel.swipeLeft();
         await Carousel.waitForCardActive(Carousel.communityCard);
 
@@ -30,7 +29,6 @@ describe('WebdriverIO and Appium, when using swiping', () => {
         await Carousel.swipeLeft();
         await Carousel.waitForCardActive(Carousel.compatibleCard);
 
-        // Swipe right back through the cards
         await Carousel.swipeRight();
         await Carousel.waitForCardActive(Carousel.extendableCard);
 

@@ -15,8 +15,6 @@ class Picker {
      * Wait for the picker to be shown
      */
     static async waitForIsShown (isShown = true) {
-        // iOS and Android have different elements we need to interact with
-        // we determine the selector here
         const selector = driver.isIOS ? SELECTORS.IOS_PICKERWHEEL : SELECTORS.ANDROID_LISTVIEW;
         await $(selector).waitForExist({
             timeout: TIMEOUTS.SHORT_PLUS,
@@ -29,15 +27,12 @@ class Picker {
      * Select a value from the picker
      */
     static async selectValue (value:string) {
-        // Wait for the picker to be shown
         await this.waitForIsShown(true);
-        // There is a difference between setting the value for iOS and Android
         if (driver.isIOS) {
             await this.setIOSValue(value);
         } else {
             await this.setAndroidValue(value);
         }
-        // Wait for the picker to be gone
         await this.waitForIsShown(false);
     }
 
@@ -45,7 +40,6 @@ class Picker {
      * Set the value for Android
      */
     private static async setAndroidValue (value:string) {
-        // For Android we can click on a value, if it's in the list, based on the text
         await $(SELECTORS.byText(value)).click();
     }
 
