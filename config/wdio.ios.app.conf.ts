@@ -8,6 +8,11 @@ export const config: WebdriverIO.Config = {
     // Running multiple sessions concurrently causes timeouts.
     maxInstances: 1,
 
+    // Retry once on failure — biometric + relaunchApp sequences can flake on slower
+    // simulators under load, matching the retry strategy used by the Android configs.
+    specFileRetries: 1,
+    specFileRetriesDelay: 5,
+
     specs: ['../tests/specs/**/app*.spec.ts'],
 
     capabilities: [

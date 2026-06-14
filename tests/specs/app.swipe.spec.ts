@@ -35,8 +35,14 @@ describe('WebdriverIO and Appium, when using swiping', () => {
         await Carousel.waitForCardActive(Carousel.extendableCard);
 
         await Carousel.swipeRight();
+        await Carousel.waitForCardActive(Carousel.supportVideosCard);
+
         await Carousel.swipeRight();
+        await Carousel.waitForCardActive(Carousel.jsFoundationCard);
+
         await Carousel.swipeRight();
+        await Carousel.waitForCardActive(Carousel.communityCard);
+
         await Carousel.swipeRight();
         await Carousel.waitForCardActive(Carousel.openSourceCard);
     });

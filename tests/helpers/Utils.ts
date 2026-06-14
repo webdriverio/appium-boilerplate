@@ -1,5 +1,13 @@
 import { BUNDLE_ID, PACKAGE_NAME } from './Constants.js';
 
+// iOS Safari selectors used by openDeepLinkUrl on real devices.
+// Predicate String is preferred over accessibility ID — the label "Address" vs "URL"
+// differs between iOS versions, making a single predicate condition more stable.
+const SELECTORS = {
+    IOS_SAFARI_ADDRESS_BAR: '-ios predicate string:label == "Address" OR name == "URL"',
+    IOS_SAFARI_URL_FIELD: '-ios predicate string:type == "XCUIElementTypeTextField" && name CONTAINS "URL"',
+} as const;
+
 /**
  * Get the time difference in seconds
  */
@@ -61,10 +69,8 @@ export async function openDeepLinkUrl(url:string) {
         // This can be 2 different elements, or the button, or the text field
         // Use the predicate string because  the accessibility label will return 2 different types
         // of elements making it flaky to use. With predicate string we can be more precise
-        const addressBarSelector = 'label == "Address" OR name == "URL"';
-        const urlFieldSelector = 'type == "XCUIElementTypeTextField" && name CONTAINS "URL"';
-        const addressBar = $(`-ios predicate string:${ addressBarSelector }`);
-        const urlField = $(`-ios predicate string:${ urlFieldSelector }`);
+        const addressBar = $(SELECTORS.IOS_SAFARI_ADDRESS_BAR);
+        const urlField = $(SELECTORS.IOS_SAFARI_URL_FIELD);
 
         // Wait for the url button to appear and click on it so the text field will appear
         // iOS 13 now has the keyboard open by default because the URL field has focus when opening the Safari browser

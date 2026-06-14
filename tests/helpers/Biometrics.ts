@@ -1,13 +1,22 @@
 import { DEFAULT_PIN, INCORRECT_PIN, TIMEOUTS } from './Constants.js';
 import { executeInHomeScreenContext } from './Utils.js';
 
-class Biometrics {
-    private get iosAllowBiometry() {return $('~Don’t Allow');}
-    private get allowBiometry() {return $('-ios class chain:**/XCUIElementTypeButton[`name == "Allow" OR name=="OK"`]');}
-    private get androidBiometryAlert() {
-        const regex = '(Please log in|Login with.*)';
+const SELECTORS = {
+    // U+2019 RIGHT SINGLE QUOTATION MARK in the string value matches the iOS system button label.
+    IOS_DONT_ALLOW: '~Don’t Allow',
+    // Class Chain covers both "Allow" (Touch ID) and "OK" (Face ID) permission buttons.
+    IOS_ALLOW_BIOMETRY: '-ios class chain:**/XCUIElementTypeButton[`name == "Allow" OR name=="OK"`]',
+    // Regex matches both the initial login prompt and subsequent re-auth prompts.
+    ANDROID_BIOMETRY_ALERT: (regex: string) => `android=new UiSelector().textMatches("${regex}")`,
+} as const;
 
-        return $(`android=new UiSelector().textMatches("${regex}")`);
+const ANDROID_BIOMETRY_REGEX = '(Please log in|Login with.*)';
+
+class Biometrics {
+    private get iosAllowBiometry() {return $(SELECTORS.IOS_DONT_ALLOW);}
+    private get allowBiometry() {return $(SELECTORS.IOS_ALLOW_BIOMETRY);}
+    private get androidBiometryAlert() {
+        return $(SELECTORS.ANDROID_BIOMETRY_ALERT(ANDROID_BIOMETRY_REGEX));
     }
 
     /**

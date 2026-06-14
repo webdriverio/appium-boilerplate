@@ -79,7 +79,7 @@ describe('WebdriverIO and Appium, when interacting with a WebView,', () => {
             timeout: TIMEOUTS.QUICK,
             interval: 500,
             timeoutMsg: 'keyboard settle wait',
-        }).catch(() => {});
+        }).catch((e: Error) => { console.warn('keyboard settle wait timed out:', e.message); });
         // Dismiss the keyboard via the footer — hideKeyboard() throws in web context on iOS XCTest.
         await WebViewScreen.dismissDocSearchKeyboard();
 

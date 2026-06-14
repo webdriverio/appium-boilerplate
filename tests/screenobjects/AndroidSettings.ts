@@ -1,5 +1,13 @@
 import { DEFAULT_PIN, TIMEOUTS } from '../helpers/Constants.js';
 
+/** Minimum Android API levels at which each enrollment UI path first appeared. */
+const ANDROID_VERSION = {
+    ANDROID_10: 10,
+    ANDROID_12: 12,
+    ANDROID_14: 14,
+    ANDROID_16: 16,
+} as const;
+
 const SELECTORS = {
     // Settings-app elements have no accessibility IDs, so UiAutomator2 text/description
     // matching is the most stable strategy available here.
@@ -33,9 +41,9 @@ class AndroidSettings {
         await this.executeAdbCommand('am start --activity-clear-task -a android.settings.SECURITY_SETTINGS');
         await this.ensurePinIsSet();
 
-        if (this.platformVersion >= 16) {
+        if (this.platformVersion >= ANDROID_VERSION.ANDROID_16) {
             await this.navigateToFingerprintAndroid16();
-        } else if (this.platformVersion >= 14) {
+        } else if (this.platformVersion >= ANDROID_VERSION.ANDROID_14) {
             await this.navigateToFingerprintAndroid14();
         } else {
             await this.waitAndTap('.*Fingerprint.*');
@@ -126,7 +134,7 @@ class AndroidSettings {
      * Run the correct enrollment wizard flow for the current platform version.
      */
     private async fingerPrintWizard(pin: number) {
-        if (this.platformVersion >= 10) {
+        if (this.platformVersion >= ANDROID_VERSION.ANDROID_10) {
             await this.postAndroidTenFingerPrintSetup(pin);
         } else {
             await this.preAndroidTenFingerPrintSetup(pin);
@@ -148,15 +156,15 @@ class AndroidSettings {
         // but Android 16 already completed PIN + T&C in navigateToFingerprintAndroid16(),
         // so we exit early to skip the redundant steps.  Keeping the guard in both
         // layers avoids a silent regression if callers are refactored independently.
-        if (this.platformVersion >= 16) {
+        if (this.platformVersion >= ANDROID_VERSION.ANDROID_16) {
             return;
         }
         await this.reEnterPin(pin);
-        if (this.platformVersion >= 14) {
+        if (this.platformVersion >= ANDROID_VERSION.ANDROID_14) {
             await this.waitAndTap('Pixel Imprint|.*Fingerprint.*');
             await this.waitAndTap('MORE');
             await this.waitAndTap('I AGREE');
-        } else if (this.platformVersion >= 12) {
+        } else if (this.platformVersion >= ANDROID_VERSION.ANDROID_12) {
             await this.waitAndTap('MORE');
             await this.waitAndTap('I AGREE');
         } else {
@@ -182,7 +190,7 @@ class AndroidSettings {
      * The number of touches and prompt text differ by Android version.
      */
     private async touchFingerPrintSensor(touchCode: number) {
-        if (this.platformVersion >= 16) {
+        if (this.platformVersion >= ANDROID_VERSION.ANDROID_16) {
             await this.touchSensorAndroid16(touchCode);
         } else {
             await this.touchSensorLegacy(touchCode);

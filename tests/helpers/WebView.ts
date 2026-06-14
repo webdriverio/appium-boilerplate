@@ -55,6 +55,14 @@ type AndroidContext =  {
  *
  * The below class will give you custom implementations for both Android and iOS to get the correct webview.
  * Please read the comments in the code for more information.
+ *
+ * INTENTIONAL LSP NOTE:
+ * `WebView` does NOT extend `BaseScreen` / `AppScreen`. This is deliberate.
+ * `WebView` is a context-management helper that bridges native ↔ webview contexts — it
+ * is not a screen object and has no concept of "is shown" in the native accessibility tree.
+ * `WebviewScreen extends WebView` to compose the context helpers with screen-specific
+ * web-element interactions; `waitForIsShown` is omitted because the webview suite is
+ * Android-only and gated by a `before` guard in the spec.
  */
 class WebView {
     /**

@@ -6,6 +6,11 @@ export const config: WebdriverIO.Config = {
 
     maxInstances: 1,
 
+    // Retry once on failure — biometric + relaunchApp sequences can flake on slower
+    // simulators under load, matching the retry strategy used by the Android configs.
+    specFileRetries: 1,
+    specFileRetriesDelay: 5,
+
     // Separate Appium port so ios.app and ios.app2 run in parallel.
     port: 4724,
     services: [appiumService({ port: 4724, logFile: './logs/appium-ios-p2.log' })],
