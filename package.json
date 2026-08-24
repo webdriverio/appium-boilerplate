@@ -62,12 +62,12 @@
         "@wdio/spec-reporter": "^9.20.0",
         "@wdio/testingbot-service": "^9.22.0",
         "appium": "^3.1.2",
-        "appium-inspector-plugin": "^2025.11.1",
-        "appium-uiautomator2-driver": "^6.7.6",
-        "appium-xcuitest-driver": "10.13.2",
+        "appium-inspector-plugin": "^2026.7.1",
+        "appium-uiautomator2-driver": "^8.5.0",
+        "appium-xcuitest-driver": "12.7.0",
         "eslint-plugin-wdio": "^9.16.2",
         "ts-node": "^10.9.2",
-        "typescript": "^5.9.3",
+        "typescript": "^7.0.2",
         "wdio-lambdatest-service": "^4.0.1"
     }
 }
