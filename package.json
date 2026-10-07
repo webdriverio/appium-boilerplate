@@ -46,7 +46,9 @@
         "ios.lt.browser.simulator": "wdio run config/lambdatest/wdio.ios.simulator.browser.conf.ts",
         "ios.lt.browser.realdevice": "wdio run config/lambdatest/wdio.ios.realdevice.browser.conf.ts",
         "lint": "eslint config tests",
-        "appium:inspector": "npx start-appium-inspector"
+        "appium:inspector": "npx start-appium-inspector",
+        "android.flutter": "wdio run config/wdio.android.flutter.conf.ts",
+        "ios.flutter": "wdio run config/wdio.ios.flutter.conf.ts"
     },
     "devDependencies": {
         "@typescript-eslint/eslint-plugin": "^8.50.1",
@@ -62,6 +64,7 @@
         "@wdio/spec-reporter": "^9.20.0",
         "@wdio/testingbot-service": "^9.22.0",
         "appium": "^3.1.2",
+        "appium-flutter-finder": "^0.3.0",
         "appium-inspector-plugin": "^2025.11.1",
         "appium-uiautomator2-driver": "^6.7.6",
         "appium-xcuitest-driver": "10.13.2",
