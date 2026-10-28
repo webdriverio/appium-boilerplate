@@ -144,3 +144,27 @@ export async function executeInHomeScreenContext(action:() => Promise<void>): Pr
 
     return result;
 }
+
+/**
+ * Send keyboard input via W3C performActions keyDown/keyUp sequences.
+ * Useful when an input field does not support direct `setValue` or `driver.keys`.
+ */
+export async function sendKeysViaActions(text: string): Promise<void> {
+    const actions = Array.from(text).flatMap((value) => [
+        { type: 'keyDown', value },
+        { type: 'keyUp', value },
+    ]);
+
+    if (actions.length === 0) {
+        return;
+    }
+
+    await driver.performActions([
+        {
+            type: 'key',
+            id: 'keyboard',
+            actions,
+        },
+    ]);
+    await driver.releaseActions();
+}
