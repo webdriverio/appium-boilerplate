@@ -123,3 +123,17 @@ After diving into the logs of webdriver.io, see `webdriver.io.log`, and Appium, 
 
 ### Solution
 The solution is simple. iOS needs an activated keyboard. Go to `Simulator > Hardware > Keyboard > Toggle software keyboard`, enable the software keyboard and the problem will be gone.
+
+## How to reset app state or cache between tests
+Depending on the platform and device type, there are a few ways to reset app state between tests:
+
+1. **Restart the app without clearing storage (`relaunchActiveApp` / `relaunchApp`):**
+   Use [`await driver.relaunchActiveApp()`](https://webdriver.io/docs/api/mobile/relaunchActiveApp) (or `relaunchApp(identifier)` from [`tests/helpers/Utils.ts`](../tests/helpers/Utils.ts)) to terminate and re-activate/re-launch the app.
+2. **Clear app data on Android (`mobile: clearApp`):**
+   ```ts
+   await driver.execute('mobile: clearApp', { appId: 'com.wdiodemoapp' });
+   await driver.execute('mobile: activateApp', { appId: 'com.wdiodemoapp' });
+   ```
+3. **Full session reload (`driver.reloadSession()`):**
+   Ensure `'appium:app'` is configured in your capabilities (with `'appium:noReset': false`) and call `await driver.reloadSession()` in your hook. Note that on cloud real-device providers, `reloadSession()` releases the current session and triggers device cleanup, which adds significant execution time.
+
