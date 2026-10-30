@@ -124,21 +124,11 @@ After diving into the logs of webdriver.io, see `webdriver.io.log`, and Appium, 
 ### Solution
 The solution is simple. iOS needs an activated keyboard. Go to `Simulator > Hardware > Keyboard > Toggle software keyboard`, enable the software keyboard and the problem will be gone.
 
-## How to send keyboard input when `setValue` or `driver.keys` does not work
-Some custom input controls do not accept `element.setValue(...)` or `driver.keys(...)` directly. In those cases, you can focus the input element first and send the characters as a W3C `performActions` `keyDown` / `keyUp` sequence using `sendKeysViaActions` from [`tests/helpers/Utils.ts`](../tests/helpers/Utils.ts):
-
-```ts
-import { sendKeysViaActions } from '../helpers/Utils.js';
-
-await $('~input-field').click();
-await sendKeysViaActions('hello@webdriver.io');
-```
-
 ## How to reset app state or cache between tests
 Depending on the platform and device type, there are a few ways to reset app state between tests:
 
-1. **Restart the app without clearing storage (`relaunchApp`):**
-   Use `relaunchApp(identifier)` from [`tests/helpers/Utils.ts`](../tests/helpers/Utils.ts) to terminate and re-activate/re-launch the app.
+1. **Restart the app without clearing storage (`relaunchActiveApp` / `relaunchApp`):**
+   Use [`await driver.relaunchActiveApp()`](https://webdriver.io/docs/api/mobile/relaunchActiveApp) (or `relaunchApp(identifier)` from [`tests/helpers/Utils.ts`](../tests/helpers/Utils.ts)) to terminate and re-activate/re-launch the app.
 2. **Clear app data on Android (`mobile: clearApp`):**
    ```ts
    await driver.execute('mobile: clearApp', { appId: 'com.wdiodemoapp' });
