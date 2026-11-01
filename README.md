@@ -53,8 +53,10 @@ npm install
 5. Running tests locally
     - **Android App:** `npm run android.app`
     - **Android Browser:**  `npm run android.browser`
+    - **Android Flutter App:** `npm run android.flutter`
     - **iOS App:** `npm run ios.app`
     - **iOS Browser:**  `npm run ios.browser`
+    - **iOS Flutter App:** `npm run ios.flutter`
     - **Android App with cucumber:** `npm run android.app.cucumber`
 
 ## How to implement in your project
@@ -333,6 +335,54 @@ npm run android.app -- --spec=tests/specs/app.webview.xpath.spec.ts
 # For iOS local execution
 npm run ios.app -- --spec=tests/specs/app.webview.spec.ts
 npm run ios.app -- --spec=tests/specs/app.webview.xpath.spec.ts
+```
+
+## Flutter App Tests
+
+This boilerplate includes support for End-to-End (E2E) testing of **Flutter** applications using [Appium Flutter Driver](https://github.com/appium-userland/appium-flutter-driver) and `appium-flutter-finder`.
+
+### Prerequisites for Flutter
+
+1. **Install Appium Flutter Driver**:
+   ```sh
+   appium driver install flutter
+   ```
+
+2. **Enable Flutter Driver Extension in your Flutter App**:
+   The target Flutter app must have `flutter_driver` enabled in `pubspec.yaml`:
+   ```yaml
+   dev_dependencies:
+     flutter_test:
+       sdk: flutter
+     flutter_driver:
+       sdk: flutter
+   ```
+   And call `enableFlutterDriverExtension()` before `runApp()` in your entry point:
+   ```dart
+   import 'package:flutter/material.dart';
+   import 'package:flutter_driver/driver_extension.dart';
+
+   void main() {
+     enableFlutterDriverExtension();
+     runApp(const MyApp());
+   }
+   ```
+
+3. **Build and Place the Application**:
+   - **Android**: Build debug APK (`flutter build apk --debug`) and copy to `./apps/flutter-demo-app.apk`.
+   - **iOS (Simulator)**: Build debug iOS app (`flutter build ios --simulator --debug`), zip the `.app` bundle, and copy to `./apps/flutter-demo-app.zip`.
+
+### Running Flutter Tests
+
+```sh
+# For Android local execution
+npm run android.flutter
+
+# For iOS local execution
+npm run ios.flutter
+
+# Run a specific spec
+npm run android.flutter -- --spec=tests/specs/app.flutter.counter.spec.ts
 ```
 
 ## Automating Chrome or Safari
